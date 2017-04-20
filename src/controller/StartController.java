@@ -36,6 +36,10 @@ public class StartController {
         icon = new Image("/icons/performance.png");
         performanceButton.setGraphic(new ImageView(icon));
         performanceButton.setContentDisplay(ContentDisplay.BOTTOM);
+        
+        icon = new Image("/icons/deployment.png");
+        deploymentDiagramButton.setGraphic(new ImageView(icon));
+        deploymentDiagramButton.setContentDisplay(ContentDisplay.BOTTOM);
 
         titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 60));
         titleLabel.setTextFill(Color.web("#3F4144"));

@@ -586,8 +586,8 @@ public class NodeController {
     	
         try {
             //Load the classDiagramView.fxml file and create a new stage for the popup
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/sequenceDiagramView.fxml"));
-            
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/mainView.fxml"));
+            tabController = loader.getController();
             BorderPane diagram = loader.load();
             ((PerformanceController)loader.getController()).setTabController(tabController);
             

@@ -297,7 +297,7 @@ public class DeploymentController extends AbstractDiagramController {
          createBtn.setGraphic(new ImageView(image));
          createBtn.setText("");
 
-    	 image = new Image("/icons/actor.png");
+    	 image = new Image("/icons/class.png");
          deploymentBtn.setGraphic(new ImageView(image));
          deploymentBtn.setText("");
 
@@ -343,12 +343,12 @@ public class DeploymentController extends AbstractDiagramController {
 
         //---------------------- Actions for buttons ----------------------------
         createBtn.setOnAction(event -> {
-            tool = ToolEnum.CREATE_NODE;
+            tool = ToolEnum.CREATE_DEPLOYMENT;
             setButtonClicked(createBtn);
         });
 
         deploymentBtn.setOnAction(event -> {
-            tool = ToolEnum.CREATE_DEPLOYMENT;
+            tool = ToolEnum.CREATE_NODE;
             setButtonClicked(deploymentBtn);
         });
 

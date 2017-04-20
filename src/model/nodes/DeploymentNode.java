@@ -17,8 +17,8 @@ public class DeploymentNode extends AbstractNode
         super(x, y, width, height );
 
         //Don't accept nodes with size less than minWidth * minHeight.
-        this.width = width < PACKAGE_MIN_WIDTH ? PACKAGE_MIN_WIDTH : width;
-        this.height = height < PACKAGE_MIN_HEIGHT ? PACKAGE_MIN_HEIGHT : height;
+        this.width = width < CLASS_MIN_WIDTH ? CLASS_MIN_WIDTH : width;
+        this.height = height < CLASS_MIN_HEIGHT ? CLASS_MIN_HEIGHT : height;
     }
 
     public ArrayList<AbstractNode> getChildNodes() {
