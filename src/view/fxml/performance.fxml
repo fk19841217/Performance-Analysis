@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.PerformanceController">
+  <bottom>
+    <StackPane fx:id="infoPane">
+      <ToolBar fx:id="zoomPane">
+        <Pane />
+        <VBox alignment="CENTER">
+          <Slider fx:id="zoomSlider" max="200.0" min="10.0" value="100.0" />
+          <Label fx:id="zoomLabel" text="Zoom" />
+        </VBox>
+        <Pane />
+      </ToolBar>
+      <ColorPicker fx:id="colorPicker" StackPane.alignment="CENTER_LEFT" />
+      <Label fx:id="serverLabel" StackPane.alignment="CENTER_RIGHT" />
+    </StackPane>
+  </bottom>
+  <center>
+    <ScrollPane fx:id="scrollPane" pannable="true" BorderPane.alignment="CENTER">
+      <content>
+        <Pane fx:id="drawPane" prefHeight="8000.0" prefWidth="8000.0" />
+      </content>
+    </ScrollPane>
+  </center>
+  <top>
+    <VBox>
+      <ToolBar fx:id="aToolBar" orientation="HORIZONTAL">
+        <HBox fx:id="umlBox">
+          <Button fx:id="createBtn" text="Create" />
+          <Button fx:id="actorBtn" text="Actor" />
+          <Button fx:id="usecaseBtn" text="Usecase" />
+          <Button fx:id="nodeBtn" text="Node" />
+          <Button fx:id="edgeBtn" text="Edge" />
+          <Button fx:id="drawBtn" text="Draw" />
+        </HBox>
+        <HBox fx:id="utilBox">
+          <Button fx:id="selectBtn" text="Select" />
+          <Button fx:id="moveBtn" text="Move" />
+        </HBox>
+        <HBox fx:id="undoBox">
+          <Button fx:id="deleteBtn" text="Delete" />
+          <Button fx:id="undoBtn" text="Undo" />
+          <Button fx:id="redoBtn" text="Redo" />
+        </HBox>
+        <HBox fx:id="recognizeBox">
+          <Button fx:id="recognizeBtn" text="Recognize" />
+          <Button fx:id="voiceBtn" text="Voice" />
+        </HBox>
+      </ToolBar>
+    </VBox>
+  </top>
+</BorderPane>
