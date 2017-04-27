@@ -582,16 +582,18 @@ public class NodeController {
         }
     }
     
-    public boolean showSequenceDiagram(LinkedSequenceNode node) {
+    public void showSequenceDiagram(LinkedSequenceNode node) {
     	
-        try {
+        //try {
             //Load the classDiagramView.fxml file and create a new stage for the popup
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/mainView.fxml"));
             tabController = loader.getController();
-            BorderPane diagram = loader.load();
+          //  BorderPane diagram = loader.load();
             ((PerformanceController)loader.getController()).setTabController(tabController);
             
             tabController.addTab(TabController.CLASS_DIAGRAM_VIEW_PATH);
+            
+            
             
            /* diagram.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
             diagram.setStyle("-fx-border-color: black");
@@ -604,13 +606,13 @@ public class NodeController {
            
          //  aDrawPane.getChildren().addAll(diagram);
           // diagramController.addDiagram(diagram);
-            return true;
+           
 
-        } catch (IOException e) {
+     //   } catch (IOException e) {
             //Exception gets thrown if the classDiagramView.fxml file could not be loaded
-            e.printStackTrace();
-            return false;
-        }
+       //     e.printStackTrace();
+         //   return false;
+        //}
     }
     
   

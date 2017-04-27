@@ -14,6 +14,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.nodes.LinkedDeploymentNode;
+import model.nodes.LinkedSequenceNode;
+import view.nodes.LinkedDeploymentNodeView;
+import view.nodes.LinkedSequenceNodeView;
+
 import org.controlsfx.control.Notifications;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
@@ -31,7 +36,9 @@ import java.util.Map;
  * The class controlling the top menu and the tabs.
  */
 public class TabController {
-	
+	 private AbstractDiagramController diagramController;
+	    private Pane aDrawPane;
+
 	
 
     @FXML
@@ -41,15 +48,24 @@ public class TabController {
     private TabPane tabPane;
     private Stage stage;
     private Map<Tab, AbstractDiagramController> tabMap = new HashMap<>();
+    private Map<String,Tab> stabMap =new HashMap<>();
+    
+    
 
     public static final String CLASS_DIAGRAM_VIEW_PATH = "view/fxml/classDiagramView.fxml";
     public static final String SEQUENCE_DIAGRAM_VIEW_PATH = "view/fxml/sequenceDiagramView.fxml";
     public static final String PERFORMANCE_VIEW_PATH = "view/fxml/performance.fxml";
     public static final String DEPLOYMENT_VIEW_PATH = "view/fxml/deployment.fxml";
 
+    
     @FXML
     public void initialize() {
     }
+    
+    //public TabController(Pane pDrawPane, AbstractDiagramController pDiagramController){
+     //   diagramController = pDiagramController;
+     //   aDrawPane = pDrawPane;
+    //}
     
     
 
@@ -77,7 +93,10 @@ public class TabController {
 
         tab.setContent(canvasView);
         tabMap.put(tab, diagramController);
-
+         
+        
+        
+        
         if(diagramController instanceof ClassDiagramController){
             tab.setText("Class Diagram " + tabMap.size());
         } else if(diagramController instanceof SequenceDiagramController) {
@@ -92,6 +111,77 @@ public class TabController {
         tabPane.getTabs().add(tab);
         diagramController.setStage(stage);
         return tab;
+    }
+    
+    public void addTab1(){
+    	
+    	AbstractDiagramController pc= tabMap.get(tabPane.getSelectionModel().getSelectedItem());
+    	
+        BorderPane canvasView = null;
+        AbstractDiagramController diagramController = null;
+        FXMLLoader loader;
+        
+
+        if(!stabMap.containsKey(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle())){
+        //if(diagramController.selectedNodes.size()==1 && diagramController.selectedNodes.get(0) instanceof LinkedSequenceNodeView )
+        if(pc instanceof PerformanceController && pc.selectedNodes.size()==1 && pc.selectedNodes.get(0) instanceof LinkedSequenceNodeView)
+        {
+        	
+        	try {
+                loader = new FXMLLoader(getClass().getClassLoader().getResource(SEQUENCE_DIAGRAM_VIEW_PATH));
+                canvasView = loader.load();
+                diagramController = loader.getController();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            
+            Tab tab = new Tab();
+        	
+        	tab.setContent(canvasView);
+             tabMap.put(tab, diagramController);
+        	tab.setText(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
+        	tabPane.getTabs().add(tab);
+            diagramController.setStage(stage);
+            diagramController.settabname(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
+        	}
+        	
+        else if(pc instanceof PerformanceController && pc.selectedNodes.size()==1 &&  pc.selectedNodes.get(0) instanceof LinkedDeploymentNodeView)
+        {
+        	
+        	try {
+                loader = new FXMLLoader(getClass().getClassLoader().getResource(DEPLOYMENT_VIEW_PATH));
+                canvasView = loader.load();
+                diagramController = loader.getController();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            
+            Tab tab = new Tab();
+        	
+        	
+        	 tab.setContent(canvasView);
+            tabMap.put(tab, diagramController);
+            
+       	   tab.setText(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
+       	   tabPane.getTabs().add(tab);
+           diagramController.setStage(stage); 
+           diagramController.settabname(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
+           //pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle();
+        	}
+        	
+        	
+        }  
+       
+        
+        else
+    	{
+    		 tabPane.getTabs().add(stabMap.get(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle()));
+    		 diagramController.setStage(stage); 
+    	}
+        //System.out.println(pc.selectedNodes.size());        
+       
+        
+        
     }
 
     public void handleMenuActionUML() {
@@ -126,6 +216,11 @@ public class TabController {
     public void handleMenuActionNewSequenceDiagram() {
         Tab tab = addTab(SEQUENCE_DIAGRAM_VIEW_PATH);
         tabPane.getSelectionModel().select(tab);
+    }
+    
+    public void handleMenuActionNewSequenceDiagram1() {
+         addTab1();
+       // tabPane.getSelectionModel().select(tab);
     }
     
     public void handleMenuActionPerformance() {
@@ -172,6 +267,10 @@ public class TabController {
             mc.closeClients();
             mc.closeLog();
         }
+    }
+    
+    public void handleMenuActionsaving(){
+    	stabMap.put(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname(),tabPane.getSelectionModel().getSelectedItem());
     }
 
     public void handleMenuActionGit(){

@@ -52,7 +52,7 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
         changeWidth(node.getWidth());
 		initLooks();
 		
-		 StackPane.setAlignment(title, Pos.TOP_CENTER);
+		 StackPane.setAlignment(title, Pos.CENTER);
 	       // title.resize(circle.getRadius(), circle.getRadius());
 	        if(node.getTitle() != null) {
 	            title.setText(node.getTitle());
@@ -161,8 +161,13 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
 	            setX((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeY)) {
 	            setY((double) evt.getNewValue());
-	        }  else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeWidth)) {
+	            changeWidth((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeHeight)) {
+	            changeHeight((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
+
 	        }
 	    }
 

@@ -553,6 +553,9 @@ public class PerformanceController extends AbstractDiagramController {
     }
     
     public void setTabController(TabController tc){
-        tabController = tc;
+        this.tabController = tc;
     }
+    
+    
+    
 }

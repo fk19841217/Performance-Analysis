@@ -173,7 +173,11 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	            setX((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeY)) {
 	            setY((double) evt.getNewValue());
-	        }  else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeWidth)) {
+	            changeWidth((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeHeight)) {
+	            changeHeight((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
 
 	        }

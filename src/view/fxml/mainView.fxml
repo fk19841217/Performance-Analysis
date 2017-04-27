@@ -39,6 +39,8 @@
           <MenuItem text="Copy" />
           <MenuItem text="Cut" />
           <MenuItem text="Paste" />
+           <MenuItem onAction="#handleMenuActionsaving" text="saving" />
+          <MenuItem onAction="#handleMenuActionNewSequenceDiagram1" text="loading" />
         </items>
       </Menu>
       <Menu text="View">

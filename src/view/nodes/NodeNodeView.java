@@ -88,6 +88,7 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 	        setHeight(height);
 	       
 	        stackPane.setPrefHeight(height);
+	        rectangle.setHeight(height);
 	        
 	    }
 
@@ -96,6 +97,7 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 	       
 	        
 	        stackPane.setPrefWidth(width);
+	        rectangle.setWidth(width);
 	       
 	    }
 	    
@@ -146,7 +148,11 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 	            setX((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeY)) {
 	            setY((double) evt.getNewValue());
-	        }  else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeWidth)) {
+	            changeWidth((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeHeight)) {
+	            changeHeight((double) evt.getNewValue());
+	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
 
 	        }

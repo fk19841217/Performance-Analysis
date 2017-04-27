@@ -3,9 +3,11 @@ package controller;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.*;
@@ -24,6 +29,7 @@ import util.NetworkUtils;
 import util.commands.*;
 import util.insertIMG.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import util.persistence.PersistenceManager;
 import view.edges.*;
@@ -50,6 +56,8 @@ import java.util.logging.Logger;
 public abstract class AbstractDiagramController {
     protected Graph graph;
     protected Stage aStage;
+    
+    String tabname;
     
    
 
@@ -78,6 +86,8 @@ public abstract class AbstractDiagramController {
     ArrayList<AbstractEdgeView> allEdgeViews = new ArrayList<>();
     ArrayList<AnchorPane> allDialogs = new ArrayList<>();
     ArrayList<BorderPane> allDiagrams = new ArrayList<>();
+    
+    
     HashMap<AbstractNodeView, AbstractNode> nodeMap = new HashMap<>();
 
     ArrayList<ServerController> serverControllers = new ArrayList<>();
@@ -134,6 +144,7 @@ public abstract class AbstractDiagramController {
         recognizeController = new RecognizeController(drawPane, this);
         selectController = new SelectController(drawPane, this);
         copyPasteController = new CopyPasteController(drawPane, this);
+        //tabController = new TabController(drawPane, this);
         voiceController = new VoiceController(this);
 
         undoManager = new UndoManager();
@@ -598,8 +609,53 @@ public abstract class AbstractDiagramController {
             InsertIMG insertImg = new InsertIMG(aStage, drawPane);
             insertImg.openFileChooser(AbstractDiagramController.this, point);
         });
+        
+        MenuItem cmItemCreate = new MenuItem("Create Diagram");
+        cmItemCreate.setOnAction(e -> {
+        	try {
+        		
+        		VBox tabView = null;
+                //Load the classDiagramView.fxml file and create a new stage for the popup
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/mainView.fxml"));
+                tabController = loader.getController();
+                this.setTabController(tabController);
+                FXMLLoader loader1 = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/sequenceDiagramView.fxml"));
+                BorderPane sequenceView = loader1.load();
+                
+               // tabController.setStage(aStage);
 
-        aContextMenu.getItems().addAll(cmItemCopy, cmItemPaste, cmItemDelete, cmItemInsertImg);
+                //tabController.addTab(TabController.CLASS_DIAGRAM_VIEW_PATH);
+              
+                
+                Scene scene = new Scene(tabView, 1000, 800);
+                tabController.setStage(aStage);
+
+                aStage.setScene(scene);
+                aStage.setTitle("OctoUML");
+                aStage.setFullScreen(true);
+                aStage.getIcons().add(new Image("icons/appIcon.png"));
+                aStage.show();
+                
+                
+                
+                Tab tab = new Tab();
+                tab.setContent(sequenceView);
+                tab.setText("sequenceView");
+                
+               tabController.getTabPane().getTabs().add(tab);
+                
+        	 } catch (IOException e1) {
+                 System.out.println(e1.getMessage());
+             }
+                
+                
+                
+        	
+        	
+            mode = Mode.NO_MODE;
+        });
+
+        aContextMenu.getItems().addAll(cmItemCopy, cmItemPaste, cmItemDelete, cmItemInsertImg,cmItemCreate);
     }
 
     /**
@@ -1054,8 +1110,18 @@ public abstract class AbstractDiagramController {
     	return "111";
     }
     
-    public void setTabController(TabController tc){
-        tabController = tc;
+    public void setTabController(TabController tabController){
+        this.tabController = tabController;
     }
+    
+    public void settabname(String s){
+        this.tabname = s;
+    }
+    
+    public String  gettabname(){
+        return tabname;
+    }
+    
+   
 }
 
