@@ -27,13 +27,14 @@ public class SequenceObjectView extends AbstractNodeView implements NodeView {
     private Line longHandleLine;
     private Line lifeline;
     private Rectangle rectangleHandle;
+    private SequenceObject refNode;
 
     private final int STROKE_WIDTH = 1;
 
 
     public SequenceObjectView(SequenceObject node) {
         super(node);
-
+        refNode = node;
         container = new StackPane();
         rectangle = new Rectangle();
         title = new Label();
@@ -63,6 +64,8 @@ public class SequenceObjectView extends AbstractNodeView implements NodeView {
         lifeline.getStrokeDashArray().addAll(20d, 10d);
         this.getChildren().add(lifeline);
     }
+
+
 
     private void createRectangles(){
         SequenceObject node = (SequenceObject) getRefNode();
@@ -124,6 +127,7 @@ public class SequenceObjectView extends AbstractNodeView implements NodeView {
         title.setAlignment(Pos.CENTER);
     }
 
+
     private void initLooks(){
         rectangle.setStrokeWidth(STROKE_WIDTH);
         rectangle.setFill(Color.LIGHTSKYBLUE);
@@ -176,6 +180,14 @@ public class SequenceObjectView extends AbstractNodeView implements NodeView {
             }
         }
         return false;
+    }
+
+    public boolean contains(double x, double y) {
+        //If there is a activationBox inside this sequence node, we should return false.
+        if (refNode.findNode(new Point2D(x, y)) != null) {
+            return false;
+        }
+        return super.contains(x, y);
     }
 
     @Override

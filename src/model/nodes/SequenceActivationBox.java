@@ -21,9 +21,12 @@ public class SequenceActivationBox extends AbstractNode{
 
     }
 
-    public SequenceActivationBox(SequenceObject diagram){
-        this.diagram = diagram;
-    }
+//    public SequenceActivationBox(SequenceObject diagram){
+//        this.diagram = diagram;
+//    }
+
+
+
 
 
     public void setHeight(double height){

@@ -12,21 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import model.nodes.AbstractNode;
-import model.nodes.ClassNode;
-import model.nodes.DeploymentNode;
-import model.nodes.LinkedSequenceNode;
-import model.nodes.NodeNode;
-import model.nodes.PackageNode;
+import model.nodes.*;
 import util.Constants;
 import util.commands.*;
-import view.nodes.AbstractNodeView;
-import view.nodes.ClassNodeView;
-import view.nodes.DeploymentNodeView;
-import view.nodes.LinkedDeploymentNodeView;
-import view.nodes.LinkedSequenceNodeView;
-import view.nodes.NodeNodeView;
-import view.nodes.PackageNodeView;
+import view.nodes.*;
+import model.nodes.SequenceObject;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -152,6 +142,15 @@ public class NodeController {
                         }
                     }
                 }
+                else if (n instanceof SequenceObject) {
+                    for (SequenceActivationBox child : ((SequenceObject) n).getChildNodes()) {
+                        if (!selectedNodes.contains(child)) {
+                            initTranslate = new Point2D.Double(child.getTranslateX(), child.getTranslateY());
+                            initTranslateMap.put(child, initTranslate);
+                            toBeMoved.add(child);
+                        }
+                    }
+                }
                 else if(n instanceof DeploymentNode) {
                     for (AbstractNode child : ((DeploymentNode) n).getChildNodes()) {
                         if (!selectedNodes.contains(child)) {
@@ -223,8 +222,12 @@ public class NodeController {
             else if(n instanceof DeploymentNodeView){
                 checkChildren((DeploymentNodeView)n);
             }
+            else if (n instanceof SequenceObjectView){
+                checkChildren((SequenceObjectView) n);
+            }
             putNodeInPackage(n);
             putNodeInDeployment(n);
+            putNodeInSequence(n);
         }
         return deltaTranslateVector;
     }
@@ -262,8 +265,30 @@ public class NodeController {
                     }
                     childMovedInside = true;
                 } else {
-                    //Remove child if it is moved out of the package
+                    //Remove activation box if it is moved out of the sequence node
                     ((PackageNode)nodeMap.get(potentialParent)).getChildNodes().remove(nodeMap.get(potentialChild));
+
+                }
+            }
+        }
+        return childMovedInside;
+    }
+
+    private boolean putNodeInSequence(AbstractNodeView potentialChild){
+        boolean childMovedInside = false;
+        Map<AbstractNodeView, AbstractNode> nodeMap = diagramController.getNodeMap();
+        for(AbstractNodeView potentialParent : diagramController.getAllNodeViews()){
+            if(potentialParent instanceof SequenceObjectView && potentialParent != potentialChild)
+            {
+                if(potentialParent.getBoundsInParent().contains(potentialChild.getBoundsInParent()))
+                {
+                    if(!((SequenceObject)nodeMap.get(potentialParent)).getChildNodes().contains(nodeMap.get(potentialChild))){
+                        ((SequenceObject)nodeMap.get(potentialParent)).addChild((SequenceActivationBox) nodeMap.get(potentialChild));
+                    }
+                    childMovedInside = true;
+                } else {
+                    //Remove child if it is moved out of the package
+                    ((SequenceObject)nodeMap.get(potentialParent)).getChildNodes().remove(nodeMap.get(potentialChild));
 
                 }
             }
@@ -326,6 +351,21 @@ public class NodeController {
                 }
             } else {
             	deploymentNodeModel.getChildNodes().remove(potentialChildModel);
+            }
+        }
+    }
+    private void checkChildren(SequenceObjectView sequenceNodeView){
+        Map<AbstractNodeView, AbstractNode> nodeMap = diagramController.getNodeMap();
+        SequenceObject sequenceObjectModel = (SequenceObject) nodeMap.get(sequenceNodeView);
+        AbstractNode potentialChildModel;
+        for (AbstractNodeView potentialChild : diagramController.getAllNodeViews()){
+            potentialChildModel = nodeMap.get(potentialChild);
+            if(sequenceNodeView != potentialChild && sequenceNodeView.getBoundsInParent().contains(potentialChild.getBoundsInParent())){
+                if(!sequenceObjectModel.getChildNodes().contains(potentialChildModel)){
+                    sequenceObjectModel.addChild((SequenceActivationBox) potentialChildModel);
+                }
+            } else {
+                sequenceObjectModel.getChildNodes().remove(potentialChildModel);
             }
         }
     }

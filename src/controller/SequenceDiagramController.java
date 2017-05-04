@@ -196,10 +196,10 @@ public class SequenceDiagramController extends AbstractDiagramController {
             } else if (event.getButton() == MouseButton.SECONDARY) { //Open context menu on left click.
                 copyPasteController.copyPasteCoords = new double[]{nodeView.getX() + event.getX(), nodeView.getY() + event.getY()};
                 aContextMenu.show(nodeView, event.getScreenX(), event.getScreenY());
-            } else if (tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) { //Select node
+            } else if (tool == ToolEnum.SELECT || tool == ToolEnum.ADD_BOX) { //Select node
                 setTool(ToolEnum.SELECT);
                 setButtonClicked(selectBtn);
-                if (!(nodeView instanceof PackageNodeView)) {
+                if (!(nodeView instanceof SequenceObjectView)) {// changed for activationBox (goes in front)!
                     nodeView.toFront();
                 }
                 if (mode == Mode.NO_MODE) { //Either drag selected elements or resize node.
