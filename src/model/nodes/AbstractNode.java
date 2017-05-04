@@ -20,7 +20,8 @@ public abstract class AbstractNode implements Node, Serializable
     protected static final double PACKAGE_MIN_HEIGHT = 200;
     protected static final double ACTOR_MIN_WIDTH = 20;
     protected static final double ACTOR_MIN_HEIGHT = 40;
-    
+    protected static final double LIFEBOX_MIN_HEIGHT = 70;
+    protected static final double LIFEBOX_DEFAULT_WIDTH = 30;
 
     private static final long serialVersionUID = 1L;
     protected static int objectCount = 0; //Used to ID instance

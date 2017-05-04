@@ -44,7 +44,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         initTitle();
         createRectangles();
         changeHeight(node.getHeight());
-        //    changeWidth(node.getWidth());
+        changeWidth(node.getWidth());
         initLooks();
 
         this.getChildren().add(container);
@@ -79,6 +79,10 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         setHeight(height);
         rectangle.setHeight(height);
     }
+    private void changeWidth(double width){
+        setWidth(width);
+        rectangle.setWidth(width);
+    }
 
 //	    private void changeWidth(double width){
 //	        setWidth(width);
@@ -108,8 +112,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 
     private void createRectangleHandle(){
         rectangleHandle = new Rectangle();
-        rectangleHandle.setWidth(10);
-        rectangleHandle.setHeight(10);
+        rectangleHandle.setWidth(30);
+        rectangleHandle.setHeight(100);
 //	        rectangleHandle.xProperty().bind(diagram.().divide(2));
 //	        rectangleHandle.yProperty().bind(lifeline.endYProperty().subtract(rectangleHandle.heightProperty().divide(2)));
         this.getChildren().add(rectangleHandle);
@@ -323,7 +327,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //
 //	            position = Position.ABOVE;
 //	        }
-//	      
+//
 //	    }
 
 

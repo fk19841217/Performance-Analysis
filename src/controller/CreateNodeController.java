@@ -16,8 +16,10 @@ import model.nodes.NodeNode;
 import model.nodes.SequenceObject;
 import model.nodes.UsecaseNode;
 import model.nodes.PackageNode;
+import model.nodes.SequenceActivationBox;
 import view.nodes.AbstractNodeView;
 import view.nodes.PackageNodeView;
+import view.nodes.SequenceActivationBoxView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,6 +98,16 @@ public class CreateNodeController {
 
     }
 
+    public void onTouchReleasedActivationBox(TouchEvent event)
+    {
+        Rectangle dragRectangle = dragRectangles.get(event.getTouchPoint().getId());
+        diagramController.createNodeView(new SequenceActivationBox(dragRectangle.getX(), dragRectangle.getY(),
+                mouseDragRectangle.getWidth(),
+                mouseDragRectangle.getHeight()), false);
+        finish(dragRectangle);
+
+    }
+
     public void onTouchReleasedPackage(TouchEvent event)
     {
         Rectangle dragRectangle = dragRectangles.get(event.getTouchPoint().getId());
@@ -104,6 +116,8 @@ public class CreateNodeController {
         finish(dragRectangle);
 
     }
+
+
 
     public void onMousePressed(MouseEvent event){
         mouseDragRectangle = new Rectangle();
@@ -150,6 +164,16 @@ public class CreateNodeController {
         diagramController.createNodeView(new PackageNode(mouseDragRectangle.getX(), mouseDragRectangle.getY(),
                 mouseDragRectangle.getWidth(),
                 mouseDragRectangle.getHeight()), false);
+        finish(mouseDragRectangle);
+    }
+
+
+    public void onMouseReleasedActivationBox(){
+        diagramController.createNodeView(new SequenceActivationBox(mouseDragRectangle.getX(), mouseDragRectangle.getY(),
+                mouseDragRectangle.getWidth(),
+                mouseDragRectangle.getHeight()), false);
+
+
         finish(mouseDragRectangle);
     }
 

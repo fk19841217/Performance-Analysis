@@ -34,6 +34,7 @@ import javafx.scene.paint.Color;
 import util.persistence.PersistenceManager;
 import view.edges.*;
 import view.nodes.*;
+import view.nodes.SequenceActivationBoxView;
 
 import java.util.*;
 import java.awt.geom.Point2D;
@@ -106,7 +107,7 @@ public abstract class AbstractDiagramController {
     //Tool
     protected ToolEnum tool = ToolEnum.CREATE_CLASS;
     protected enum ToolEnum {
-        CREATE_CLASS, CREATE_ACTOR, CREATE_USECASE,CREATE_NODE, CREATE_DEPLOYMENT,CREATE_LINKEDDEPLOYMENT,CREATE_LINKEDSEQUENCE, SELECT, DRAW, CREATE_PACKAGE, EDGE, MOVE_SCENE
+        CREATE_CLASS, CREATE_ACTOR, CREATE_USECASE,CREATE_NODE, CREATE_DEPLOYMENT,CREATE_LINKEDDEPLOYMENT,CREATE_LINKEDSEQUENCE, SELECT, DRAW, CREATE_PACKAGE, EDGE, MOVE_SCENE, ADD_BOX
     }
 
     //Views
@@ -122,7 +123,7 @@ public abstract class AbstractDiagramController {
     @FXML CheckMenuItem mouseMenuItem;
 
     @FXML
-    protected Button createBtn, packageBtn,linkedsequenceBtn, linkeddeploymentBtn, actorBtn, deploymentBtn, nodeBtn, usecaseBtn, edgeBtn, selectBtn, drawBtn, undoBtn, redoBtn, moveBtn, deleteBtn, recognizeBtn, voiceBtn;
+    protected Button createBtn, packageBtn,linkedsequenceBtn, linkeddeploymentBtn, actorBtn, deploymentBtn, nodeBtn, usecaseBtn, edgeBtn, selectBtn, drawBtn, undoBtn, redoBtn, moveBtn, deleteBtn, recognizeBtn, voiceBtn, actBoxBtn;
 
     ContextMenu aContextMenu;
     private AbstractDiagramController instance = this;
@@ -376,8 +377,7 @@ public abstract class AbstractDiagramController {
     //---------------------- MENU HANDLERS ---------------------------------
 
     public void handleMenuActionUML() {
-        List<Button> umlButtons = Arrays.asList(createBtn, packageBtn,deploymentBtn, actorBtn, edgeBtn,usecaseBtn,nodeBtn);
-
+        List<Button> umlButtons = Arrays.asList(createBtn, packageBtn,deploymentBtn, actorBtn, edgeBtn,usecaseBtn,nodeBtn, actBoxBtn);
         if (umlVisible) {
             for (AbstractNodeView nodeView : allNodeViews) {
                 drawPane.getChildren().remove(nodeView);
@@ -682,8 +682,10 @@ public abstract class AbstractDiagramController {
             newView = new LinkedDeploymentNodeView((LinkedDeploymentNode) node);
         } else if (node instanceof LinkedSequenceNode) {
             newView = new LinkedSequenceNodeView((LinkedSequenceNode) node);
-        } 
-     
+        } else if (node instanceof SequenceActivationBox) {
+            newView = new SequenceActivationBoxView((SequenceActivationBox) node);
+            ((SequenceDiagramController)this).initActivationBoxHandleActions((SequenceActivationBoxView)newView);
+         }
         else{
         	newView = new SequenceObjectView((SequenceObject) node);
         	if(getcontroller()=="Sequence")
