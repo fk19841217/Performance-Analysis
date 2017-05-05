@@ -1,6 +1,7 @@
 package controller;
 
 import controller.dialog.NodeEditDialogController;
+import controller.dialog.UsecaseEditDialogController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ import model.nodes.DeploymentNode;
 import model.nodes.LinkedSequenceNode;
 import model.nodes.NodeNode;
 import model.nodes.PackageNode;
+import model.nodes.SequenceObject;
+import model.nodes.UsecaseNode;
 import util.Constants;
 import util.commands.*;
 import view.nodes.AbstractNodeView;
@@ -27,6 +30,8 @@ import view.nodes.LinkedDeploymentNodeView;
 import view.nodes.LinkedSequenceNodeView;
 import view.nodes.NodeNodeView;
 import view.nodes.PackageNodeView;
+import view.nodes.SequenceObjectView;
+import view.nodes.UsecaseNodeView;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -383,9 +388,13 @@ public class NodeController {
     public void onDoubleClick(AbstractNodeView nodeView){
         if(nodeView instanceof ClassNodeView){
             showClassNodeEditDialog((ClassNode) diagramController.getNodeMap().get(nodeView));
+        }else if(nodeView instanceof UsecaseNodeView){
+            showUsecaseNodeEditDialog((UsecaseNode) diagramController.getNodeMap().get(nodeView));
+        }else if(nodeView instanceof LinkedSequenceNodeView){
+        	showLinkedSequenceNodeDialog((LinkedSequenceNode) diagramController.getNodeMap().get(nodeView));
+        }else if(nodeView instanceof SequenceObjectView){
+        	showSequenceObjectDialog((SequenceObject) diagramController.getNodeMap().get(nodeView));
         }
-       
-        
         else { //PackageNode
             showNodeTitleDialog(diagramController.getNodeMap().get(nodeView));
         }
@@ -488,6 +497,251 @@ public class NodeController {
         aDrawPane.getChildren().add(group);
 
         return true;
+    }
+    
+    
+    public void showSequenceObjectDialog(SequenceObject node) {
+    	  if(diagramController.voiceController.voiceEnabled){
+              //Change variable testing in VoiceController to 1(true)
+              diagramController.voiceController.testing = 1;
+
+              String title2 = "";
+              int time = 0;
+              //Looking for a name you want to add to the package or until 5 seconds have passed
+              while((title2.equals("") || title2 == null) && time < 500){
+                  try {
+                      TimeUnit.MILLISECONDS.sleep(10);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  //Check if a name has been recognised
+                  title2 = diagramController.voiceController.titleName;
+                  time++;
+              }
+
+              //Change variable testing in VoiceController to 0(false)
+              diagramController.voiceController.testing = 0;
+
+              //If name found in less then 5 seconds it sets the name to the package
+              if(time < 500) {
+                  diagramController.voiceController.titleName = "";
+                  node.setTitle(title2);
+              }
+              //Else the name is not changed to a new name
+              else{
+                  diagramController.voiceController.titleName = "";
+              }
+
+              node.setTitle(title2);
+          }
+
+          VBox group = new VBox();
+          TextField input = new TextField();
+          input.setText(node.getTitle());
+        
+          Button okButton = new Button("Ok");
+          okButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  node.setTitle(input.getText());
+                  
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Button cancelButton = new Button("Cancel");
+          cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Label label = new Label("Choose title");
+          group.getChildren().add(label);
+          
+          group.getChildren().add(input);
+         
+          HBox buttons = new HBox();
+          buttons.getChildren().add(okButton);
+          buttons.getChildren().add(cancelButton);
+          buttons.setPadding(new Insets(15, 0, 0, 0));
+          group.getChildren().add(buttons);
+          group.setLayoutX(node.getX()+5);
+          group.setLayoutY(node.getY()+5);
+          group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+          group.setStyle("-fx-border-color: black");
+          group.setPadding(new Insets(15, 12, 15, 12));
+          aDrawPane.getChildren().add(group);
+    }
+    
+    
+    public void showLinkedSequenceNodeDialog(LinkedSequenceNode node) {
+  	  if(diagramController.voiceController.voiceEnabled){
+            //Change variable testing in VoiceController to 1(true)
+            diagramController.voiceController.testing = 1;
+
+            String title2 = "";
+            int time = 0;
+            //Looking for a name you want to add to the package or until 5 seconds have passed
+            while((title2.equals("") || title2 == null) && time < 500){
+                try {
+                    TimeUnit.MILLISECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //Check if a name has been recognised
+                title2 = diagramController.voiceController.titleName;
+                time++;
+            }
+
+            //Change variable testing in VoiceController to 0(false)
+            diagramController.voiceController.testing = 0;
+
+            //If name found in less then 5 seconds it sets the name to the package
+            if(time < 500) {
+                diagramController.voiceController.titleName = "";
+                node.setTitle(title2);
+            }
+            //Else the name is not changed to a new name
+            else{
+                diagramController.voiceController.titleName = "";
+            }
+
+            node.setTitle(title2);
+        }
+
+        VBox group = new VBox();
+        TextField input = new TextField();
+        input.setText(node.getTitle());
+        TextField frequence = new TextField();
+       
+        if(node.getDelay()>0)
+        frequence.setText(String.valueOf(node.getDelay()));
+         
+        
+        Button okButton = new Button("Ok");
+        okButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                node.setTitle(input.getText());
+                node.setDelay(Integer.valueOf(frequence.getText()));
+                aDrawPane.getChildren().remove(group);
+            }
+        });
+
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                aDrawPane.getChildren().remove(group);
+            }
+        });
+
+        Label label = new Label("Choose title");
+        group.getChildren().add(label);
+        
+        group.getChildren().add(input);
+        Label label1 = new Label("Input Delay");
+        group.getChildren().add(label1);
+        group.getChildren().add(frequence);
+        HBox buttons = new HBox();
+        buttons.getChildren().add(okButton);
+        buttons.getChildren().add(cancelButton);
+        buttons.setPadding(new Insets(15, 0, 0, 0));
+        group.getChildren().add(buttons);
+        group.setLayoutX(node.getX()+5);
+        group.setLayoutY(node.getY()+5);
+        group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+        group.setStyle("-fx-border-color: black");
+        group.setPadding(new Insets(15, 12, 15, 12));
+        aDrawPane.getChildren().add(group);
+
+        
+  }
+    
+    public void showUsecaseNodeEditDialog(UsecaseNode node) {
+    	  if(diagramController.voiceController.voiceEnabled){
+              //Change variable testing in VoiceController to 1(true)
+              diagramController.voiceController.testing = 1;
+
+              String title2 = "";
+              int time = 0;
+              //Looking for a name you want to add to the package or until 5 seconds have passed
+              while((title2.equals("") || title2 == null) && time < 500){
+                  try {
+                      TimeUnit.MILLISECONDS.sleep(10);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  //Check if a name has been recognised
+                  title2 = diagramController.voiceController.titleName;
+                  time++;
+              }
+
+              //Change variable testing in VoiceController to 0(false)
+              diagramController.voiceController.testing = 0;
+
+              //If name found in less then 5 seconds it sets the name to the package
+              if(time < 500) {
+                  diagramController.voiceController.titleName = "";
+                  node.setTitle(title2);
+              }
+              //Else the name is not changed to a new name
+              else{
+                  diagramController.voiceController.titleName = "";
+              }
+
+              node.setTitle(title2);
+          }
+
+          VBox group = new VBox();
+          TextField input = new TextField();
+          input.setText(node.getTitle());
+          TextField frequence = new TextField();
+         
+          if(node.getFrequence()>0)
+          frequence.setText(String.valueOf(node.getFrequence()));
+           
+          
+          Button okButton = new Button("Ok");
+          okButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  node.setTitle(input.getText());
+                  node.setFrequence(Integer.valueOf(frequence.getText()));
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Button cancelButton = new Button("Cancel");
+          cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Label label = new Label("Choose title");
+          group.getChildren().add(label);
+          
+          group.getChildren().add(input);
+          Label label1 = new Label("Input Frequence");
+          group.getChildren().add(label1);
+          group.getChildren().add(frequence);
+          HBox buttons = new HBox();
+          buttons.getChildren().add(okButton);
+          buttons.getChildren().add(cancelButton);
+          buttons.setPadding(new Insets(15, 0, 0, 0));
+          group.getChildren().add(buttons);
+          group.setLayoutX(node.getX()+5);
+          group.setLayoutY(node.getY()+5);
+          group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+          group.setStyle("-fx-border-color: black");
+          group.setPadding(new Insets(15, 12, 15, 12));
+          aDrawPane.getChildren().add(group);
+
+          
     }
 
     public boolean showClassNodeEditDialog(ClassNode node) {

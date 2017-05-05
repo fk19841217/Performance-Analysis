@@ -1,17 +1,35 @@
 package model.nodes;
 
+import util.Constants;
+
 public class LinkedSequenceNode extends AbstractNode {
 	
 	public static final String TYPE = "NODE";
 	
+	int delay;
 	
 	 public  LinkedSequenceNode(double x, double y, double width, double height)
 	    {
 		    super(x, y, width, height);
 	        //Don't accept nodes with size less than minWidth * minHeight.
-	        this.width = width < ACTOR_MIN_WIDTH ? ACTOR_MIN_WIDTH : width;
-	        this.height = height < ACTOR_MIN_HEIGHT ? ACTOR_MIN_HEIGHT : height;
+	        this.width = width < CLASS_MIN_WIDTH ? CLASS_MIN_WIDTH : width;
+	        this.height = height < CLASS_MIN_HEIGHT ? CLASS_MIN_HEIGHT : height;
 	    }
+	 
+	 public void setDelay(int pdelay){
+	     delay = pdelay;
+        changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Delay: "+String.valueOf(delay)+" /s");
+        remoteChanges.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Delay: "+String.valueOf(delay)+" /s");
+    }
+ 
+ public void remoteSetDelay(int pdelay){
+	 delay = pdelay;
+        changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null,  "Frequency: "+String.valueOf(delay)+" /s");
+    }
+ 
+ public int getDelay(){
+        return delay;
+    }
 
 	 @Override
 	    public ClassNode copy(){

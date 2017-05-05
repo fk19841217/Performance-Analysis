@@ -1,6 +1,9 @@
 package model.nodes;
 
+import javafx.geometry.Point2D;
 import util.Constants;
+
+import java.util.ArrayList;
 
 /**
  * Created by Marcus on 2016-09-01.
@@ -9,6 +12,7 @@ public class SequenceObject extends AbstractNode {
 
     public static final String TYPE = "LIFELINE";
     public final double LIFELINE_DEFAULT_LENGTH = 500;
+    private ArrayList<SequenceActivationBox> activationBoxes = new ArrayList<>();
 
     private double lifelineLength = LIFELINE_DEFAULT_LENGTH;
 
@@ -30,6 +34,39 @@ public class SequenceObject extends AbstractNode {
      */
     public SequenceObject(){
     }
+
+    public ArrayList<SequenceActivationBox> getChildNodes() {
+        return activationBoxes;
+    }
+
+    public void removeChild(SequenceActivationBox childNode){
+        childNode.setIsChild(false);
+        this.activationBoxes.remove(childNode);
+    }
+
+    /**
+     * Finds a node in this sequence object from a Point2D.
+     * @param point
+     * @return the node if found, otherwise null.
+     */
+    public SequenceActivationBox findNode(Point2D point) {
+        for (SequenceActivationBox node : activationBoxes) {
+            if (point.getX() >= node.getX() && point.getX() <= node.getX()+ node.getWidth()
+                    && point.getY() >= node.getY() && point.getY() <= node.getY() + node.getHeight()) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    public void addChild(SequenceActivationBox childNode) {
+        if (!activationBoxes.contains(childNode)) {
+            childNode.setIsChild(true);
+            this.activationBoxes.add(childNode);
+        }
+    }
+
+
 
     @Override
     public void setHeight(double height) {

@@ -13,6 +13,8 @@ public class MessageEdge extends AbstractEdge {
     private double startX;
     private double startY;
     private String title;
+    private int network;
+    
     public enum MessageType {
         REQUEST, RESPONSE;
     }
@@ -141,6 +143,21 @@ public class MessageEdge extends AbstractEdge {
     public void remoteSetTitle(String pTitle){
         changes.firePropertyChange(Constants.changeMessageTitle, title, pTitle);
         title = pTitle;
+    }
+    
+	 public void setNetwork(int pnetwork){
+	     network = pnetwork;
+        changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+        remoteChanges.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+    }
+ 
+ public void remoteSetNetwork(int pnetwork){
+	 network = pnetwork;
+     changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+    }
+ 
+ public int getNetwork(){
+        return network;
     }
 
     /**

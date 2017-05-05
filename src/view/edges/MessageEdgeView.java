@@ -25,7 +25,7 @@ public class MessageEdgeView extends AbstractEdgeView {
     private Circle circleHandle;
     private Group arrowHead;
     private Text title = new Text();
-
+    private Text net = new Text();
 
 
     //TODO these constructors are a mess.
@@ -42,6 +42,7 @@ public class MessageEdgeView extends AbstractEdgeView {
         setPosition();
         draw();
         this.getChildren().add(title);
+        this.getChildren().add(net);
     }
 
     public MessageEdgeView(MessageEdge edge, Double pStartX, Double pStartY, AbstractNodeView endNode) {
@@ -58,6 +59,7 @@ public class MessageEdgeView extends AbstractEdgeView {
         drawCircleHandle();
         draw();
         this.getChildren().add(title);
+        this.getChildren().add(net);
     }
 
 
@@ -83,6 +85,15 @@ public class MessageEdgeView extends AbstractEdgeView {
         title.setY(startLine.getStartY() - 5);
         title.toFront();
     }
+    
+    private void drawNet(String netStr){
+        net.setText(netStr);
+        net.setX((startLine.getStartX()  + endNode.getX())/2);
+        net.setY(startLine.getStartY() + 15);
+        net.toFront();
+    }
+    
+    
 
     @Override
     protected void setPosition() {
@@ -93,6 +104,7 @@ public class MessageEdgeView extends AbstractEdgeView {
         }
         //setPositionNoStartNode();
         drawTitle(title.getText());
+        drawNet(net.getText());
     }
 
     private void setPosition2(){
@@ -234,6 +246,7 @@ public class MessageEdgeView extends AbstractEdgeView {
             startX = (Double)evt.getNewValue();
             setPositionNoStartNode();
             drawTitle(title.getText());
+            drawNet(net.getText());
             draw();
         } else if (propertyName.equals(Constants.changeMessageStartY)){
             startY = (Double)evt.getNewValue();
@@ -243,9 +256,12 @@ public class MessageEdgeView extends AbstractEdgeView {
                 setPositionNoStartNode();
             }
             drawTitle(title.getText());
+            drawNet(net.getText());
             draw();
         } else if (propertyName.equals(Constants.changeMessageTitle)){
             drawTitle((String)evt.getNewValue());
+        } else if (propertyName.equals(Constants.changeMessageNetwork)){
+            drawNet((String)evt.getNewValue());
         } else if (propertyName.equals(Constants.changeMessageType)){
             if(evt.getNewValue() == MessageEdge.MessageType.RESPONSE){
                 startLine.getStrokeDashArray().addAll(15d, 10d);

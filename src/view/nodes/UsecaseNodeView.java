@@ -3,7 +3,10 @@ package view.nodes;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -11,6 +14,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.nodes.ActorNode;
 import model.nodes.UsecaseNode;
 import util.Constants;
 
@@ -19,7 +23,8 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	private StackPane stackPane;
 	
 	private  Ellipse ellipse;
-	 private Text title;
+	 private Label title;
+	 private Label frequen;
 	
 	
 	/*public UsecaseNodeView(UsecaseNode node) {
@@ -63,30 +68,35 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 		ellipse = new Ellipse();
 		
 		
-		title = new Text(node.getTitle());
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        //TODO Ugly solution, hardcoded value.
-        title.setWrappingWidth(node.getWidth() - 7);
+		title = new Label();
+		frequen =new Label();
 		
+		initTitle();
 		createEllipse();
 		//setLayout();
 		//stackPane.setLayoutX(node.getX());
        // stackPane.setLayoutY(node.getY());
 		changeHeight(node.getHeight());
         changeWidth(node.getWidth());
+        
         initLooks();
      
         
         stackPane.getChildren().add(ellipse);
+        stackPane.getChildren().add(title);
+        stackPane.getChildren().add(frequen);
         
-
-        StackPane.setAlignment(title, Pos.TOP_CENTER);
-       // title.resize(circle.getRadius(), circle.getRadius());
+       
         if(node.getTitle() != null) {
             title.setText(node.getTitle());
         }
         
-        this.getChildren().addAll(title,stackPane);
+        if(node.getFrequence() >0  ) {
+            frequen.setText(String.valueOf(node.getFrequence()));
+        }
+      
+        
+        this.getChildren().add(stackPane);
         
        this.setTranslateX(node.getTranslateX());
        this.setTranslateY(node.getTranslateY());
@@ -108,13 +118,48 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	       
 	        ellipse.setStroke(javafx.scene.paint.Color.BLACK);
 	        ellipse.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+	        
+	        StackPane.setAlignment(title, Pos.CENTER);
+	        StackPane.setAlignment(frequen, Pos.CENTER);
 	       
+	    }
+	 
+	 private void initTitle(){
+	        UsecaseNode node = (UsecaseNode) getRefNode();
+
+	        title = new Label();
+	        title.setFont(Font.font("Verdana", 12));
+	        if(node.getTitle() != null) {
+	            title.setText(node.getTitle());
+	        }
+	        title.setAlignment(Pos.CENTER);
+	        
+	        StackPane.setMargin(frequen, new Insets(ellipse.getRadiusY()/2 , 0.0, 0.0, 0.0));
+	        
+	        frequen = new Label();
+	        frequen.setFont(Font.font("Verdana", 12));
+	        if(node.getFrequence()>0) {
+	        	frequen.setText(String.valueOf(node.getFrequence()));
+	        }
+	        frequen.setAlignment(Pos.TOP_CENTER);
+	        
+	       StackPane.setMargin(title, new Insets( 0.0, 0.0, ellipse.getRadiusY()/2, 0.0));
+	        
+	        
 	    }
 	 
 	 private void changeHeight(double height){
 	        setHeight(height);
 	       
 	        stackPane.setPrefHeight(height);
+	       
+	        UsecaseNode node = (UsecaseNode) getRefNode();
+	    	
+	         ellipse.setRadiusY(node.getHeight()/2);
+	        
+	        
+	        StackPane.setMargin(frequen, new Insets(ellipse.getRadiusY()/2 , 0.0, 0.0, 0.0));
+	        StackPane.setMargin(title, new Insets( 0.0, 0.0,ellipse.getRadiusY()/2, 0.0));
 	        
 	    }
 
@@ -123,14 +168,15 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	       
 	        
 	        stackPane.setPrefWidth(width);
+	        UsecaseNode node = (UsecaseNode) getRefNode();
+	        ellipse.setRadiusX(node.getWidth()/2);
 	       
 	    }
 	    
 	    private void setLayout() {
 	    	 UsecaseNode node = (UsecaseNode) getRefNode();
 	    	 stackPane.setLayoutX(node.getX());
-	    	
-		        stackPane.setLayoutY(node.getY());
+	    	 stackPane.setLayoutY(node.getY());
 	    	
 	    }
 
@@ -179,7 +225,9 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	            changeHeight((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
-
-	        }
+	        } else if (evt.getPropertyName().equals(Constants.changeUsecaseFrequence)) {
+				frequen.setText((String) evt.getNewValue());
+	        } 
+	        
 	    }
 }

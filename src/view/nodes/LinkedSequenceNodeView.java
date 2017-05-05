@@ -1,5 +1,6 @@
 package view.nodes;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,6 +19,7 @@ import util.Constants;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView {
@@ -25,8 +27,10 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
     private StackPane stackPane;
 	
 	private  Rectangle rectangle;
-	 private Text title;
+	 
 	 private Text title1;
+	 private Label title;
+	 private Label delay;
 	 
 	public LinkedSequenceNodeView(LinkedSequenceNode node) {
 		super(node);
@@ -35,28 +39,23 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		
 		stackPane = new StackPane();
 		rectangle = new Rectangle();
+		title=new Label();
+		delay=new Label();
 		
-		title = new Text(node.getTitle());
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        //TODO Ugly solution, hardcoded value.
-        title.setWrappingWidth(node.getWidth() - 7);
         
         title1 = new Text(node.getTitle());
         title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         //TODO Ugly solution, hardcoded value.
         title1.setWrappingWidth(node.getWidth() - 7);
         title1.setText("Sequence");
-		
+        
+        initTitle();
 		createRectangle();
 		changeHeight(node.getHeight());
         changeWidth(node.getWidth());
 		initLooks();
 		
-		 StackPane.setAlignment(title, Pos.CENTER);
-	       // title.resize(circle.getRadius(), circle.getRadius());
-	        if(node.getTitle() != null) {
-	            title.setText(node.getTitle());
-	        }
+	
 	        
 	        StackPane.setAlignment(title1, Pos.TOP_CENTER);
 		       // title.resize(circle.getRadius(), circle.getRadius());
@@ -64,7 +63,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		            title1.setText(node.getTitle());
 		        }
         
-    stackPane.getChildren().addAll(rectangle,title,title1);
+       stackPane.getChildren().addAll(rectangle,title,title1,delay);
         
         this.getChildren().add(stackPane);
         this.setTranslateX(node.getTranslateX());
@@ -87,6 +86,30 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
     	
     }
 	
+	 private void initTitle(){
+	        LinkedSequenceNode node = (LinkedSequenceNode) getRefNode();
+
+	        title = new Label();
+	        title.setFont(Font.font("Verdana", 12));
+	        if(node.getTitle() != null) {
+	            title.setText(node.getTitle());
+	        }
+	        title.setAlignment(Pos.CENTER);
+	        
+	        StackPane.setMargin(delay, new Insets(rectangle.getHeight()/4 , 0.0, 0.0, 0.0));
+	        
+	        delay = new Label();
+	        delay.setFont(Font.font("Verdana", 12));
+	        if(node.getDelay()>0) {
+	        	delay.setText(String.valueOf(node.getDelay()));
+	        }
+	        delay.setAlignment(Pos.TOP_CENTER);
+	        
+	       StackPane.setMargin(title, new Insets( 0.0, 0.0,rectangle.getHeight()/4, 0.0));
+	        
+	        
+	    }
+	
 	
 	 private void initLooks(){
 		 StackPane.setAlignment(rectangle, javafx.geometry.Pos.CENTER);
@@ -96,6 +119,9 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	      
 	        rectangle.setStroke(javafx.scene.paint.Color.BLACK);
 	        rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+	        
+	        StackPane.setAlignment(title, Pos.CENTER);
+	        StackPane.setAlignment(delay, Pos.CENTER);
 	       
 	       
 	    }
@@ -103,14 +129,24 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	        setHeight(height);
 	       
 	        stackPane.setPrefHeight(height);
+	        rectangle.setHeight(height);
+			
+            
+	        StackPane.setMargin(delay, new Insets(rectangle.getHeight()/4 , 0.0, 0.0, 0.0));
 	        
+	      
+	        
+	       StackPane.setMargin(title, new Insets( 0.0, 0.0,rectangle.getHeight()/4, 0.0));
+	        
+	       StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	    }
 
 	    private void changeWidth(double width){
 	        setWidth(width);
 	       
-	        
+	        StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	        stackPane.setPrefWidth(width);
+	        rectangle.setWidth(width);
 	       
 	    }
 	    
@@ -167,7 +203,8 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	            changeHeight((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
-
+	        }else if (evt.getPropertyName().equals(Constants.changeLinkedSequenceDelay)) {
+	            delay.setText((String) evt.getNewValue());
 	        }
 	    }
 

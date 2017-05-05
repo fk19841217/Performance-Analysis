@@ -16,6 +16,7 @@ import model.nodes.NodeNode;
 import model.nodes.SequenceObject;
 import model.nodes.UsecaseNode;
 import model.nodes.PackageNode;
+import model.nodes.SequenceActivationBox;
 import view.nodes.AbstractNodeView;
 import view.nodes.PackageNodeView;
 
@@ -202,6 +203,17 @@ public class CreateNodeController {
         finish(mouseDragRectangle);
     }
     
+    public void onTouchReleasedActivationBox(TouchEvent event)
+    {
+        Rectangle dragRectangle = dragRectangles.get(event.getTouchPoint().getId());
+        diagramController.createNodeView(new SequenceActivationBox(dragRectangle.getX(), dragRectangle.getY(),
+                mouseDragRectangle.getWidth(),
+                mouseDragRectangle.getHeight()), false);
+        finish(dragRectangle);
+
+    }
+    
+    
     // remove rectangle's background boarder
     private void finish(Rectangle rectanlge){
         aDrawPane.getChildren().remove(rectanlge);
@@ -211,6 +223,15 @@ public class CreateNodeController {
         }catch (Exception e){
         	e.printStackTrace();
         }
+    }
+    
+    public void onMouseReleasedActivationBox(){
+        diagramController.createNodeView(new SequenceActivationBox(mouseDragRectangle.getX(), mouseDragRectangle.getY(),
+                mouseDragRectangle.getWidth(),
+                mouseDragRectangle.getHeight()), false);
+
+
+        finish(mouseDragRectangle);
     }
 
     /**

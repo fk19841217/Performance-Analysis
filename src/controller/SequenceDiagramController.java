@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import model.*;
 import model.edges.MessageEdge;
 import model.nodes.SequenceObject;
+import model.nodes.SequenceActivationBox;
 import org.controlsfx.control.Notifications;
 import util.commands.CompoundCommand;
 import util.commands.MoveGraphElementCommand;
@@ -18,6 +19,7 @@ import view.edges.MessageEdgeView;
 import view.nodes.AbstractNodeView;
 import view.nodes.SequenceObjectView;
 import view.nodes.PackageNodeView;
+import view.nodes.SequenceActivationBoxView;
 
 import java.awt.geom.Point2D;
 
@@ -48,7 +50,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
                     mode = Mode.CREATING;
                     edgeController.onMousePressedOnCanvas(event);
                 }
-                else if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE) && mouseCreationActivated) { //Start creation of package or class.
+                else if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.ADD_BOX) && mouseCreationActivated) { //Start creation of package or class.
                     mode = Mode.CREATING;
                     createNodeController.onMousePressed(event);
                 }
@@ -76,7 +78,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
                 selectController.onMouseDragged(event);
             } else if (tool == ToolEnum.DRAW && mode == Mode.DRAWING && mouseCreationActivated) { //Continue drawing.
                 sketchController.onTouchMoved(event);
-            } else if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE) && mode == Mode.CREATING && mouseCreationActivated) { //Continue creation of class or package.
+            } else if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.ADD_BOX) && mode == Mode.CREATING && mouseCreationActivated) { //Continue creation of class or package.
                 createNodeController.onMouseDragged(event);
             } else if (tool == ToolEnum.MOVE_SCENE && mode == Mode.MOVING) { //Continue panning of graph.
                 graphController.movePane(event);
@@ -109,6 +111,14 @@ public class SequenceDiagramController extends AbstractDiagramController {
                 if (!createNodeController.currentlyCreating()) {
                     mode = Mode.NO_MODE;
                 }
+
+            } else if (tool == ToolEnum.ADD_BOX && mode == Mode.CREATING && mouseCreationActivated) { //Finish creation of activationBox.
+                createNodeController.onMouseReleasedActivationBox();
+                if (!createNodeController.currentlyCreating()) {
+                    System.out.println("I'm here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    mode = Mode.NO_MODE;
+                }
+
             } else if (mode == Mode.MOVING && tool == ToolEnum.MOVE_SCENE) { //Finish panning of graph.
                 graphController.movePaneFinished();
                 mode = Mode.NO_MODE;
@@ -124,7 +134,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
         //There are specific events for touch when creating and drawing to utilize multitouch.
         // TODO edge creation multi-user support.
         drawPane.setOnTouchPressed(event -> {
-            if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE) && !mouseCreationActivated) {
+            if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.ADD_BOX) && !mouseCreationActivated) {
                 mode = Mode.CREATING;
                 createNodeController.onTouchPressed(event);
             } else if (tool == ToolEnum.DRAW && !mouseCreationActivated) {
@@ -134,7 +144,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
 
         drawPane.setOnTouchMoved(event -> {
-            if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE) && mode == Mode.CREATING && !mouseCreationActivated) {
+            if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.ADD_BOX) && mode == Mode.CREATING && !mouseCreationActivated) {
                 createNodeController.onTouchDragged(event);
             } else if (tool == ToolEnum.DRAW && mode == Mode.DRAWING && !mouseCreationActivated) {
                 sketchController.onTouchMoved(event);
@@ -145,6 +155,12 @@ public class SequenceDiagramController extends AbstractDiagramController {
         drawPane.setOnTouchReleased(event -> {
             if (tool == ToolEnum.CREATE_CLASS && mode == Mode.CREATING && !mouseCreationActivated) {
                 createNodeController.onTouchReleasedClass(event);
+                if (!createNodeController.currentlyCreating()) {
+                    mode = Mode.NO_MODE;
+                }
+
+            } else if (tool == ToolEnum.ADD_BOX && mode == Mode.CREATING && !mouseCreationActivated) {
+                createNodeController.onTouchReleasedActivationBox(event);
                 if (!createNodeController.currentlyCreating()) {
                     mode = Mode.NO_MODE;
                 }
@@ -180,10 +196,10 @@ public class SequenceDiagramController extends AbstractDiagramController {
             } else if (event.getButton() == MouseButton.SECONDARY) { //Open context menu on left click.
                 copyPasteController.copyPasteCoords = new double[]{nodeView.getX() + event.getX(), nodeView.getY() + event.getY()};
                 aContextMenu.show(nodeView, event.getScreenX(), event.getScreenY());
-            } else if (tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) { //Select node
+            } else if (tool == ToolEnum.SELECT || tool == ToolEnum.ADD_BOX) { //Select node
                 setTool(ToolEnum.SELECT);
                 setButtonClicked(selectBtn);
-                if (!(nodeView instanceof PackageNodeView)) {
+                if (!(nodeView instanceof SequenceObjectView)) {// changed for activationBox (goes in front)!
                     nodeView.toFront();
                 }
                 if (mode == Mode.NO_MODE) { //Either drag selected elements or resize node.
@@ -212,12 +228,12 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
 
         nodeView.setOnMouseDragged(event -> {
-            if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) && mode == Mode.DRAGGING) { //Continue dragging selected elements
+            if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.ADD_BOX) && mode == Mode.DRAGGING) { //Continue dragging selected elements
                 nodeController.moveNodes(event);
                 sketchController.moveSketches(event);
             } else if (mode == Mode.MOVING && tool == ToolEnum.MOVE_SCENE) { //Continue panning graph.
                 graphController.movePane(event);
-            } else if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) && mode == Mode.RESIZING) { //Continue resizing node.
+            } else if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.ADD_BOX) && mode == Mode.RESIZING) { //Continue resizing node.
                 nodeController.resize(event);
             } else if (tool == ToolEnum.EDGE && mode == Mode.CREATING) { //Continue creating edge.
                 edgeController.onMouseDragged(event);
@@ -227,7 +243,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
 
         nodeView.setOnMouseReleased(event -> {
-            if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) && mode == Mode.DRAGGING) { //Finish dragging nodes and create a compound command.
+            if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.ADD_BOX) && mode == Mode.DRAGGING) { //Finish dragging nodes and create a compound command.
                 double[] deltaTranslateVector = nodeController.moveNodesFinished(event);
                 sketchController.moveSketchFinished(event);
                 if(deltaTranslateVector[0] != 0 || deltaTranslateVector[1] != 0){ //If it was actually moved
@@ -248,7 +264,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
             } else if (mode == Mode.MOVING && tool == ToolEnum.MOVE_SCENE) { //Finish panning of graph.
                 graphController.movePaneFinished();
                 mode = Mode.NO_MODE;
-            } else if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS) && mode == Mode.RESIZING) { //Finish resizing node.
+            } else if ((tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.ADD_BOX) && mode == Mode.RESIZING) { //Finish resizing node.
                 nodeController.resizeFinished(nodeMap.get(nodeView));
             } else if (tool == ToolEnum.EDGE && mode == Mode.CREATING) { //Finish creation of edge.
                 edgeController.onMouseReleasedSequence();
@@ -258,7 +274,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
 
         ////////////////////////////////////////////////////////////////
-
+////Finish for touch part!!!
         nodeView.setOnTouchPressed(event -> {
             if (nodeView instanceof PackageNodeView && (tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE)) {
                 mode = Mode.CREATING;
@@ -340,6 +356,32 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
     }
 
+    public void initActivationBoxHandleActions(SequenceActivationBoxView newView){
+        Rectangle rectangleHandle = newView.getRectangleHandle();
+        rectangleHandle.setOnMousePressed(event -> {
+            if(tool == ToolEnum.SELECT){
+                mode = Mode.DRAGGING;
+                previousMoveY = event.getSceneY();
+            }
+        });
+
+        rectangleHandle.setOnMouseDragged(event -> {
+            double offsetY = (event.getSceneY() - previousMoveY)*(1/drawPane.getScaleY());
+            previousMoveX = event.getSceneX();
+            previousMoveY = event.getSceneY();
+            if(mode == Mode.DRAGGING){
+                SequenceActivationBox node = (SequenceActivationBox) newView.getRefNode();
+                node.setHeight(node.getHeight() + offsetY);
+            }
+        });
+
+        rectangleHandle.setOnMouseReleased(event -> {
+            mode = Mode.NO_MODE;
+            previousMoveX = 0;
+            previousMoveY = 0;
+        });
+    }
+
     public void initLifelineHandleActions(SequenceObjectView nodeView){
         Rectangle rectangleHandle = nodeView.getLifelineHandle();
         rectangleHandle.setOnMousePressed(event -> {
@@ -393,6 +435,10 @@ public class SequenceDiagramController extends AbstractDiagramController {
         createBtn.setGraphic(new ImageView(image));
         createBtn.setText("");
 
+        image = new Image("/icons/activationBox.png");
+        actBoxBtn.setGraphic(new ImageView(image));
+        actBoxBtn.setText("");
+
         image = new Image("/icons/message.png");
         edgeBtn.setGraphic(new ImageView(image));
         edgeBtn.setText("");
@@ -437,6 +483,11 @@ public class SequenceDiagramController extends AbstractDiagramController {
         createBtn.setOnAction(event -> {
             tool = ToolEnum.CREATE_CLASS;
             setButtonClicked(createBtn);
+        });
+
+        actBoxBtn.setOnAction(event -> {
+            tool = ToolEnum.ADD_BOX;
+            setButtonClicked(actBoxBtn);
         });
 
         edgeBtn.setOnAction(event -> {

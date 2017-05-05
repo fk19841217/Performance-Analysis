@@ -19,7 +19,9 @@ public class MessageEditDialogController {
     private Button cancelButton;
     @FXML
     private TextField titleTextField;
-
+    @FXML
+    private TextField networkTextField;
+    
     private AbstractEdge edge;
     private boolean okClicked = false;
 
@@ -50,6 +52,10 @@ public class MessageEditDialogController {
 
     public TextField getTitleTextField(){
         return titleTextField;
+    }
+    
+    public TextField getNetworkTextField(){
+        return networkTextField;
     }
 
     public void setEdge(MessageEdge edge) {

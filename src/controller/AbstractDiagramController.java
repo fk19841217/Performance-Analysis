@@ -106,7 +106,7 @@ public abstract class AbstractDiagramController {
     //Tool
     protected ToolEnum tool = ToolEnum.CREATE_CLASS;
     protected enum ToolEnum {
-        CREATE_CLASS, CREATE_ACTOR, CREATE_USECASE,CREATE_NODE, CREATE_DEPLOYMENT,CREATE_LINKEDDEPLOYMENT,CREATE_LINKEDSEQUENCE, SELECT, DRAW, CREATE_PACKAGE, EDGE, MOVE_SCENE
+        ADD_BOX,CREATE_CLASS, CREATE_ACTOR, CREATE_USECASE,CREATE_NODE, CREATE_DEPLOYMENT,CREATE_LINKEDDEPLOYMENT,CREATE_LINKEDSEQUENCE, SELECT, DRAW, CREATE_PACKAGE, EDGE, MOVE_SCENE
     }
 
     //Views
@@ -122,7 +122,7 @@ public abstract class AbstractDiagramController {
     @FXML CheckMenuItem mouseMenuItem;
 
     @FXML
-    protected Button createBtn, packageBtn,linkedsequenceBtn, linkeddeploymentBtn, actorBtn, deploymentBtn, nodeBtn, usecaseBtn, edgeBtn, selectBtn, drawBtn, undoBtn, redoBtn, moveBtn, deleteBtn, recognizeBtn, voiceBtn;
+    protected Button actBoxBtn,createBtn, packageBtn,linkedsequenceBtn, linkeddeploymentBtn, actorBtn, deploymentBtn, nodeBtn, usecaseBtn, edgeBtn, selectBtn, drawBtn, undoBtn, redoBtn, moveBtn, deleteBtn, recognizeBtn, voiceBtn;
 
     ContextMenu aContextMenu;
     private AbstractDiagramController instance = this;

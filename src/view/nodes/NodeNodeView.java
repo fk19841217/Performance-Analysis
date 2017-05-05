@@ -16,13 +16,14 @@ import util.Constants;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class NodeNodeView extends AbstractNodeView implements NodeView {
 	
     private StackPane stackPane;
 	
-	private  Rectangle rectangle;
+	private  Rectangle rectangle,rectangle1,rectangle2;
 	 private Text title;
 	
 	public NodeNodeView(NodeNode node) {
@@ -32,6 +33,8 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 		
 		stackPane = new StackPane();
 		rectangle = new Rectangle();
+		rectangle1 = new Rectangle();
+		rectangle2 = new Rectangle();
 		
 		title = new Text(node.getTitle());
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -49,7 +52,7 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 	            title.setText(node.getTitle());
 	        }
         
-    stackPane.getChildren().addAll(rectangle,title);
+    stackPane.getChildren().addAll(rectangle,rectangle1,rectangle2,title);
         
         this.getChildren().add(stackPane);
         this.setTranslateX(node.getTranslateX());
@@ -60,35 +63,67 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 		NodeNode node = (NodeNode) getRefNode();
 		rectangle = new Rectangle();
 		rectangle.setHeight(node.getHeight());
-		rectangle.setWidth(node.getWidth());
-	        //StackPane.setAlignment(body, Pos.BOTTOM_LEFT);
-	    //    top.setX(getRefNode().getX());
-	     //   top.setY(getRefNode().getY());
-	      //  top.setFill(Color.LIGHTSKYBLUE);
-	       // top.setStroke(Color.BLACK);
-	       
-		rectangle.setX(getRefNode().getX());
+		rectangle.setWidth(node.getWidth()-15);
+	   
+		rectangle.setX(getRefNode().getX()+15);
 		rectangle.setY(getRefNode().getY());
+		
+		 StackPane.setAlignment(rectangle1, javafx.geometry.Pos.CENTER_LEFT);
+	        StackPane.setAlignment(rectangle1, Pos.CENTER_LEFT);
+		rectangle1.setHeight(15);
+		rectangle1.setWidth(30);
+	     
+		//rectangle1.setX(getRefNode().getX());
+		//rectangle1.setY(getRefNode().getY()+node.getHeight()/3);
+		
+		StackPane.setMargin(rectangle1, new Insets(node.getHeight()/4, 0.0, 0.0, 0.0));
+		
+		 StackPane.setAlignment(rectangle2, javafx.geometry.Pos.CENTER_LEFT);
+	    StackPane.setAlignment(rectangle2, Pos.CENTER_LEFT);
+		rectangle2.setHeight(15);
+		rectangle2.setWidth(30);
+	     
+		//rectangle1.setX(getRefNode().getX());
+		//rectangle1.setY(getRefNode().getY()+node.getHeight()/3);
+		
+		StackPane.setMargin(rectangle2, new Insets(0.0, 0.0, node.getHeight()/4, 0.0));
     	
     }
 	
 	
 	 private void initLooks(){
-		 StackPane.setAlignment(rectangle, javafx.geometry.Pos.CENTER);
-	        StackPane.setAlignment(rectangle, Pos.CENTER);
+		 StackPane.setAlignment(rectangle, javafx.geometry.Pos.CENTER_RIGHT);
+	        StackPane.setAlignment(rectangle, Pos.CENTER_RIGHT);
+	        
+	       
 	        
 	        rectangle.setFill(javafx.scene.paint.Color.DODGERBLUE);
 	      
 	        rectangle.setStroke(javafx.scene.paint.Color.BLACK);
 	        rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+	        
+	        rectangle1.setFill(javafx.scene.paint.Color.DODGERBLUE);
+		      
+	        rectangle1.setStroke(javafx.scene.paint.Color.BLACK);
+	        rectangle1.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
 	       
+	        
+	        rectangle2.setFill(javafx.scene.paint.Color.DODGERBLUE);
+		      
+	        rectangle2.setStroke(javafx.scene.paint.Color.BLACK);
+	        rectangle2.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
 	       
 	    }
 	 private void changeHeight(double height){
+		 NodeNode node = (NodeNode) getRefNode();
 	        setHeight(height);
 	       
 	        stackPane.setPrefHeight(height);
 	        rectangle.setHeight(height);
+	        
+	        StackPane.setMargin(rectangle1, new Insets(node.getHeight()/4, 0.0, 0.0, 0.0));
+	        
+	        StackPane.setMargin(rectangle2, new Insets(0.0, 0.0, node.getHeight()/4, 0.0));
 	        
 	    }
 
@@ -97,7 +132,7 @@ public class NodeNodeView extends AbstractNodeView implements NodeView {
 	       
 	        
 	        stackPane.setPrefWidth(width);
-	        rectangle.setWidth(width);
+	        rectangle.setWidth(width-15);
 	       
 	    }
 	    

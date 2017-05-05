@@ -300,6 +300,7 @@ public class EdgeController {
             ChoiceBox directionBox = controller.getDirectionBox();
             ChoiceBox typeBox = controller.getTypeBox();
             TextField titleTextField = controller.getTitleTextField();
+            TextField netTextField = controller.getNetworkTextField(); 
             controller.getOkButton().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -312,6 +313,10 @@ public class EdgeController {
                     if(titleTextField.getText() != null){
                         edge.setTitle(titleTextField.getText());
                     }
+                    if(netTextField.getText() != null){
+                        edge.setNetwork(Integer.valueOf(netTextField.getText())); 
+                    }
+                    
                     aDrawPane.getChildren().remove(dialog);
                     diagramController.removeDialog(dialog);
                 }

@@ -35,6 +35,10 @@ public class Constants {
     public static String changeClassNodeOperations = "ClassNodeOperations";
     public static String changeNodeIsChild = "ClassNodeIsChild";
     public static String changeLifelineLength = "LifelineLength";
+    public static String changeUsecaseFrequence = "Frequence";
+    public static String changeLinkedSequenceDelay = "Delay";
+    public static String changeSequenceInputport = "Inputport";
+    public static String changeSequenceOutputport = "Outputport";
 
     public static String changeEdgeDirection = "EdgeDirection";
     public static String changeEdgeStartNode = "EdgeStartNode";
@@ -46,6 +50,7 @@ public class Constants {
     public static String changeMessageStartY = "MessageStartY";
     public static String changeMessageTitle = "MessageTitle";
     public static String changeMessageType = "MessageType";
+    public static String changeMessageNetwork = "MessageNetwork";
 
     public static String changeSketchStart = "SketchStart";
     public static String changeSketchPoint = "SketchPoint";
