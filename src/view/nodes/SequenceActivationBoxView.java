@@ -16,7 +16,7 @@ import model.nodes.SequenceActivationBox;
 import model.nodes.SequenceObject;
 import util.Constants;
 import view.edges.AbstractEdgeView.Position;
-
+import controller.NodeController;
 public class SequenceActivationBoxView extends AbstractNodeView implements NodeView{
 
 
@@ -112,8 +112,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 
     private void createRectangleHandle(){
         rectangleHandle = new Rectangle();
-        rectangleHandle.setWidth(30);
-        rectangleHandle.setHeight(100);
+        rectangleHandle.setWidth(0);
+        rectangleHandle.setHeight(0);
 //	        rectangleHandle.xProperty().bind(diagram.().divide(2));
 //	        rectangleHandle.yProperty().bind(lifeline.endYProperty().subtract(rectangleHandle.heightProperty().divide(2)));
         this.getChildren().add(rectangleHandle);
@@ -184,7 +184,6 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //	        }
 //	        return false;
 //	    }
-
 
     protected void setPosition() {
         //If end node is to the right of startNode:
