@@ -1,6 +1,7 @@
 package view.nodes;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -31,6 +32,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	 private Text title1;
 	 private Label title;
 	 private Label delay;
+	 private Image icon ;
 	 
 	public LinkedSequenceNodeView(LinkedSequenceNode node) {
 		super(node);
@@ -41,6 +43,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		rectangle = new Rectangle();
 		title=new Label();
 		delay=new Label();
+		icon = new Image("/icons/linkedsequence.png");
 		
         
         title1 = new Text(node.getTitle());
@@ -48,6 +51,8 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
         //TODO Ugly solution, hardcoded value.
         title1.setWrappingWidth(node.getWidth() - 7);
         title1.setText("Sequence");
+        
+        
         
         initTitle();
 		createRectangle();
@@ -64,6 +69,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		        }
         
        stackPane.getChildren().addAll(rectangle,title,title1,delay);
+      
         
         this.getChildren().add(stackPane);
         this.setTranslateX(node.getTranslateX());

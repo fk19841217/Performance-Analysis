@@ -122,11 +122,11 @@ public class TabController {
         FXMLLoader loader;
         
 
-        if(!stabMap.containsKey(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle())){
+        //if(!stabMap.containsKey(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle())){
         //if(diagramController.selectedNodes.size()==1 && diagramController.selectedNodes.get(0) instanceof LinkedSequenceNodeView )
         if(pc instanceof PerformanceController && pc.selectedNodes.size()==1 && pc.selectedNodes.get(0) instanceof LinkedSequenceNodeView)
         {
-        	
+        	if(!stabMap.containsKey(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle())){
         	try {
                 loader = new FXMLLoader(getClass().getClassLoader().getResource(SEQUENCE_DIAGRAM_VIEW_PATH));
                 canvasView = loader.load();
@@ -144,10 +144,17 @@ public class TabController {
             diagramController.setStage(stage);
             diagramController.settabname(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
         	}
+        	else
+            	{
+            		 tabPane.getTabs().add(stabMap.get(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle()));
+            		 diagramController.setStage(stage); 
+            	}
+        	
+        	}
         	
         else if(pc instanceof PerformanceController && pc.selectedNodes.size()==1 &&  pc.selectedNodes.get(0) instanceof LinkedDeploymentNodeView)
         {
-        	
+        	if(!stabMap.containsKey(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle())){
         	try {
                 loader = new FXMLLoader(getClass().getClassLoader().getResource(DEPLOYMENT_VIEW_PATH));
                 canvasView = loader.load();
@@ -168,21 +175,28 @@ public class TabController {
            diagramController.settabname(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle());
            //pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle();
         	}
+        	else
+        	{
+        		 tabPane.getTabs().add(stabMap.get(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle()));
+        		 diagramController.setStage(stage); 
+        	}
+        }
+        
         	
         	
         }  
        
         
-        else
-    	{
-    		 tabPane.getTabs().add(stabMap.get(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle()));
-    		 diagramController.setStage(stage); 
-    	}
+       // else
+    	//{
+    	//	 tabPane.getTabs().add(stabMap.get(pc.nodeMap.get(pc.selectedNodes.get(0)).getTitle()));
+    	//	 diagramController.setStage(stage); 
+    	//}
         //System.out.println(pc.selectedNodes.size());        
        
         
         
-    }
+    //}
 
     public void handleMenuActionUML() {
         tabMap.get(tabPane.getSelectionModel().getSelectedItem()).handleMenuActionUML();

@@ -426,7 +426,7 @@ public class PerformanceController extends AbstractDiagramController {
     //------------ Init Buttons -------------------------------------------
     private void initToolBarActions() {
 
-        Image image = new Image("/icons/seqObject.png");
+        Image image = new Image("/icons/linkedsequence.png");
         createBtn.setGraphic(new ImageView(image));
         createBtn.setText("");
         
@@ -438,7 +438,7 @@ public class PerformanceController extends AbstractDiagramController {
         usecaseBtn.setGraphic(new ImageView(image));
         usecaseBtn.setText("");
         
-        image = new Image("/icons/Node.png");
+        image = new Image("/icons/linkeddeployment.png");
         nodeBtn.setGraphic(new ImageView(image));
         nodeBtn.setText("");
 

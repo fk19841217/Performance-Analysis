@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -25,7 +26,8 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 	private  Ellipse ellipse;
 	 private Label title;
 	 private Label frequen;
-	
+	 private Line shortHandleLine ;
+	 private Line  longHandleLine ;
 	
 	/*public UsecaseNodeView(UsecaseNode node) {
 		super(node);
@@ -73,6 +75,7 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 		
 		initTitle();
 		createEllipse();
+		createHandles();
 		//setLayout();
 		//stackPane.setLayoutX(node.getX());
        // stackPane.setLayoutY(node.getY());
@@ -101,7 +104,7 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
        this.setTranslateX(node.getTranslateX());
        this.setTranslateY(node.getTranslateY());
 		
-		
+       createHandles();
 	}
 	
 	private void createEllipse(){
@@ -110,6 +113,23 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
          ellipse.setRadiusY(node.getHeight()/2);
     	
     }
+	
+	 private void createHandles(){
+	     
+	        shortHandleLine = new Line();
+	        longHandleLine = new Line();
+
+	        shortHandleLine.startXProperty().bind(stackPane.prefWidthProperty().subtract(7));
+	        shortHandleLine.startYProperty().bind(stackPane.prefHeightProperty().subtract(3));
+	        shortHandleLine.endXProperty().bind(stackPane.prefWidthProperty().subtract(3));
+	        shortHandleLine.endYProperty().bind(stackPane.prefHeightProperty().subtract(7));
+	        longHandleLine.startXProperty().bind(stackPane.prefWidthProperty().subtract(15));
+	        longHandleLine.startYProperty().bind(stackPane.prefHeightProperty().subtract(3));
+	        longHandleLine.endXProperty().bind(stackPane.prefWidthProperty().subtract(3));
+	        longHandleLine.endYProperty().bind(stackPane.prefHeightProperty().subtract(15));
+
+	        this.getChildren().addAll(shortHandleLine, longHandleLine);
+	    }
 	
 	 private void initLooks(){
 		    StackPane.setAlignment(ellipse, javafx.geometry.Pos.CENTER);
