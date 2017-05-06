@@ -41,9 +41,9 @@
     <VBox>
       <ToolBar fx:id="aToolBar" orientation="HORIZONTAL">
         <HBox fx:id="umlBox">
-          <Button fx:id="createBtn" text="Create" />
           <Button fx:id="actorBtn" text="Actor" />
           <Button fx:id="usecaseBtn" text="Usecase" />
+          <Button fx:id="createBtn" text="Create" />
           <Button fx:id="nodeBtn" text="Node" />
           <Button fx:id="edgeBtn" text="Edge" />
           <Button fx:id="drawBtn" text="Draw" />

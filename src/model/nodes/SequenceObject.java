@@ -63,6 +63,7 @@ public class SequenceObject extends AbstractNode {
         if (!activationBoxes.contains(childNode)) {
             childNode.setIsChild(true);
             this.activationBoxes.add(childNode);
+           // childNode.setX(this.x+this.width/2-childNode.width/2);
         }
     }
 

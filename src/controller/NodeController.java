@@ -19,6 +19,7 @@ import model.nodes.DeploymentNode;
 import model.nodes.LinkedSequenceNode;
 import model.nodes.NodeNode;
 import model.nodes.PackageNode;
+import model.nodes.SequenceActivationBox;
 import model.nodes.SequenceObject;
 import model.nodes.UsecaseNode;
 import util.Constants;
@@ -157,6 +158,15 @@ public class NodeController {
                         }
                     }
                 }
+                else if (n instanceof SequenceObject) {
+                    for (SequenceActivationBox child : ((SequenceObject) n).getChildNodes()) {
+                        if (!selectedNodes.contains(child)) {
+                            initTranslate = new Point2D.Double(child.getTranslateX(), child.getTranslateY());
+                            initTranslateMap.put(child, initTranslate);
+                            toBeMoved.add(child);
+                        }
+                    }
+                }
                 else if(n instanceof DeploymentNode) {
                     for (AbstractNode child : ((DeploymentNode) n).getChildNodes()) {
                         if (!selectedNodes.contains(child)) {
@@ -225,9 +235,13 @@ public class NodeController {
             if(n instanceof PackageNodeView){
                 checkChildren((PackageNodeView)n);
             }
+            else if (n instanceof SequenceObjectView){
+            	                checkChildren((SequenceObjectView) n);
+            	            }
             else if(n instanceof DeploymentNodeView){
                 checkChildren((DeploymentNodeView)n);
             }
+            
             putNodeInPackage(n);
             putNodeInDeployment(n);
         }
@@ -269,6 +283,28 @@ public class NodeController {
                 } else {
                     //Remove child if it is moved out of the package
                     ((PackageNode)nodeMap.get(potentialParent)).getChildNodes().remove(nodeMap.get(potentialChild));
+
+                }
+            }
+        }
+        return childMovedInside;
+    }
+    
+    private boolean putNodeInSequence(AbstractNodeView potentialChild){
+        boolean childMovedInside = false;
+        Map<AbstractNodeView, AbstractNode> nodeMap = diagramController.getNodeMap();
+        for(AbstractNodeView potentialParent : diagramController.getAllNodeViews()){
+            if(potentialParent instanceof SequenceObjectView && potentialParent != potentialChild)
+            {
+                if(potentialParent.getBoundsInParent().contains(potentialChild.getBoundsInParent()))
+                {
+                    if(!((SequenceObject)nodeMap.get(potentialParent)).getChildNodes().contains(nodeMap.get(potentialChild))){
+                        ((SequenceObject)nodeMap.get(potentialParent)).addChild((SequenceActivationBox) nodeMap.get(potentialChild));
+                    }
+                    childMovedInside = true;
+                } else {
+                    //Remove child if it is moved out of the package
+                    ((SequenceObject)nodeMap.get(potentialParent)).getChildNodes().remove(nodeMap.get(potentialChild));
 
                 }
             }
@@ -334,6 +370,22 @@ public class NodeController {
             }
         }
     }
+    
+    private void checkChildren(SequenceObjectView sequenceNodeView){
+    	        Map<AbstractNodeView, AbstractNode> nodeMap = diagramController.getNodeMap();
+    	         SequenceObject sequenceObjectModel = (SequenceObject) nodeMap.get(sequenceNodeView);
+    	         AbstractNode potentialChildModel;
+    	         for (AbstractNodeView potentialChild : diagramController.getAllNodeViews()){
+    	             potentialChildModel = nodeMap.get(potentialChild);
+    	             if(sequenceNodeView != potentialChild && sequenceNodeView.getBoundsInParent().contains(potentialChild.getBoundsInParent())){
+    	                if(!sequenceObjectModel.getChildNodes().contains(potentialChildModel)){
+    	                    sequenceObjectModel.addChild((SequenceActivationBox) potentialChildModel);
+    	                 }
+    	            } else {
+    	                sequenceObjectModel.getChildNodes().remove(potentialChildModel);
+    	             }
+    	         }
+    	     }
 
     /**
      * Initializes snap inidicators for AbstractNode.

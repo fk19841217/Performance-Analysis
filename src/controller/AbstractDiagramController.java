@@ -682,7 +682,10 @@ public abstract class AbstractDiagramController {
             newView = new LinkedDeploymentNodeView((LinkedDeploymentNode) node);
         } else if (node instanceof LinkedSequenceNode) {
             newView = new LinkedSequenceNodeView((LinkedSequenceNode) node);
-        } 
+        } else if (node instanceof SequenceActivationBox) {
+            newView = new SequenceActivationBoxView((SequenceActivationBox) node);
+            ((SequenceDiagramController)this).initActivationBoxHandleActions((SequenceActivationBoxView)newView);
+         }
      
         else{
         	newView = new SequenceObjectView((SequenceObject) node);
@@ -691,6 +694,7 @@ public abstract class AbstractDiagramController {
         	else
             ((PerformanceController)this).initLifelineHandleActions((SequenceObjectView)newView);
         }
+        
         
 
         if(!graph.getAllNodes().contains(node)){

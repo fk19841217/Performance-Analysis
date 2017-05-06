@@ -138,19 +138,17 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         StackPane.setAlignment(title, Pos.CENTER);
     }
 
+   
+    
     public void setSelected(boolean selected){
         if(selected){
-            rectangle.setStrokeWidth(2);
             setStroke(Constants.selected_color);
-//	            lifeline.setStroke(Constants.selected_color);
-            rectangleHandle.setFill(Constants.selected_color);
+            setStrokeWidth(2);
         } else {
-            rectangle.setStrokeWidth(1);
             setStroke(Color.BLACK);
-//	            lifeline.setStroke(Color.BLACK);
-            rectangleHandle.setFill(Color.BLACK);
+            setStrokeWidth(1);
         }
-        rectangleHandle.setVisible(selected);
+        
     }
 
     public void setStrokeWidth(double scale){
