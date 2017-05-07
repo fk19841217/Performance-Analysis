@@ -92,6 +92,7 @@ public abstract class AbstractDiagramController {
 
     ArrayList<ServerController> serverControllers = new ArrayList<>();
     ArrayList<ClientController> clientControllers = new ArrayList<>();
+    
 
     boolean selected = false; //A node is currently selected
 

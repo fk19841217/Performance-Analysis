@@ -6,6 +6,7 @@ public class LinkedDeploymentNode extends AbstractNode {
 	
 	public static final String TYPE = "NODE";
 	
+
 	
 	 public  LinkedDeploymentNode(double x, double y, double width, double height)
 	    {
@@ -14,37 +15,6 @@ public class LinkedDeploymentNode extends AbstractNode {
 	        this.width = width < CLASS_MIN_WIDTH ? CLASS_MIN_WIDTH : width;
 	        this.height = height < CLASS_MIN_HEIGHT ? CLASS_MIN_HEIGHT : height;
 	    }
-
-       /*
-	  public void setAttributes(String pAttributes){
-	        attributes = pAttributes;
-	        changes.firePropertyChange(Constants.changeClassNodeAttributes, null, attributes);
-	        remoteChanges.firePropertyChange(Constants.changeClassNodeAttributes, null, attributes);
-	    }
-
-	    public void setOperations(String pOperations){
-	        operations = pOperations;
-	        changes.firePropertyChange(Constants.changeClassNodeOperations, null, operations);
-	        remoteChanges.firePropertyChange(Constants.changeClassNodeOperations, null, operations);
-	    }
-
-	    public void remoteSetAttributes(String pAttributes){
-	        attributes = pAttributes;
-	        changes.firePropertyChange(Constants.changeClassNodeAttributes, null, attributes);
-	    }
-
-	    public void remoteSetOperations(String pOperations){
-	        operations = pOperations;
-	        changes.firePropertyChange(Constants.changeClassNodeOperations, null, operations);
-	    }
-
-	    public String getAttributes(){
-	        return attributes;
-	    }
-
-	    public String getOperations(){
-	        return operations;
-	    }*/
 
 	    @Override
 	    public ClassNode copy(){

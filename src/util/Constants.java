@@ -40,6 +40,15 @@ public class Constants {
     public static String changeSequenceInputport = "Inputport";
     public static String changeSequenceOutputport = "Outputport";
     public static String changeSequenceCycles = "cycles";
+    public static String changeLinkedDepoloymentClock ="Clock";
+    public static String changeLinkedDepoloymentLowstatusCost ="LowstatusCost";
+    public static String changeLinkedDepoloymentHighstatusCost ="HighstatusCost";
+    public static String changeLinkedDepoloymentinternalBusBandwidth ="internalBusBandwidth";
+    public static String changeLinkedDepoloymentinternalBusdelay ="internalBusdelay";
+    public static String changeLinkedDepoloymentlowstatus_lowfail ="lowstatus_lowfail";
+    public static String changeLinkedDepoloymentlowstatus_highfail ="lowstatus_highfail";
+    public static String changeLinkedDepoloymenthighstatus_lowfail ="highstatus_lowfail";
+    public static String changeLinkedDepoloymenthighstatus_highfail ="highstatus_highfail";
 
     public static String changeEdgeDirection = "EdgeDirection";
     public static String changeEdgeStartNode = "EdgeStartNode";

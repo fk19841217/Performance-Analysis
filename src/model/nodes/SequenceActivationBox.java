@@ -12,6 +12,7 @@ public class SequenceActivationBox extends AbstractNode{
     private String inputport;
     private String outputport;
     private int cycles;
+    private SequenceObject se;
 
 
     public SequenceActivationBox(double x, double y, double width, double height){
@@ -23,6 +24,14 @@ public class SequenceActivationBox extends AbstractNode{
         this.height = height<LIFEBOX_MIN_HEIGHT?LIFEBOX_MIN_HEIGHT:height;
         this.width = LIFEBOX_DEFAULT_WIDTH;
 
+    }
+    
+    public void setSequenceObject(SequenceObject pse){
+    	this.se=pse;
+    }
+    
+    public SequenceObject getSequenceObject(){
+    	return se;
     }
 
 //    public SequenceActivationBox(SequenceObject diagram){

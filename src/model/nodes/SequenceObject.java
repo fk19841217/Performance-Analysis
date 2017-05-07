@@ -13,6 +13,7 @@ public class SequenceObject extends AbstractNode {
     public static final String TYPE = "LIFELINE";
     public final double LIFELINE_DEFAULT_LENGTH = 500;
     private ArrayList<SequenceActivationBox> activationBoxes = new ArrayList<>();
+    private boolean isService;
 
     private double lifelineLength = LIFELINE_DEFAULT_LENGTH;
 
@@ -63,9 +64,20 @@ public class SequenceObject extends AbstractNode {
         if (!activationBoxes.contains(childNode)) {
             childNode.setIsChild(true);
             this.activationBoxes.add(childNode);
-           
+            childNode.setSequenceObject(this);
         }
     }
+    
+    public boolean checkIsService(SequenceActivationBox childNode){
+    	if(childNode.getSequenceObject()==this)
+    		return true;
+    	else
+    		return false;
+    }
+    
+   public void setService(ArrayList<SequenceActivationBox> a){
+	   this.activationBoxes=a;
+   }
 
 
 

@@ -1,5 +1,6 @@
 package util.persistence;
 
+import javafx.scene.control.Tab;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -9,10 +10,16 @@ import model.edges.*;
 import model.nodes.AbstractNode;
 import model.nodes.ClassNode;
 import model.nodes.PackageNode;
+import model.nodes.SequenceActivationBox;
+import model.nodes.SequenceObject;
+import view.edges.AbstractEdgeView;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import controller.TabController;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +30,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,12 +39,12 @@ import java.util.Map;
  */
 public class AqosamodelManager {
 
-    public static void exportAqosa(Graph pGraph, String path){
+    public static void exportAqosa(TabController tc, String path){
         try{
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
 
-            DOMSource source = new DOMSource(createAqosa(pGraph));
+            DOMSource source = new DOMSource(createAqosa(tc));
 
             StreamResult result = new StreamResult(new File(path));
             transformer.transform(source, result);
@@ -46,7 +54,7 @@ public class AqosamodelManager {
 
     }
 
-    public static Document createAqosa(Graph pGraph){
+    public static Document createAqosa(TabController tc){
         DocumentBuilder docBuilder = null;
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -57,194 +65,98 @@ public class AqosamodelManager {
 
         Document doc = docBuilder.newDocument();
 
-        Element rootElement = doc.createElement("XMI");
-        rootElement.setAttribute("xmi.version", "1.1");
-        rootElement.setAttribute("xmlns:UML", "org.omg/UML/1.3");
+        Element rootElement = doc.createElement("aqosa.ir:AQOSAModel");
+        rootElement.setAttribute("xmi.version", "2.0");
+        rootElement.setAttribute("xmlns:xmi", "http://www.omg.org/XMI");
+        rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        rootElement.setAttribute("xmlns:aqosa.ir", "http://se.liacs.nl/aqosa/ir");
         doc.appendChild(rootElement);
 
-        Element xmiHeader = doc.createElement("XMI.header");
-        rootElement.appendChild(xmiHeader);
-        Element xmiDocumentation = doc.createElement("XMI.documenation");
-        xmiHeader.appendChild(xmiDocumentation);
-
-        xmiDocumentation.appendChild(doc.createElement("XMI.owner"));
-        xmiDocumentation.appendChild(doc.createElement("XMI.contact"));
-        Element xmiExporter = doc.createElement("XMI.exporter");
-        xmiExporter.appendChild(doc.createTextNode("PenguinUML"));
-        xmiDocumentation.appendChild(xmiExporter);
-        Element xmiExporterVersion = doc.createElement("XMI.exporterVersion");
-        xmiExporterVersion.appendChild(doc.createTextNode("1.0"));
-        xmiDocumentation.appendChild(xmiExporterVersion);
-        xmiDocumentation.appendChild(doc.createElement("XMI.notice"));
-
-        Element xmiMetaModel = doc.createElement("XMI.metamodel");
-        xmiMetaModel.setAttribute("xmi.version", "1.3");
-        xmiMetaModel.setAttribute("xmi.name", "UML");
-        xmiHeader.appendChild(xmiMetaModel);
-
-        Element xmiContent = doc.createElement("XMI.content");
-        rootElement.appendChild(xmiContent);
-
-        Element umlModel = doc.createElement("UML:Model");
-        xmiContent.appendChild(umlModel);
-        umlModel.setAttribute("isAbstract", "false");
-        umlModel.setAttribute("isLeaf", "false");
-        umlModel.setAttribute("isRoot", "false");
-        umlModel.setAttribute("namespace", "UMLModel.2");
-        umlModel.setAttribute("isSpecification", "false");
-        umlModel.setAttribute("visibility", "public");
-        umlModel.setAttribute("name", pGraph.getName());
-        umlModel.setAttribute("xmi.id", pGraph.getId());
-        Element umlNamespace = doc.createElement("UML:Namespace.ownedElement");
-        umlModel.appendChild(umlNamespace);
-
-        Element umlDiagram = doc.createElement("UML:Diagram");
-        xmiContent.appendChild(umlDiagram);
-        umlDiagram.setAttribute("name", "UMLExport");
-        umlDiagram.setAttribute("xmi.id", "UMLDIAGRAMID");
-        umlDiagram.setAttribute("owner", pGraph.getId()); //xmi.id in umlModel
-        umlDiagram.setAttribute("toolName", "PenguinUML");
-        umlDiagram.setAttribute("diagramType", "ClassDiagram");
-        Element umlDiagramElement = doc.createElement("UML:Diagram.element");
-        umlDiagram.appendChild(umlDiagramElement);
-
-
-        for(AbstractNode node : pGraph.getAllNodes()){
-            if(node instanceof ClassNode && !node.isChild()){
-                addClassNode(doc, (ClassNode)node, umlNamespace, pGraph, false);
-            } else if (node instanceof PackageNode){
-                Element umlPackage = doc.createElement("UML:Package");
-                umlPackage.setAttribute("isAbstract", "false");
-                umlPackage.setAttribute("isLeaf", "false");
-                umlPackage.setAttribute("isRoot", "false");
-                umlPackage.setAttribute("name", node.getTitle());
-                umlPackage.setAttribute("xmi.id", node.getId());
-                Element packageOwnedElement = doc.createElement("UML:Namespace.ownedElement");
-                umlPackage.appendChild(packageOwnedElement);
-                for(AbstractNode childNode : ((PackageNode)node).getChildNodes()){
-                    addClassNode(doc, (ClassNode)childNode, packageOwnedElement, pGraph, true); //TODO Package nodes in package nodes
-                }
-                umlNamespace.appendChild(umlPackage);
-            }
-
-            Element umlElement = doc.createElement("UML:DiagramElement");
-            umlElement.setAttribute("xmi.id", "NODEVIEWID");
-            umlElement.setAttribute("subject", node.getId());
-            umlElement.setAttribute("geometry", node.getTranslateX() + "," + node.getTranslateY() + "," +
-                    (node.getTranslateX()+node.getWidth()) + "," + (node.getTranslateY()+node.getHeight()));
-            umlElement.setAttribute("style", "LineColor.Red=128,LineColor.Green=0,LineColor.Blue=0,FillColor.Red=255,FillColor.Green=255,FillColor.Blue=185,Font.Red=0,Font.Green=0,Font.Blue=0,Font.FaceName=Tahoma,Font.Size=8,Font.Bold=0,Font.Italic=0,Font.Underline=0,Font.Strikethrough=0,AutomaticResize=0,ShowAllAttributes=1,SuppressAttributes=0,ShowAllOperations=1,SuppressOperations=0,ShowOperationSignature=1,");
-            umlDiagramElement.appendChild(umlElement);
+        Element xmiassembly = doc.createElement("assembly");
+        
+        
+        
+        
+        ArrayList<String> clist=tc.getComponentnamelist();
+        Map<String,SequenceObject> cMap=tc.getComponentMap();
+        
+        
+        for(int i=0;i<clist.size();i++){
+        	
+        	Element xmicomponent = doc.createElement("component");
+        	xmicomponent.setAttribute("name", clist.get(i));
+        	
+        	ArrayList<SequenceActivationBox> boxlist= cMap.get(clist.get(i)).getChildNodes();
+        	
+        	for(int j=0;j<boxlist.size();j++){
+        		Element xmiservice=doc.createElement("service");
+        		xmiservice.setAttribute("name", boxlist.get(j).getTitle());
+        		xmicomponent.appendChild(xmiservice);
+        	}
+        	
+        	for(int j=0;j<boxlist.size();j++){
+        		Element xmiinport=doc.createElement("inport");
+        		xmiinport.setAttribute("name", boxlist.get(j).getInputport());
+        		xmicomponent.appendChild(xmiinport);
+        	}
+        	
+        	for(int j=0;j<boxlist.size();j++){
+        		Element xmioutport=doc.createElement("outport");
+        		xmioutport.setAttribute("name", boxlist.get(j).getOutputport());
+        		xmicomponent.appendChild(xmioutport);
+        	}
+        	
+        	xmiassembly.appendChild(xmicomponent);
         }
-
-
-
-        for(Edge edge : pGraph.getAllEdges()){
-            Element umlAssociation = doc.createElement("UML:Association");
-            umlAssociation.setAttribute("namespace", pGraph.getId());
-            umlAssociation.setAttribute("name", "");  //TODO label for edges
-            umlAssociation.setAttribute("xmi.id", edge.getId());
-            umlAssociation.setAttribute("relation", edge.getType());
-            umlAssociation.setAttribute("direction", ((AbstractEdge) edge).getDirection().toString());
-
-
-            Element associationConnection = doc.createElement("UML:Association.connection");
-            umlAssociation.appendChild(associationConnection);
-
-            addAssociatonEnd(edge.getStartNode().getId(), associationConnection, doc, "true");
-            addAssociatonEnd(edge.getEndNode().getId(), associationConnection, doc, "false");
-
-            umlNamespace.appendChild(umlAssociation);
-
-
-            Element umlElementAssociation = doc.createElement("UML:DiagramElement");
-            umlDiagramElement.appendChild(umlElementAssociation);
-            umlElementAssociation.setAttribute("xmi.id", "ID");
-            umlElementAssociation.setAttribute("subject", edge.getId());
-            umlElementAssociation.setAttribute("style", "Association:LineColor.Red=128,LineColor.Green=0,LineColor.Blue=0,Font.Red=0,Font.Green=0,Font.Blue=0,Font.FaceName=Tahoma,Font.Size=8,Font.Bold=0,Font.Italic=0,Font.Underline=0,Font.Strikethrough=0,");
+        
+        
+        Map<String,ArrayList<AbstractEdgeView>> amessageMap =tc.getMessageMap();
+        ArrayList<String> asequencetablist = tc.getSequencetablist();
+        
+        Map<String,Tab> astabMap =tc.getStabMap();
+        //ArrayList<SequenceActivationBox> boxlist= cMap.get(clist.get(i)).getChildNodes();
+        
+        
+        for(int i=0;i<asequencetablist.size();i++){
+        	
+        	Element xmiflow = doc.createElement("flow");
+        	xmiflow.setAttribute("name",asequencetablist.get(i));
+        	
+        	ArrayList<AbstractEdgeView> edgelist = amessageMap.get(asequencetablist.get(i));
+        	
+        	Element xmicomputeaction = doc.createElement("action");
+        	xmicomputeaction.setAttribute("xsi:type", "aqosa.ir:ComputeAction");
+        	xmicomputeaction.setAttribute("service", "//@assembly/@component."+ clist.indexOf(edgelist.get(0).getEndNode().getRefNode().getSequenceObject().getTitle())+"/@service."+ edgelist.get(0).getEndNode().getRefNode().getSequenceObject().getChildNodes().indexOf(edgelist.get(0).getEndNode().getRefNode()));
+        	xmiflow.appendChild(xmicomputeaction);
+        	
+        	for(int j=1;j<edgelist.size();j++){
+        		
+        		Element xmicommunicateaction = doc.createElement("action");
+        		xmicommunicateaction.setAttribute("xsi:type", "aqosa.ir:CommunicateAction");
+        		xmicommunicateaction.setAttribute("source","//@assembly/@component."+clist.indexOf(edgelist.get(j).getStartNode().getRefNode().getSequenceObject().getTitle())
+        		+"/@outport."+edgelist.get(j).getStartNode().getRefNode().getSequenceObject().getChildNodes().indexOf(edgelist.get(j).getStartNode().getRefNode()));
+        		xmicommunicateaction.setAttribute("destination","//@assembly/@component."+clist.indexOf(edgelist.get(j).getEndNode().getRefNode().getSequenceObject().getTitle())
+        		+"/@inport."+edgelist.get(j).getEndNode().getRefNode().getSequenceObject().getChildNodes().indexOf(edgelist.get(j).getEndNode().getRefNode()));
+        	    xmiflow.appendChild(xmicommunicateaction);
+        	    
+        	    Element xmicomputeaction1 = doc.createElement("action");
+            	xmicomputeaction1.setAttribute("xsi:type", "aqosa.ir:ComputeAction");
+            	xmicomputeaction1.setAttribute("service", "//@assembly/@component."+ clist.indexOf(edgelist.get(j).getEndNode().getRefNode().getSequenceObject().getTitle())
+            	+"/@service."+ edgelist.get(j).getEndNode().getRefNode().getSequenceObject().getChildNodes().indexOf(edgelist.get(j).getEndNode().getRefNode()));
+            	xmiflow.appendChild(xmicomputeaction1);
+        	
+        	
+        	}
+        	
+        	xmiassembly.appendChild(xmiflow);
+        	
         }
-
-        for(Sketch sketch : pGraph.getAllSketches()){
-            Element sketchElement = doc.createElement("Sketch");
-            Path sketchPath = sketch.getPath();
-            sketchElement.setAttribute("translateX", Double.toString(sketchPath.getTranslateX()));
-            sketchElement.setAttribute("translateY", Double.toString(sketchPath.getTranslateY()));
-            sketchElement.setAttribute("scaleX", Double.toString(sketchPath.getScaleX()));
-            sketchElement.setAttribute("scaleY", Double.toString(sketchPath.getScaleY()));
-
-            Element pathElement = doc.createElement("Path");
-            for(PathElement el : sketchPath.getElements()){
-                if(el instanceof MoveTo){
-                    Element moveTo = doc.createElement("MoveTo");
-                    moveTo.setAttribute("xPoint", Double.toString(((MoveTo)el).getX()));
-                    moveTo.setAttribute("yPoint", Double.toString(((MoveTo)el).getY()));
-                    pathElement.appendChild(moveTo);
-                } else if(el instanceof LineTo){
-                    Element lineTo = doc.createElement("LineTo");
-                    lineTo.setAttribute("xPoint", Double.toString(((LineTo)el).getX()));
-                    lineTo.setAttribute("yPoint", Double.toString(((LineTo)el).getY()));
-                    pathElement.appendChild(lineTo);
-                }
-
-            }
-            sketchElement.appendChild(pathElement);
-            rootElement.appendChild(sketchElement);
-        }
-
+        	
+        
+        
+        rootElement.appendChild(xmiassembly);
+        
         return doc;
-    }
-
-    private static void addClassNode(Document doc, ClassNode node, Element parent, Graph pGraph, boolean isChild){
-        Element umlClass = doc.createElement("UML:Class");
-        if(isChild){
-            umlClass.setAttribute("namespace", ((Element)parent.getParentNode()).getAttribute("xmi.id"));
-        } else {
-            umlClass.setAttribute("namespace", pGraph.getId());
-        }
-        umlClass.setAttribute("name", node.getTitle());
-        umlClass.setAttribute("xmi.id", node.getId());
-        Element classifierFeature = doc.createElement("UML:Classifier.feature");
-        umlClass.appendChild(classifierFeature);
-
-        int attIdCount = 0;
-        int opIdCount = 0;
-        if(node.getAttributes() != null){
-            String attributes[] = node.getAttributes().split("\\r?\\n");
-            for(String att : attributes){
-                Element attribute = doc.createElement("UML:Attribute");
-                attribute.setAttribute("name", att);
-                attribute.setAttribute("xmi.id", "att" + ++attIdCount + "_" + node.getId());
-                classifierFeature.appendChild(attribute);
-            }
-        }
-        if(node.getOperations() != null){
-            String operations[] = node.getOperations().split("\\r?\\n");
-            for(String op : operations) {
-                Element operation = doc.createElement("UML:Operation");
-                operation.setAttribute("name", op);
-                operation.setAttribute("xmi.id", "oper" + ++opIdCount + "_" + node.getId());
-                classifierFeature.appendChild(operation);
-            }
-        }
-        parent.appendChild(umlClass);
-    }
-
-    private static void addAssociatonEnd(String nodeId, Element association, Document doc, String isStart){
-        Element associationEnd = doc.createElement("UML:AssociationEnd");
-        associationEnd.setAttribute("xmi.id", "end0");
-        associationEnd.setAttribute("type", nodeId);
-        associationEnd.setAttribute("association", "ass0");
-        associationEnd.setAttribute("isStart", isStart);
-        Element associationEnd1Mulitplicity = doc.createElement("UML:AssociationEnd.multiplicity");
-        associationEnd.appendChild(associationEnd1Mulitplicity);
-        Element multiplicity1 = doc.createElement("UML:multiplicity");
-        associationEnd1Mulitplicity.appendChild(multiplicity1);
-        Element multiplicityRange1 = doc.createElement("UML:Multiplicity.range");
-        multiplicity1.appendChild(multiplicityRange1);
-        Element multiplicityRange11 = doc.createElement("UML:MultiplicityRange");
-        multiplicityRange11.setAttribute("upper", ""); //TODO
-        multiplicityRange11.setAttribute("lower", "");
-        multiplicityRange1.appendChild(multiplicityRange11);
-        association.appendChild(associationEnd);
     }
 
 

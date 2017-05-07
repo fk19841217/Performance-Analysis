@@ -1,8 +1,11 @@
 package model.nodes;
 
+import util.Constants;
+
 public class NodeNode extends AbstractNode {
 	
 	public static final String TYPE = "NODE";
+	
 	
 	
 	 public  NodeNode(double x, double y, double width, double height)
@@ -13,6 +16,7 @@ public class NodeNode extends AbstractNode {
 	        this.height = height < CLASS_MIN_HEIGHT ? CLASS_MIN_HEIGHT : height;
 	    }
 
+	
 
 	@Override
 	public String getType() {

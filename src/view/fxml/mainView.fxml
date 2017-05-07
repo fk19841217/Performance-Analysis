@@ -24,6 +24,7 @@
           <MenuItem onAction="#handleMenuActionLoad" text="Open" />
           <MenuItem onAction="#handleMenuActionSave" text="Save as XMI" />
           <MenuItem onAction="#handleMenuActionImage" text="Save as Image" />
+          <MenuItem onAction="#handleMenuActionAQOSA" text="Save as AQOSA" />
           <SeparatorMenuItem />
           <MenuItem onAction="#handleMenuActionServer" text="Launch Server" />
           <MenuItem onAction="#handleMenuActionClient" text="Join as Client" />
@@ -39,8 +40,8 @@
           <MenuItem text="Copy" />
           <MenuItem text="Cut" />
           <MenuItem text="Paste" />
-           <MenuItem onAction="#handleMenuActionsaving" text="saving" />
-          <MenuItem onAction="#handleMenuActionNewSequenceDiagram1" text="loading" />
+           <MenuItem onAction="#handleMenuActionsaving" text="Saving" />
+          <MenuItem onAction="#handleMenuActionNewSequenceDiagram1" text="Loading" />
         </items>
       </Menu>
       <Menu text="View">

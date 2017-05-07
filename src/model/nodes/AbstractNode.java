@@ -36,6 +36,7 @@ public abstract class AbstractNode implements Node, Serializable
     protected String aTitle;
     protected double x, y, width, height, translateX, translateY, scaleX, scaleY;
     protected boolean aIsChild;
+    private SequenceObject se;
 
     public AbstractNode(double x, double y, double width, double height){
         this.x = x;
@@ -58,6 +59,14 @@ public abstract class AbstractNode implements Node, Serializable
 
     public boolean isChild(){
         return aIsChild;
+    }
+    
+    public void setSequenceObject(SequenceObject pse){
+    	this.se=pse;
+    }
+    
+    public SequenceObject getSequenceObject(){
+    	return se;
     }
 
     public void setX(double x){

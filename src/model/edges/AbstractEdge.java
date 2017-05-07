@@ -19,6 +19,7 @@ public abstract class AbstractEdge implements Edge, Serializable {
 	private int cost;
 	private double netdelay;
 	private String title;
+	private boolean startedge;
 
     //Listened to by the view, is always fired.
     protected transient PropertyChangeSupport changes = new PropertyChangeSupport(this);
@@ -45,6 +46,14 @@ public abstract class AbstractEdge implements Edge, Serializable {
         id = ++objectCount;
     }
 
+    public void setstartedge(boolean b){
+    	this.startedge=b;
+    }
+    
+    public boolean getstartedge(){
+    	return startedge;
+    }
+    
     public void setDirection(Direction pDirection) {
         direction = pDirection;
         changes.firePropertyChange(Constants.changeEdgeDirection, null, direction);

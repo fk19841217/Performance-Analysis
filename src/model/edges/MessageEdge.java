@@ -14,6 +14,7 @@ public class MessageEdge extends AbstractEdge {
     private double startY;
     private String title;
     private int network;
+    private boolean startedge;
     
     public enum MessageType {
         REQUEST, RESPONSE;
@@ -26,13 +27,25 @@ public class MessageEdge extends AbstractEdge {
         startX = pStartX;
         startY = pStartY;
         setDirection(Direction.START_TO_END);
+        this.setstartedge(true);
     }
+    
+  
 
     public MessageEdge(double pStartX, double pStartY, Node startNode, Node endNode){
         super(startNode, endNode);
         startX = pStartX;
         startY = pStartY;
         setDirection(Direction.START_TO_END);
+        this.setstartedge(false);
+    }
+    
+    public void setstartedge(boolean b){
+    	this.startedge=b;
+    }
+    
+    public boolean getstartedge(){
+    	return startedge;
     }
 
     public double getStartX() {

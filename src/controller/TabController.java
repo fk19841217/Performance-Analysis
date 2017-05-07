@@ -12,12 +12,24 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.edges.AbstractEdge;
+import model.edges.MessageEdge;
+import model.nodes.AbstractNode;
 import model.nodes.LinkedDeploymentNode;
 import model.nodes.LinkedSequenceNode;
+import model.nodes.SequenceActivationBox;
+import model.nodes.SequenceObject;
+import util.persistence.AqosamodelManager;
+import util.persistence.PersistenceManager;
+import view.edges.AbstractEdgeView;
+import view.edges.MessageEdgeView;
+import view.nodes.AbstractNodeView;
 import view.nodes.LinkedDeploymentNodeView;
 import view.nodes.LinkedSequenceNodeView;
+import view.nodes.SequenceObjectView;
 
 import org.controlsfx.control.Notifications;
 import org.eclipse.jgit.api.Git;
@@ -29,6 +41,8 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +64,11 @@ public class TabController {
     private Map<Tab, AbstractDiagramController> tabMap = new HashMap<>();
     private Map<String,Tab> stabMap =new HashMap<>();
     
-    
+    private Map<String,SequenceObject> componentMap =new HashMap<>();
+    private ArrayList<String> componentnamelist = new ArrayList<>();
+   
+    private Map<String,ArrayList<AbstractEdgeView>> messageMap =new HashMap<>();
+    private ArrayList<String> sequencetablist = new ArrayList<>();
 
     public static final String CLASS_DIAGRAM_VIEW_PATH = "view/fxml/classDiagramView.fxml";
     public static final String SEQUENCE_DIAGRAM_VIEW_PATH = "view/fxml/sequenceDiagramView.fxml";
@@ -67,10 +85,29 @@ public class TabController {
      //   aDrawPane = pDrawPane;
     //}
     
+    public Map<String,SequenceObject> getComponentMap(){
+    	return componentMap;
+    }
     
+    public Map<String,Tab> getStabMap(){
+    	return stabMap;
+    } 
+    
+    public Map<String,ArrayList<AbstractEdgeView>> getMessageMap(){
+    	return messageMap;
+    }
 
     public TabPane getTabPane(){
         return tabPane;
+    }
+    
+    public ArrayList<String> getSequencetablist(){
+        return sequencetablist;
+    }
+    
+    
+    public ArrayList<String> getComponentnamelist(){
+        return componentnamelist;
     }
 
     public void setStage(Stage pStage){
@@ -217,6 +254,34 @@ public class TabController {
     public void handleMenuActionSave() {
         tabMap.get(tabPane.getSelectionModel().getSelectedItem()).handleMenuActionSave();
     }
+    
+    public void handleMenuActionAQOSA(){
+    	
+    	 FileChooser fileChooser = new FileChooser();
+         fileChooser.setTitle("Save Diagram");
+         fileChooser.setInitialFileName("myAqosa.xml");
+         
+         File file = fileChooser.showSaveDialog(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).getStage());
+         String graphName = file.getName().subSequence(0, file.getName().indexOf('.')).toString();
+         
+         AqosamodelManager.exportAqosa(this, file.getAbsolutePath());
+    }
+    
+    
+//    public void handleMenuActionSave() {
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save Diagram");
+//        if (!graph.getName().equals("")) {
+//            fileChooser.setInitialFileName(graph.getName() + ".xml");
+//        } else {
+//            fileChooser.setInitialFileName("mydiagram.xml");
+//        }
+//        File file = fileChooser.showSaveDialog(getStage());
+//        String graphName = file.getName().subSequence(0, file.getName().indexOf('.')).toString();
+//        graph.setName(graphName);
+//        PersistenceManager.exportXMI(graph, file.getAbsolutePath());
+//    }
+    
     public void handleMenuActionLoad() {
         Tab tab = addTab(CLASS_DIAGRAM_VIEW_PATH);
         tabPane.getSelectionModel().select(tab);
@@ -285,6 +350,83 @@ public class TabController {
     
     public void handleMenuActionsaving(){
     	stabMap.put(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname(),tabPane.getSelectionModel().getSelectedItem());
+    	
+    	AbstractDiagramController pc= tabMap.get(tabPane.getSelectionModel().getSelectedItem());
+    	
+    	if(pc instanceof SequenceDiagramController){
+    		
+    		for(int i=0;i<pc.getAllNodeViews().size();i++){
+    			if(pc.getAllNodeViews().get(i) instanceof SequenceObjectView){
+    			    if(!componentnamelist.contains(pc.getNodeMap().get(pc.getAllNodeViews().get(i)).getTitle())){
+    			    	SequenceObject so =(SequenceObject) pc.getNodeMap().get(pc.getAllNodeViews().get(i));
+    			    	componentMap.put(so.getTitle(), so);
+    			    	componentnamelist.add(so.getTitle());
+    			    }
+    			    else{
+    			    	SequenceObject so =(SequenceObject) pc.getNodeMap().get(pc.getAllNodeViews().get(i));
+    			    	SequenceObject soinmap = componentMap.get(pc.getNodeMap().get(pc.getAllNodeViews().get(i)).getTitle());
+    			    	ArrayList<SequenceActivationBox> sobox =so.getChildNodes();
+    			    	ArrayList<SequenceActivationBox> soinmapbox =soinmap.getChildNodes();
+    			    	
+    			    	 for(int j=0;j<sobox.size();j++){
+    			    		 if(!soinmapbox.contains(sobox.get(j))){
+    			    			 soinmapbox.add(sobox.get(j));
+    			    		 }
+    			    		 
+    			    		
+    			    	 }
+    			    	
+    			    	
+    			    	//soinmapbox.addAll(sobox);
+    			    	soinmap.setService(soinmapbox);
+    			    	//SequenceObject sonew = soinmap.setService(soinmap.getChildNodes().add .add(so.getChildNodes()));
+    			    	
+    			    	componentMap.put(soinmap.getTitle(),soinmap);
+    			    	//componentnamelist.add(soinmap.getTitle());
+    			    }
+    			}
+    		}
+    		
+    		ArrayList<AbstractEdgeView> messagelist=pc.getAllEdgeViews();
+    		ArrayList<AbstractEdgeView> newmessagelist= new ArrayList<>();
+    		
+    	 for(int i=0;i<messagelist.size();i++){
+    		 if(messagelist.get(i) instanceof MessageEdgeView && messagelist.get(i).getRefEdge().getstartedge()){
+    			 
+    			 AbstractEdgeView  m=(AbstractEdgeView) messagelist.get(i);
+    				    
+    				newmessagelist.add(m);
+    				// messageMap.put(tabPane.getSelectionModel().getSelectedItem(),newmessagelist);
+    				 messagelist.remove(m);
+    				 break;
+    		 }
+    	
+    		  
+    	 }
+    	 
+    	while(messagelist.size()>0){
+    		 for(int i=0;i<messagelist.size();i++){
+    			 if(newmessagelist.get(newmessagelist.size()-1).getEndNode() == messagelist.get(i).getStartNode()){
+    				 newmessagelist.add(messagelist.get(i));
+    				 messagelist.remove(messagelist.get(i));
+    			 }
+    		 }
+    		 
+    		 messageMap.put(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname(),newmessagelist);
+    		 
+    	 }
+    	 
+    	 if(!sequencetablist.contains(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname())){
+    		 
+    		 sequencetablist.add(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname());
+    	 }
+    	 
+    	System.out.println(sequencetablist.size());
+     	System.out.println(messagelist.size());
+     	System.out.println(newmessagelist.size());
+    	}
+    	
+    	
     }
 
     public void handleMenuActionGit(){

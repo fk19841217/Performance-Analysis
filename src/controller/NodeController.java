@@ -445,10 +445,12 @@ public class NodeController {
             showUsecaseNodeEditDialog((UsecaseNode) diagramController.getNodeMap().get(nodeView));
         }else if(nodeView instanceof LinkedSequenceNodeView){
         	showLinkedSequenceNodeDialog((LinkedSequenceNode) diagramController.getNodeMap().get(nodeView));
-        }else if(nodeView instanceof SequenceObjectView){
-        	showSequenceObjectDialog((SequenceObject) diagramController.getNodeMap().get(nodeView));
         }else if(nodeView instanceof SequenceActivationBoxView){
         	showSequenceActivationBoxEditDialog((SequenceActivationBox) diagramController.getNodeMap().get(nodeView));
+        }else if(nodeView instanceof SequenceActivationBoxView){
+        	showSequenceActivationBoxEditDialog((SequenceActivationBox) diagramController.getNodeMap().get(nodeView));
+        }else if(nodeView instanceof DeploymentNodeView){
+        	showDeploymentNodeEditDialog((DeploymentNode) diagramController.getNodeMap().get(nodeView));
         }
         else { //PackageNode
             showNodeTitleDialog(diagramController.getNodeMap().get(nodeView));
@@ -555,81 +557,7 @@ public class NodeController {
     }
     
     
-    public void showSequenceObjectDialog(SequenceObject node) {
-    	  if(diagramController.voiceController.voiceEnabled){
-              //Change variable testing in VoiceController to 1(true)
-              diagramController.voiceController.testing = 1;
-
-              String title2 = "";
-              int time = 0;
-              //Looking for a name you want to add to the package or until 5 seconds have passed
-              while((title2.equals("") || title2 == null) && time < 500){
-                  try {
-                      TimeUnit.MILLISECONDS.sleep(10);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
-                  //Check if a name has been recognised
-                  title2 = diagramController.voiceController.titleName;
-                  time++;
-              }
-
-              //Change variable testing in VoiceController to 0(false)
-              diagramController.voiceController.testing = 0;
-
-              //If name found in less then 5 seconds it sets the name to the package
-              if(time < 500) {
-                  diagramController.voiceController.titleName = "";
-                  node.setTitle(title2);
-              }
-              //Else the name is not changed to a new name
-              else{
-                  diagramController.voiceController.titleName = "";
-              }
-
-              node.setTitle(title2);
-          }
-
-          VBox group = new VBox();
-          TextField input = new TextField();
-          input.setText(node.getTitle());
-        
-          Button okButton = new Button("Ok");
-          okButton.setOnAction(new EventHandler<ActionEvent>() {
-              @Override
-              public void handle(ActionEvent event) {
-                  node.setTitle(input.getText());
-                  
-                  aDrawPane.getChildren().remove(group);
-              }
-          });
-
-          Button cancelButton = new Button("Cancel");
-          cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-              @Override
-              public void handle(ActionEvent event) {
-                  aDrawPane.getChildren().remove(group);
-              }
-          });
-
-          Label label = new Label("Choose title");
-          group.getChildren().add(label);
-          
-          group.getChildren().add(input);
-         
-          HBox buttons = new HBox();
-          buttons.getChildren().add(okButton);
-          buttons.getChildren().add(cancelButton);
-          buttons.setPadding(new Insets(15, 0, 0, 0));
-          group.getChildren().add(buttons);
-          group.setLayoutX(node.getX()+5);
-          group.setLayoutY(node.getY()+5);
-          group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
-          group.setStyle("-fx-border-color: black");
-          group.setPadding(new Insets(15, 12, 15, 12));
-          aDrawPane.getChildren().add(group);
-    }
-    
+  
     
     public void showLinkedSequenceNodeDialog(LinkedSequenceNode node) {
   	  if(diagramController.voiceController.voiceEnabled){
@@ -895,6 +823,158 @@ public class NodeController {
         aDrawPane.getChildren().add(group);
 
   }
+    
+    
+    public void showDeploymentNodeEditDialog(DeploymentNode node) {
+    	  if(diagramController.voiceController.voiceEnabled){
+              //Change variable testing in VoiceController to 1(true)
+              diagramController.voiceController.testing = 1;
+
+              String title2 = "";
+              int time = 0;
+              //Looking for a name you want to add to the package or until 5 seconds have passed
+              while((title2.equals("") || title2 == null) && time < 500){
+                  try {
+                      TimeUnit.MILLISECONDS.sleep(10);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  //Check if a name has been recognised
+                  title2 = diagramController.voiceController.titleName;
+                  time++;
+              }
+
+              //Change variable testing in VoiceController to 0(false)
+              diagramController.voiceController.testing = 0;
+
+              //If name found in less then 5 seconds it sets the name to the package
+              if(time < 500) {
+                  diagramController.voiceController.titleName = "";
+                  node.setTitle(title2);
+              }
+              //Else the name is not changed to a new name
+              else{
+                  diagramController.voiceController.titleName = "";
+              }
+
+              node.setTitle(title2);
+          }
+
+          VBox group = new VBox();
+          TextField input = new TextField();
+          input.setText(node.getTitle());
+          
+          TextField clock = new TextField();
+          if(node.getClock()>0)
+          clock.setText(String.valueOf(node.getClock()));
+          
+          TextField lowstatus_cost = new TextField();
+          if(node.getLowstatus_cost()>0)
+         lowstatus_cost.setText(String.valueOf(node.getLowstatus_cost()));
+          
+          TextField highstatus_cost = new TextField();
+          if(node.getHighstatus_cost()>0)
+         highstatus_cost.setText(String.valueOf(node.getHighstatus_cost()));
+          
+          
+          TextField internalBusBandwidth = new TextField();
+          if(node.getInternalBusBandwidth()>0)
+         internalBusBandwidth.setText(String.valueOf(node.getInternalBusBandwidth()));
+          
+          TextField internalBusdelay = new TextField();
+          if(node.getInternalBusdelay()>0)
+        	  internalBusdelay.setText(String.valueOf(node.getInternalBusdelay()));
+          
+          TextField lowstatus_lowfail = new TextField();
+          if(node.getLowstatus_lowfail()>0)
+        	  lowstatus_lowfail.setText(String.valueOf(node.getLowstatus_lowfail()));
+          
+          TextField lowstatus_highfail = new TextField();
+          if(node.getLowstatus_highfail()>0)
+        	  lowstatus_highfail.setText(String.valueOf(node.getLowstatus_highfail()));
+          
+          TextField highstatus_lowfail = new TextField();
+          if(node.getHighstatus_lowfail()>0)
+        	  highstatus_lowfail.setText(String.valueOf(node.getHighstatus_lowfail()));
+          
+          TextField highstatus_highfail = new TextField();
+          if(node.getHighstatus_highfail()>0)
+        	  highstatus_highfail.setText(String.valueOf(node.getHighstatus_highfail()));
+           
+          
+          
+          
+          Button okButton = new Button("Ok");
+          okButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  node.setTitle(input.getText());
+                  node.setClock(Integer.valueOf(clock.getText()));
+                  node.setLowstatus_cost(Integer.valueOf(lowstatus_cost.getText()));
+                  node.setHighstatus_cost(Integer.valueOf(highstatus_cost.getText()));
+                  node.setInternalBusBandwidth(Integer.valueOf(internalBusBandwidth.getText()));
+                  node.setInternalBusdelay(Double.valueOf(internalBusdelay.getText()));
+                  node.setLowstatus_lowfail(Double.valueOf(lowstatus_lowfail.getText()));
+                  node.setLowstatus_highfail(Double.valueOf(lowstatus_highfail.getText()));
+                  node.setHighstatus_lowfail(Double.valueOf(highstatus_lowfail.getText()));
+                  node.setHighstatus_highfail(Double.valueOf(highstatus_highfail.getText()));
+                  
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Button cancelButton = new Button("Cancel");
+          cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(ActionEvent event) {
+                  aDrawPane.getChildren().remove(group);
+              }
+          });
+
+          Label label = new Label("Choose title");
+          group.getChildren().add(label);
+          group.getChildren().add(input);
+          Label label1 = new Label("Input clock");
+          group.getChildren().add(label1);
+          group.getChildren().add(clock);
+          Label label2 = new Label("Input lowstatus_cost");
+          group.getChildren().add(label2);
+          group.getChildren().add(lowstatus_cost);
+          Label label3 = new Label("Input highstatus_cost");
+          group.getChildren().add(label3);
+          group.getChildren().add(highstatus_cost);
+          Label label4 = new Label("Input internalBusBandwidth");
+          group.getChildren().add(label4);
+          group.getChildren().add(internalBusBandwidth);
+          Label label5 = new Label("Input internalBusdelay");
+          group.getChildren().add(label5);
+          group.getChildren().add(internalBusdelay);
+          Label label6 = new Label("Input lowstatus_lowfail");
+          group.getChildren().add(label6);
+          group.getChildren().add(lowstatus_lowfail);
+          Label label7 = new Label("Input lowstatus_highfail");
+          group.getChildren().add(label7);
+          group.getChildren().add(lowstatus_highfail);
+          Label label8 = new Label("Input highstatus_lowfail");
+          group.getChildren().add(label8);
+          group.getChildren().add(highstatus_lowfail);
+          Label label9 = new Label("Input highstatus_highfail");
+          group.getChildren().add(label9);
+          group.getChildren().add(highstatus_highfail);
+          
+          HBox buttons = new HBox();
+          buttons.getChildren().add(okButton);
+          buttons.getChildren().add(cancelButton);
+          buttons.setPadding(new Insets(15, 0, 0, 0));
+          group.getChildren().add(buttons);
+          group.setLayoutX(node.getX()+5);
+          group.setLayoutY(node.getY()+5);
+          group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+          group.setStyle("-fx-border-color: black");
+          group.setPadding(new Insets(15, 12, 15, 12));
+          aDrawPane.getChildren().add(group);
+
+    }
 
     public boolean showClassNodeEditDialog(ClassNode node) {
         if(diagramController.voiceController.voiceEnabled) {
