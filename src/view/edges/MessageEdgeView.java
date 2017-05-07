@@ -110,18 +110,18 @@ public class MessageEdgeView extends AbstractEdgeView {
     private void setPosition2(){
         //If end node is to the right of startPos:
         if (startX <= endNode.getTranslateX()) {
-            startLine.setStartX(startNode.getTranslateX() + (startNode.getWidth()/2));
+            startLine.setStartX(startNode.getTranslateX() + startNode.getWidth());
             startLine.setStartY(startY);
-            startLine.setEndX(endNode.getTranslateX() + (endNode.getWidth()/2));
+            startLine.setEndX(endNode.getTranslateX());
             startLine.setEndY(startY);
 
             position = Position.RIGHT;
         }
         //If end node is to the left of startPos:
         else if (startX > endNode.getTranslateX() + endNode.getWidth()) {
-            startLine.setStartX(startNode.getTranslateX() + (startNode.getWidth()/2));
+            startLine.setStartX(startNode.getTranslateX() + startNode.getWidth());
             startLine.setStartY(startY);
-            startLine.setEndX(endNode.getTranslateX() + (endNode.getWidth()/2));
+            startLine.setEndX(endNode.getTranslateX());
             startLine.setEndY(startY);
 
             position = Position.LEFT;
@@ -162,7 +162,7 @@ public class MessageEdgeView extends AbstractEdgeView {
         if (startX <= endNode.getTranslateX()) {
             startLine.setStartX(startX);
             startLine.setStartY(startY);
-            startLine.setEndX(endNode.getTranslateX() + (endNode.getWidth()/2));
+            startLine.setEndX(endNode.getTranslateX());
             startLine.setEndY(startY);
 
             position = Position.RIGHT;
@@ -171,7 +171,7 @@ public class MessageEdgeView extends AbstractEdgeView {
         else if (startX > endNode.getTranslateX() + endNode.getWidth()) {
             startLine.setStartX(startX);
             startLine.setStartY(startY);
-            startLine.setEndX(endNode.getTranslateX() + (endNode.getWidth()/2));
+            startLine.setEndX(endNode.getTranslateX());
             startLine.setEndY(startY);
 
             position = Position.LEFT;

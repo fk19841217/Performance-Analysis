@@ -6,7 +6,7 @@ public class LinkedSequenceNode extends AbstractNode {
 	
 	public static final String TYPE = "NODE";
 	
-	int delay;
+	private int delay;
 	
 	 public  LinkedSequenceNode(double x, double y, double width, double height)
 	    {

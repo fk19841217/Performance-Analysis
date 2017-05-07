@@ -5,8 +5,11 @@ import controller.dialog.MessageEditDialogController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -19,11 +22,14 @@ import util.commands.ReplaceEdgeCommand;
 import view.edges.AbstractEdgeView;
 import view.edges.MessageEdgeView;
 import view.nodes.AbstractNodeView;
+import view.nodes.DeploymentNodeView;
+import view.nodes.SequenceActivationBoxView;
 import view.nodes.SequenceObjectView;
 
 import java.io.IOException;
 
 /**
+ * 
  * Controller class for Edges.
  */
 public class EdgeController {
@@ -91,7 +97,10 @@ public class EdgeController {
     */
     public void onMouseReleasedSequence(){
         for(AbstractNodeView nodeView : diagramController.getAllNodeViews()){ //TODO implement getAllLifelines
-            if(nodeView instanceof SequenceObjectView && ((SequenceObjectView) nodeView).isOnLifeline(getEndPoint())){
+//            if(nodeView instanceof SequenceObjectView && ((SequenceObjectView) nodeView).isOnLifeline(getEndPoint())){
+//                endNodeView = nodeView;
+//            } else
+            	if(nodeView instanceof SequenceActivationBoxView  && ((SequenceActivationBoxView ) nodeView).isOnActivity(getEndPoint())){
                 endNodeView = nodeView;
             }
         }
@@ -129,6 +138,35 @@ public class EdgeController {
                  ((PerformanceController)diagramController).createEdgeView(medge, startNodeView, endNodeView);
                 else  
                 ((PerformanceController)diagramController).createEdgeView(aedge, startNodeView, endNodeView);
+             } /*else {
+                 MessageEdge edge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(endNodeView));
+                 ((PerformanceController)diagramController).createEdgeView(edge, null, endNodeView);
+             }*/
+         }
+         finishCreateEdge();
+     }
+     
+     
+ public void onMouseReleasedDeployment(){
+    	 
+	 for(AbstractNodeView nodeView : diagramController.getAllNodeViews()){ //TODO implement getAllLifelines
+//       if(nodeView instanceof SequenceObjectView && ((SequenceObjectView) nodeView).isOnLifeline(getEndPoint())){
+//           endNodeView = nodeView;
+//       } else
+       	if(nodeView instanceof DeploymentNodeView){
+           endNodeView = nodeView;
+       }
+   }
+         
+         if(endNodeView != null){
+             if(startNodeView != null){
+                 //MessageEdge medge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
+                 ConnectEdge aedge = new ConnectEdge(diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
+               
+                // if (diagramController.getNodeMap().get(startNodeView).getType()=="LIFELINE")
+                 //((PerformanceController)diagramController).createEdgeView(medge, startNodeView, endNodeView);
+               // else  
+                ((DeploymentController)diagramController).createEdgeView(aedge, startNodeView, endNodeView);
              } /*else {
                  MessageEdge edge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(endNodeView));
                  ((PerformanceController)diagramController).createEdgeView(edge, null, endNodeView);
@@ -211,6 +249,7 @@ public class EdgeController {
     }
 
     public boolean showEdgeEditDialog(AbstractEdge edge) {
+    	if(!(diagramController instanceof DeploymentController)){
         try {
             // Load the classDiagramView.fxml file and create a new stage for the popup
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/edgeEditDialog.fxml"));
@@ -277,9 +316,83 @@ public class EdgeController {
             e.printStackTrace();
             return false;
         }
+    	}
+    	else{
+    		
+    		  // Load the classDiagramView.fxml file and create a new stage for the popup
+       	 VBox group = new VBox();
+            TextField input = new TextField();
+            input.setText(edge.getTitle());
+            TextField bandwidth = new TextField();
+            if(edge.getBandwidth()>0)
+            bandwidth.setText(String.valueOf(edge.getBandwidth()));
+            TextField netdelay = new TextField();
+            if(edge.getNetdelay()>0)
+            netdelay.setText(String.valueOf(edge.getNetdelay()));
+            TextField cost = new TextField();
+            if(edge.getCost()>0)
+            cost.setText(String.valueOf(edge.getCost()));
+
+
+            Button okButton = new Button("Ok");
+            okButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    edge.setTitle(input.getText());
+                    
+                    edge.setBandwidth(Integer.valueOf(bandwidth.getText()));
+                    
+                    edge.setNetdelay(Double.valueOf(netdelay.getText()));
+                  
+                    edge.setCost(Integer.valueOf(cost.getText()));
+                    
+                    
+                    aDrawPane.getChildren().remove(group);
+                }
+            });
+
+            Button cancelButton = new Button("Cancel");
+            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    aDrawPane.getChildren().remove(group);
+                }
+            });
+
+            Label label = new Label("Choose title");
+            group.getChildren().add(label);
+            group.getChildren().add(input);
+            Label label1 = new Label("Input Bandwidth ");
+            group.getChildren().add(label1);
+            group.getChildren().add(bandwidth);
+            Label label2 = new Label("Input Network Delay");
+            group.getChildren().add(label2);
+            group.getChildren().add(netdelay);
+            Label label3 = new Label("Input Cost");
+            group.getChildren().add(label3);
+            group.getChildren().add(cost);
+            HBox buttons = new HBox();
+            buttons.getChildren().add(okButton);
+            buttons.getChildren().add(cancelButton);
+            buttons.setPadding(new Insets(15, 0, 0, 0));
+            group.getChildren().add(buttons);
+            group.setLayoutX(edge.getStartNode().getX()+edge.getStartNode().getWidth()+5);
+            group.setLayoutY(edge.getStartNode().getY()+5);
+            group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+            group.setStyle("-fx-border-color: black");
+            group.setPadding(new Insets(15, 12, 15, 12));
+            aDrawPane.getChildren().add(group);
+               
+    		
+    		return false;
+    		
+    		
+    		
+    	}
     }
 
     public boolean showMessageEditDialog(MessageEdge edge) {
+    	//if(diagramController instanceof DeploymentController)
         try {
             // Load the classDiagramView.fxml file and create a new stage for the popup
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/messageEditDialog.fxml"));
@@ -300,7 +413,12 @@ public class EdgeController {
             ChoiceBox directionBox = controller.getDirectionBox();
             ChoiceBox typeBox = controller.getTypeBox();
             TextField titleTextField = controller.getTitleTextField();
+            titleTextField.setText(edge.getTitle());
             TextField netTextField = controller.getNetworkTextField(); 
+            if(edge.getNetwork()>0)
+            	netTextField.setText(String.valueOf(edge.getNetwork()));
+                 
+            
             controller.getOkButton().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -335,7 +453,8 @@ public class EdgeController {
             return false;
         }
     }
-
+    
+    
     public boolean replaceEdge(AbstractEdge oldEdge, AbstractEdge newEdge) {
         AbstractEdgeView oldEdgeView = null;
         for (AbstractEdgeView edgeView : diagramController.getAllEdgeViews()) {

@@ -877,7 +877,9 @@ public abstract class AbstractDiagramController {
             edgeView = new CompositionEdgeView(edge, startNodeView, endNodeView);
         } else if (edge instanceof InheritanceEdge) {
             edgeView = new InheritanceEdgeView(edge, startNodeView, endNodeView);
-        } else {
+        }  else if (edge instanceof ConnectEdge) {
+            edgeView = new ConnectEdgeView(edge, startNodeView, endNodeView);
+        }else {
             edgeView = null;
         }
         return addEdgeView(edgeView);

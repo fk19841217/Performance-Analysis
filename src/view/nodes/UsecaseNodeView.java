@@ -75,7 +75,7 @@ public class UsecaseNodeView   extends AbstractNodeView implements NodeView {
 		
 		initTitle();
 		createEllipse();
-		createHandles();
+		//createHandles();
 		//setLayout();
 		//stackPane.setLayoutX(node.getX());
        // stackPane.setLayoutY(node.getY());

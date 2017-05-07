@@ -4,6 +4,7 @@ package view.nodes;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -43,18 +44,23 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 
         initTitle();
         createRectangles();
+        
         changeHeight(node.getHeight());
         changeWidth(node.getWidth());
         initLooks();
 
-        this.getChildren().add(container);
-        this.setTranslateX(node.getTranslateX());
-        this.setTranslateY(node.getTranslateY());
-        createHandles();
+       
+       
 //	        createLifeline();
         createRectangleHandle();
 
         container.getChildren().addAll(rectangle, title);
+        
+        this.getChildren().add(container);
+        this.setTranslateX(node.getTranslateX());
+        this.setTranslateY(node.getTranslateY());
+        
+        createHandles();
     }
 
 //	    private void createLifeline(){
@@ -70,7 +76,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
     private void createRectangles(){
         SequenceActivationBox node = (SequenceActivationBox) getRefNode();
         changeHeight(node.getHeight());
-        //        changeWidth(node.getWidth());
+        changeWidth(node.getWidth());
         rectangle.setX(node.getX());
         rectangle.setY(node.getY());
     }
@@ -79,10 +85,11 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         setHeight(height);
         rectangle.setHeight(height);
     }
-    private void changeWidth(double width){
+    
+   private void changeWidth(double width){
         setWidth(width);
         rectangle.setWidth(width);
-    }
+   }
 
 //	    private void changeWidth(double width){
 //	        setWidth(width);
@@ -171,17 +178,17 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         return rectangleHandle;
     }
 
-//	    public boolean isOnLifeline(Point2D point){
-//	        Double lifelineXPosition = lifeline.getStartX() + this.getX();
-//	        if(point.getX() > (lifelineXPosition - 10) && point.getX() < (lifelineXPosition + 10)){
-//	            Double lifelineYStartPosition = lifeline.getStartY() + this.getY();
-//	            Double lifelineYEndPosition = lifeline.getEndY() + this.getY();
-//	            if(point.getY() > lifelineYStartPosition && point.getY() < lifelineYEndPosition){
-//	                return true;
-//	            }
-//	        }
-//	        return false;
-//	    }
+	    public boolean isOnActivity(Point2D point){
+	        Double lifelineXPosition =  this.getX()+this.getWidth()/2;  
+	        if(point.getX() > (lifelineXPosition - 15) && point.getX() < (lifelineXPosition + 15)){
+	            Double lifelineYStartPosition = this.getY(); 
+	            Double lifelineYEndPosition = this.getY()+this.getHeight();
+	            if(point.getY() > lifelineYStartPosition && point.getY() < lifelineYEndPosition){
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
 
 
     protected void setPosition() {

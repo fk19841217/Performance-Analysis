@@ -15,6 +15,10 @@ public abstract class AbstractEdge implements Edge, Serializable {
     private static int objectCount = 0;  //Used to ID instance
     private int id = 0;
     private static final long serialVersionUID = 1L;
+    private int bandwidth;
+	private int cost;
+	private double netdelay;
+	private String title;
 
     //Listened to by the view, is always fired.
     protected transient PropertyChangeSupport changes = new PropertyChangeSupport(this);
@@ -159,4 +163,64 @@ public abstract class AbstractEdge implements Edge, Serializable {
     public void removePropertyChangeListener(PropertyChangeListener l) {
         changes.removePropertyChangeListener(l);
     }
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String pTitle) {
+        changes.firePropertyChange(Constants.changeMessageTitle, title, pTitle);
+        remoteChanges.firePropertyChange(Constants.changeMessageTitle, title, pTitle);
+        title = pTitle;
+    }
+
+    public void remoteSetTitle(String pTitle){
+        changes.firePropertyChange(Constants.changeMessageTitle, title, pTitle);
+        title = pTitle;
+    }
+    
+	 public void setBandwidth(int pbandwidth){
+		 bandwidth = pbandwidth;
+        changes.firePropertyChange(Constants.changeConnectbandwidth, null, "BandWidth: "+String.valueOf(bandwidth));
+        remoteChanges.firePropertyChange(Constants.changeConnectbandwidth, null, "BandWidth: "+String.valueOf(bandwidth));
+    }
+ 
+ public void remoteSetBandwidth(int pbandwidth){
+	 bandwidth = pbandwidth;
+     changes.firePropertyChange(Constants.changeConnectbandwidth, null, "BandWidth: "+String.valueOf(bandwidth));
+    }
+ 
+ public int getBandwidth(){
+        return bandwidth;
+    }
+ 
+ public void setCost(int pcost){
+	 cost = pcost;
+    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+    remoteChanges.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+}
+
+public void remoteSetCost(int pcost){
+	cost = pcost;
+    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+}
+
+public int getCost(){
+    return cost;
+}
+
+public void setNetdelay(double pnetdelay){
+	 netdelay = pnetdelay;
+   changes.firePropertyChange(Constants.changeConnectdelay, null, "Cost: "+String.valueOf(netdelay)+" s");
+   remoteChanges.firePropertyChange(Constants.changeConnectdelay, null, "Cost: "+String.valueOf(netdelay)+" s");
+}
+
+public void remoteNetdelay(double pnetdelay){
+	 netdelay = pnetdelay;
+	   changes.firePropertyChange(Constants.changeConnectdelay, null, "Cost: "+String.valueOf(netdelay)+" s");
+}
+
+public double getNetdelay(){
+   return netdelay;
+}
 }

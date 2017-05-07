@@ -5,9 +5,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import model.edges.ConnectEdge;
 import model.edges.MessageEdge;
 import model.Sketch;
 import view.edges.AbstractEdgeView;
+import view.edges.ConnectEdgeView;
 import view.nodes.AbstractNodeView;
 import controller.AbstractDiagramController.ToolEnum;
 import controller.AbstractDiagramController.Mode;
@@ -41,7 +43,7 @@ public class SelectController {
         if (diagramController.getTool() == AbstractDiagramController.ToolEnum.EDGE)
         {
             for(AbstractEdgeView edgeView : diagramController.allEdgeViews){
-                if (!(edgeView instanceof MessageEdgeView) && (distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15 ||
+                if (!(edgeView instanceof MessageEdgeView) && !(edgeView instanceof ConnectEdgeView) &&(distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15 ||
                         distanceToLine(edgeView.getMiddleLine(), event.getX(), event.getY()) < 15 ||
                         distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15)){
                     diagramController.selectedEdges.add(edgeView);
@@ -63,7 +65,7 @@ public class SelectController {
         else if (diagramController.getTool() == ToolEnum.SELECT)
         {
             for(AbstractEdgeView edgeView : diagramController.allEdgeViews){
-                if (!(edgeView instanceof MessageEdgeView) && (distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15 ||
+                if (!(edgeView instanceof MessageEdgeView) && !(edgeView instanceof ConnectEdgeView) &&(distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15 ||
                         distanceToLine(edgeView.getMiddleLine(), event.getX(), event.getY()) < 15 ||
                         distanceToLine(edgeView.getStartLine(), event.getX(), event.getY()) < 15)){
                     if(!diagramController.selectedEdges.contains(edgeView)){
@@ -88,7 +90,7 @@ public class SelectController {
                         diagramController.edgeController.onMousePressDragEdge(event);
                     }
                     diagramController.drawSelected();
-                }
+                }  
             }
             if(diagramController.mode != Mode.DRAGGING_EDGE){
                 diagramController.setMode(Mode.SELECTING);
