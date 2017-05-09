@@ -1,6 +1,7 @@
 package model.nodes;
 
 import javafx.geometry.Rectangle2D;
+import model.edges.AbstractEdge;
 import util.Constants;
 
 import java.beans.PropertyChangeListener;
@@ -37,6 +38,21 @@ public abstract class AbstractNode implements Node, Serializable
     protected double x, y, width, height, translateX, translateY, scaleX, scaleY;
     protected boolean aIsChild;
     private SequenceObject se;
+    private int frequence;
+    private int delay;
+	private int starttime;
+	private int network;
+	private AbstractEdge externalportedge;
+	private int clock;
+	private int lowstatus_cost;
+	private int highstatus_cost;
+	private int internalBusBandwidth;
+	private double internalBusdelay;
+	private double lowstatus_lowfail;
+	private double lowstatus_highfail;
+	private double highstatus_lowfail;
+	private double highstatus_highfail;
+	
 
     public AbstractNode(double x, double y, double width, double height){
         this.x = x;
@@ -51,7 +67,31 @@ public abstract class AbstractNode implements Node, Serializable
 
         id = ++objectCount;
     }
+    
+    public void setExternalportedge(AbstractEdge edge){
+    	this.externalportedge=edge;
+    }
+    
+    public AbstractEdge getExternalportedge(){
+    	return externalportedge;
+    }
 
+	 public void setFrequence(int pfrequence){
+	     frequence = pfrequence;
+        changes.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
+        remoteChanges.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
+    }
+ 
+ public void remoteSetFrequence(int pfrequence){
+	 frequence = pfrequence;
+        changes.firePropertyChange(Constants.changeUsecaseFrequence, null,  "Frequency: "+String.valueOf(frequence)+" /s");
+    }
+ 
+ public int getFrequence(){
+        return frequence;
+    }
+ 
+    
     public void setIsChild(boolean pIsChild){
         aIsChild = pIsChild;
         changes.firePropertyChange(Constants.changeNodeIsChild, null, aIsChild);
@@ -260,4 +300,186 @@ public abstract class AbstractNode implements Node, Serializable
     public void removeRemotePropertyChangeListener(PropertyChangeListener l){
         remoteChanges.removePropertyChangeListener(l);
     }
+    
+    public void setDelay(int pdelay){
+	     delay = pdelay;
+       changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Deadline: "+String.valueOf(delay)+" /s");
+       remoteChanges.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Deadline: "+String.valueOf(delay)+" /s");
+   }
+
+public void remoteSetDelay(int pdelay){
+	 delay = pdelay;
+       changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null,  "Frequency: "+String.valueOf(delay)+" /s");
+   }
+
+public int getDelay(){
+       return delay;
+   }
+
+public void setStarttime(int pstarttime){
+	 starttime = pstarttime;
+   changes.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+   remoteChanges.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+}
+
+public void remoteSetStarttime(int pstarttime){
+	 starttime = pstarttime;
+	    changes.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+}
+
+public int getStarttime(){
+   return starttime;
+}
+
+public void setNetwork(int pnetwork){
+    network = pnetwork;
+   changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+   remoteChanges.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+}
+
+public void remoteSetNetwork(int pnetwork){
+network = pnetwork;
+changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+}
+
+public int getNetwork(){
+   return network;
+}
+
+public void setClock(int pclock){
+    clock = pclock;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentClock, null, "Clock: "+String.valueOf(clock)+" /s");
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentClock, null, "Clock: "+String.valueOf(clock)+" /s");
+}
+
+public void remoteSetClock(int pclock){
+	  clock = pclock;
+    changes.firePropertyChange(Constants.changeLinkedDepoloymentClock, null, "Clock: "+String.valueOf(clock)+" /s");
+  }
+
+public int getClock(){
+   return clock;
+  }
+
+public void setLowstatus_cost(int plowstatus_cost){
+	 lowstatus_cost = plowstatus_cost;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+}
+
+public void remoteSetLowstatus_cost(int plowstatus_cost){
+	  lowstatus_cost = plowstatus_cost;
+    changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+  }
+
+public int getLowstatus_cost(){
+   return lowstatus_cost;
+  }
+
+public void setHighstatus_cost(int phighstatus_cost){
+	 highstatus_cost = phighstatus_cost;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+}
+
+public void remoteSetHighstatus_cost(int phighstatus_cost){
+	  highstatus_cost = phighstatus_cost;
+    changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+  }
+
+public int getHighstatus_cost(){
+   return highstatus_cost;
+  }
+
+
+public void setInternalBusBandwidth(int pinternalBusBandwidth){
+	 internalBusBandwidth = pinternalBusBandwidth;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusBandwidth, null, "InternalBusBandwidth: "+String.valueOf(internalBusBandwidth)+" m");
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusBandwidth, null, "InternalBusBandwidth: "+String.valueOf(internalBusBandwidth)+" m");
+}
+
+public void remoteSetInternalBusBandwidth(int pinternalBusBandwidth){
+	  internalBusBandwidth = pinternalBusBandwidth;
+    changes.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusBandwidth, null, "InternalBusBandwidth: "+String.valueOf(internalBusBandwidth)+" m");
+  }
+
+public int getInternalBusBandwidth(){
+   return internalBusBandwidth;
+  }
+
+public void setInternalBusdelay(double pinternalBusdelay){
+	 internalBusdelay = pinternalBusdelay;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusdelay, null, "InternalBusdelay: "+String.valueOf(internalBusdelay)+" s");
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusdelay, null, "InternalBusdelay: "+String.valueOf(internalBusdelay)+" s");
+}
+
+public void remoteSetInternalBusdelay(double pinternalBusdelay){
+	 internalBusdelay = pinternalBusdelay;
+   changes.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusdelay, null, "InternalBusdelay: "+String.valueOf(internalBusdelay)+" s");
+  }
+
+public double getInternalBusdelay(){
+   return internalBusdelay;
+  }
+
+public void setLowstatus_lowfail(double plowstatus_lowfail){
+	 lowstatus_lowfail = plowstatus_lowfail;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+}
+
+public void remoteSetLowstatus_lowfail(double plowstatus_lowfail){
+	 lowstatus_lowfail = plowstatus_lowfail;
+   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+  }
+
+public double getLowstatus_lowfail(){
+   return lowstatus_lowfail;
+  }
+
+public void setLowstatus_highfail(double plowstatus_highfail){
+	 lowstatus_highfail = plowstatus_highfail;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+}
+
+public void remoteSetLowstatus_highfail(double plowstatus_highfail){
+	 lowstatus_highfail = plowstatus_highfail;
+   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+  }
+
+public double getLowstatus_highfail(){
+   return lowstatus_highfail;
+  }
+
+public void setHighstatus_lowfail(double phighstatus_lowfail){
+	 highstatus_lowfail = phighstatus_lowfail;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
+}
+
+public void remoteSetHighstatus_lowfail(double phighstatus_lowfail){
+	 highstatus_lowfail = phighstatus_lowfail;
+   changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
+  }
+
+public double getHighstatus_lowfail(){
+   return highstatus_lowfail;
+  }
+
+public void setHighstatus_highfail(double phighstatus_highfail){
+	 highstatus_highfail = phighstatus_highfail;
+  changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
+  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
+}
+
+public void remoteSetHighstatus_highfail(double phighstatus_highfail){
+	 highstatus_highfail = phighstatus_highfail;
+   changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
+  }
+
+public double getHighstatus_highfail(){
+   return highstatus_highfail;
+  }
+
 }

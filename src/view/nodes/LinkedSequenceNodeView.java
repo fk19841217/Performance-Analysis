@@ -32,6 +32,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	 private Text title1;
 	 private Label title;
 	 private Label delay;
+	 private Label starttime;
 	 private Image icon ;
 	 
 	public LinkedSequenceNodeView(LinkedSequenceNode node) {
@@ -43,6 +44,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		rectangle = new Rectangle();
 		title=new Label();
 		delay=new Label();
+		starttime=new Label();
 		icon = new Image("/icons/linkedsequence.png");
 		
         
@@ -50,7 +52,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
         title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         //TODO Ugly solution, hardcoded value.
         title1.setWrappingWidth(node.getWidth() - 7);
-        title1.setText("Sequence");
+        title1.setText("Sequence Diagram");
         
         
         
@@ -60,15 +62,13 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
         changeWidth(node.getWidth());
 		initLooks();
 		
-	
-	        
-	        StackPane.setAlignment(title1, Pos.TOP_CENTER);
+	    StackPane.setAlignment(title1, Pos.TOP_CENTER);
 		       // title.resize(circle.getRadius(), circle.getRadius());
-		        if(node.getTitle() != null) {
-		            title1.setText(node.getTitle());
-		        }
-        
-       stackPane.getChildren().addAll(rectangle,title,title1,delay);
+		     if(node.getTitle() != null) {
+		         title1.setText(node.getTitle());
+		      }
+
+       stackPane.getChildren().addAll(rectangle,title,title1,delay,starttime);
       
         
         this.getChildren().add(stackPane);
@@ -103,6 +103,15 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	        title.setAlignment(Pos.CENTER);
 	        
 	        StackPane.setMargin(delay, new Insets(rectangle.getHeight()/4 , 0.0, 0.0, 0.0));
+	        
+	        starttime = new Label();
+	        starttime.setFont(Font.font("Verdana", 12));
+	        if(node.getDelay()>0) {
+	        	starttime.setText(String.valueOf(node.getDelay()));
+	        }
+	        starttime.setAlignment(Pos.CENTER);
+	        
+	        
 	        
 	        delay = new Label();
 	        delay.setFont(Font.font("Verdana", 12));
@@ -211,6 +220,8 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	            title.setText((String) evt.getNewValue());
 	        }else if (evt.getPropertyName().equals(Constants.changeLinkedSequenceDelay)) {
 	            delay.setText((String) evt.getNewValue());
+	        }else if (evt.getPropertyName().equals(Constants.changeLinkedSequenceStarttime)) {
+	            starttime.setText((String) evt.getNewValue());
 	        }
 	    }
 

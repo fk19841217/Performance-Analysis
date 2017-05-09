@@ -27,9 +27,11 @@ import util.persistence.PersistenceManager;
 import view.edges.AbstractEdgeView;
 import view.edges.MessageEdgeView;
 import view.nodes.AbstractNodeView;
+import view.nodes.DeploymentNodeView;
 import view.nodes.LinkedDeploymentNodeView;
 import view.nodes.LinkedSequenceNodeView;
 import view.nodes.SequenceObjectView;
+import view.nodes.UsecaseNodeView;
 
 import org.controlsfx.control.Notifications;
 import org.eclipse.jgit.api.Git;
@@ -66,9 +68,19 @@ public class TabController {
     
     private Map<String,SequenceObject> componentMap =new HashMap<>();
     private ArrayList<String> componentnamelist = new ArrayList<>();
+    
+    private ArrayList<String> flowsets = new ArrayList<>();
+    private Map<String,AbstractNode> flowsetsMap =new HashMap<>();
    
     private Map<String,ArrayList<AbstractEdgeView>> messageMap =new HashMap<>();
     private ArrayList<String> sequencetablist = new ArrayList<>();
+    
+    private ArrayList<AbstractEdgeView> externalportedgelist = new ArrayList<>();
+    //private Map<String,AbstractEdgeView> externalportedgeMap =new HashMap<>();
+    
+    private ArrayList<AbstractNode> deploymentboxlist =new ArrayList<>();
+    
+    private ArrayList<AbstractEdge> networkedgelit =new ArrayList<>();
 
     public static final String CLASS_DIAGRAM_VIEW_PATH = "view/fxml/classDiagramView.fxml";
     public static final String SEQUENCE_DIAGRAM_VIEW_PATH = "view/fxml/sequenceDiagramView.fxml";
@@ -80,10 +92,37 @@ public class TabController {
     public void initialize() {
     }
     
-    //public TabController(Pane pDrawPane, AbstractDiagramController pDiagramController){
-     //   diagramController = pDiagramController;
-     //   aDrawPane = pDrawPane;
-    //}
+//	private ArrayList<AbstractNode> deploymentboxlist =new ArrayList<>();
+    
+	 //   private ArrayList<AbstractEdge> networkedgelit =new ArrayList<>();
+    
+    public ArrayList<AbstractEdge> getNetworkedgelit(){
+    	return  networkedgelit; 
+    	
+    } 
+    
+    public ArrayList<AbstractNode> getDeploymentboxlist(){
+    	return   deploymentboxlist; 
+    	
+    } 
+    
+    
+    public ArrayList<AbstractEdgeView> getExternalportedgelist(){
+    	return  externalportedgelist; 
+    	
+    } 
+    
+    public ArrayList<String> getFlowsets(){
+    	return flowsets; 
+    	
+    } 
+    
+    public Map<String,AbstractNode> getFlowsetsMap(){
+    	return  flowsetsMap; 
+    	
+    } 
+    
+    
     
     public Map<String,SequenceObject> getComponentMap(){
     	return componentMap;
@@ -391,10 +430,19 @@ public class TabController {
     		ArrayList<AbstractEdgeView> newmessagelist= new ArrayList<>();
     		
     	 for(int i=0;i<messagelist.size();i++){
+    		 
+    		 if(!messagelist.get(i).getRefEdge().getstartedge())
+    			 messagelist.get(i).getStartNode().getRefNode().setNetwork(messagelist.get(i).getRefEdge().getNetwork());
+    		 
+    		 
+    		 
     		 if(messagelist.get(i) instanceof MessageEdgeView && messagelist.get(i).getRefEdge().getstartedge()){
     			 
     			 AbstractEdgeView  m=(AbstractEdgeView) messagelist.get(i);
-    				    
+    			 externalportedgelist.add(messagelist.get(i));
+    			 m.getEndNode().getRefNode().setExternalportedge(m.getRefEdge());
+    			 //externalportedgeMap.put(m.getRefEdge().getTitle(), m);
+    			//m.getEndNode().getRefNode().setExternalportedge(m.getRefEdge());
     				newmessagelist.add(m);
     				// messageMap.put(tabPane.getSelectionModel().getSelectedItem(),newmessagelist);
     				 messagelist.remove(m);
@@ -407,23 +455,62 @@ public class TabController {
     	while(messagelist.size()>0){
     		 for(int i=0;i<messagelist.size();i++){
     			 if(newmessagelist.get(newmessagelist.size()-1).getEndNode() == messagelist.get(i).getStartNode()){
+    				 
     				 newmessagelist.add(messagelist.get(i));
     				 messagelist.remove(messagelist.get(i));
     			 }
     		 }
     		 
+    		 for(int i=0;i<newmessagelist.size();i++){
+    			 if(!newmessagelist.get(i).getRefEdge().getstartedge())
+    				 newmessagelist.get(i).getStartNode().getRefNode().setNetwork(newmessagelist.get(i).getRefEdge().getNetwork());
+    		 }
+    		 
+    		 
     		 messageMap.put(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname(),newmessagelist);
     		 
     	 }
+    	     	
+    	 System.out.println(externalportedgelist.size());
     	 
-    	 if(!sequencetablist.contains(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname())){
-    		 
-    		 sequencetablist.add(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname());
-    	 }
     	 
-    	System.out.println(sequencetablist.size());
-     	System.out.println(messagelist.size());
-     	System.out.println(newmessagelist.size());
+    	}
+    	
+    	
+    	else if(pc instanceof PerformanceController){
+    		
+    		ArrayList<AbstractEdgeView> adgelist = pc.getAllEdgeViews();
+    		
+    		for(int j=0;j<adgelist.size();j++){
+    			if(adgelist.get(j).getStartNode() instanceof UsecaseNodeView && adgelist.get(j).getEndNode() instanceof LinkedSequenceNodeView)
+    				adgelist.get(j).getEndNode().getRefNode().setFrequence(adgelist.get(j).getStartNode().getRefNode().getFrequence());
+    		}
+    		
+    		
+    		for(int i=0;i<pc.getAllNodeViews().size();i++){
+    			if(pc.getAllNodeViews().get(i) instanceof LinkedSequenceNodeView){
+    				flowsets.add(pc.getAllNodeViews().get(i).getRefNode().getTitle());
+    				flowsetsMap.put(pc.getAllNodeViews().get(i).getRefNode().getTitle(), pc.getAllNodeViews().get(i).getRefNode());
+    			}
+    		}
+    		
+    		
+    	}
+    	
+    	else if (pc instanceof DeploymentController){
+    		
+    	
+    		
+    		for(int i=0;i<pc.getAllNodeViews().size();i++)
+    			if(pc.getAllNodeViews().get(i) instanceof DeploymentNodeView)
+    				deploymentboxlist.add(pc.getAllNodeViews().get(i).getRefNode());
+    			
+    		
+    		
+    		
+    		for(int i=0;i<pc.getAllEdgeViews().size();i++)
+    			if(pc.getAllEdgeViews().get(i).getStartNode() instanceof DeploymentNodeView && pc.getAllEdgeViews().get(i).getEndNode() instanceof DeploymentNodeView)
+    				networkedgelit.add(pc.getAllEdgeViews().get(i).getRefEdge());
     	}
     	
     	

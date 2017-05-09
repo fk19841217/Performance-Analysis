@@ -13,6 +13,7 @@ public class SequenceActivationBox extends AbstractNode{
     private String outputport;
     private int cycles;
     private SequenceObject se;
+    private int network;
 
 
     public SequenceActivationBox(double x, double y, double width, double height){
@@ -25,6 +26,22 @@ public class SequenceActivationBox extends AbstractNode{
         this.width = LIFEBOX_DEFAULT_WIDTH;
 
     }
+    
+    
+    public void setNetwork(int pnetwork){
+	     network = pnetwork;
+       changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+       remoteChanges.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+   }
+
+public void remoteSetNetwork(int pnetwork){
+	 network = pnetwork;
+    changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+   }
+
+public int getNetwork(){
+       return network;
+   }
     
     public void setSequenceObject(SequenceObject pse){
     	this.se=pse;

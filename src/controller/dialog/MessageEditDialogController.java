@@ -21,6 +21,10 @@ public class MessageEditDialogController {
     private TextField titleTextField;
     @FXML
     private TextField networkTextField;
+    @FXML
+    private TextField lowfailTextField;
+    @FXML
+    private TextField upfailTextField;
     
     private AbstractEdge edge;
     private boolean okClicked = false;
@@ -56,6 +60,14 @@ public class MessageEditDialogController {
     
     public TextField getNetworkTextField(){
         return networkTextField;
+    }
+    
+    public TextField getLowfailTextField(){
+        return lowfailTextField;
+    }
+    
+    public TextField getUpfailTextField(){
+        return upfailTextField;
     }
 
     public void setEdge(MessageEdge edge) {

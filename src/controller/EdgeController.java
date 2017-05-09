@@ -23,8 +23,10 @@ import view.edges.AbstractEdgeView;
 import view.edges.MessageEdgeView;
 import view.nodes.AbstractNodeView;
 import view.nodes.DeploymentNodeView;
+import view.nodes.LinkedDeploymentNodeView;
 import view.nodes.SequenceActivationBoxView;
 import view.nodes.SequenceObjectView;
+import view.nodes.UsecaseNodeView;
 
 import java.io.IOException;
 
@@ -134,10 +136,11 @@ public class EdgeController {
              if(startNodeView != null){
                  MessageEdge medge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
                  CompositionEdge aedge = new CompositionEdge(diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
-                if (diagramController.getNodeMap().get(startNodeView).getType()=="LIFELINE")
-                 ((PerformanceController)diagramController).createEdgeView(medge, startNodeView, endNodeView);
-                else  
+                
                 ((PerformanceController)diagramController).createEdgeView(aedge, startNodeView, endNodeView);
+                
+               
+                
              } /*else {
                  MessageEdge edge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(endNodeView));
                  ((PerformanceController)diagramController).createEdgeView(edge, null, endNodeView);
@@ -267,6 +270,10 @@ public class EdgeController {
             controller.getOkButton().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                	
+                
+                	
+                	
                     //If no change in type of edge we just change direction of old edge
                     if(typeBox.getValue().equals(edge.getType()) || typeBox.getValue() == null){
 
@@ -346,7 +353,6 @@ public class EdgeController {
                   
                     edge.setCost(Integer.valueOf(cost.getText()));
                     
-                    
                     aDrawPane.getChildren().remove(group);
                 }
             });
@@ -392,6 +398,7 @@ public class EdgeController {
     }
 
     public boolean showMessageEditDialog(MessageEdge edge) {
+    	if(!edge.getstartedge()){
     	//if(diagramController instanceof DeploymentController)
         try {
             // Load the classDiagramView.fxml file and create a new stage for the popup
@@ -452,6 +459,75 @@ public class EdgeController {
             e.printStackTrace();
             return false;
         }
+    	}
+    	else{
+    		 try {
+    	            // Load the classDiagramView.fxml file and create a new stage for the popup
+    	            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/fxml/startmessageEditDialog.fxml"));
+    	            AnchorPane dialog = loader.load();
+    	            dialog.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+    	            dialog.setStyle("-fx-border-color: black");
+    	            //Set location for "dialog".
+    	            if(edge.getStartNode() != null) {
+    	                dialog.setLayoutX((edge.getStartNode().getTranslateX() + edge.getEndNode().getTranslateX()) / 2);
+    	                dialog.setLayoutY((edge.getStartNode().getTranslateY() + edge.getEndNode().getTranslateY()) / 2);
+    	            } else {
+    	                dialog.setLayoutX((edge.getStartX() + edge.getEndNode().getTranslateX()) / 2);
+    	                dialog.setLayoutY((edge.getStartY() + edge.getEndNode().getTranslateY()) / 2);
+    	            }
+
+    	            MessageEditDialogController controller = loader.getController();
+    	            controller.setEdge(edge);
+    	            ChoiceBox directionBox = controller.getDirectionBox();
+    	            ChoiceBox typeBox = controller.getTypeBox();
+    	            TextField titleTextField = controller.getTitleTextField();
+    	            titleTextField.setText(edge.getTitle());
+    	            TextField lowfailTextField = controller.getLowfailTextField(); 
+    	            if(edge.getLowfail()>0)
+    	            	lowfailTextField.setText(String.valueOf(edge.getLowfail()));
+    	            TextField upfailTextField = controller.getUpfailTextField(); 
+    	            if(edge.getUpfail()>0)
+    	            	upfailTextField.setText(String.valueOf(edge.getUpfail()));
+    	                 
+    	            
+    	            controller.getOkButton().setOnAction(new EventHandler<ActionEvent>() {
+    	                @Override
+    	                public void handle(ActionEvent event) {
+    	                    edge.setMessageType((MessageEdge.MessageType)typeBox.getValue());
+    	                    if (directionBox.getValue() != null) {
+    	                        diagramController.getUndoManager().add(new DirectionChangeEdgeCommand(edge, edge.getDirection(),
+    	                                AbstractEdge.Direction.valueOf(directionBox.getValue().toString())));
+    	                        edge.setDirection(AbstractEdge.Direction.valueOf(directionBox.getValue().toString()));
+    	                    }
+    	                    if(titleTextField.getText() != null){
+    	                        edge.setTitle(titleTextField.getText());
+    	                    }
+    	                    if(lowfailTextField.getText() != null){
+    	                        edge.setLowfail(Double.valueOf(lowfailTextField.getText())); 
+    	                    }
+    	                    if(upfailTextField.getText() != null){
+    	                        edge.setUpfail(Double.valueOf(upfailTextField.getText())); 
+    	                    }
+    	                    
+    	                    aDrawPane.getChildren().remove(dialog);
+    	                    diagramController.removeDialog(dialog);
+    	                }
+    	            });
+    	            controller.getCancelButton().setOnAction(event -> {
+    	                aDrawPane.getChildren().remove(dialog);
+    	                diagramController.removeDialog(dialog);
+    	            });
+    	            diagramController.addDialog(dialog);
+    	            aDrawPane.getChildren().add(dialog);
+
+    	            return controller.isOkClicked();
+
+    	        } catch (IOException e) {
+    	            e.printStackTrace();
+    	            return false;
+    	        }
+    	}
+    		
     }
     
     

@@ -37,6 +37,7 @@ public class Constants {
     public static String changeLifelineLength = "LifelineLength";
     public static String changeUsecaseFrequence = "Frequence";
     public static String changeLinkedSequenceDelay = "Delay";
+    public static String changeLinkedSequenceStarttime= "Starttime";
     public static String changeSequenceInputport = "Inputport";
     public static String changeSequenceOutputport = "Outputport";
     public static String changeSequenceCycles = "cycles";
@@ -61,6 +62,8 @@ public class Constants {
     public static String changeMessageTitle = "MessageTitle";
     public static String changeMessageType = "MessageType";
     public static String changeMessageNetwork = "MessageNetwork";
+    public static String changeMessageLowfail = "Lowfail";
+    public static String changeMessageUpfail= "Highfail";
     public static String changeConnectbandwidth = "Connectbandwidth";
     public static String changeConnectdelay = "Connectdelay";
     public static String changeConnectcost = "Connectcost";

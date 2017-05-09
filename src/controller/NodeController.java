@@ -597,10 +597,14 @@ public class NodeController {
         VBox group = new VBox();
         TextField input = new TextField();
         input.setText(node.getTitle());
-        TextField frequence = new TextField();
-       
+        
+        TextField delay = new TextField();
         if(node.getDelay()>0)
-        frequence.setText(String.valueOf(node.getDelay()));
+        delay.setText(String.valueOf(node.getDelay()));
+        
+        TextField starttime = new TextField();
+        if(node.getStarttime()>0)
+        starttime.setText(String.valueOf(node.getStarttime()));
          
         
         Button okButton = new Button("Ok");
@@ -608,7 +612,8 @@ public class NodeController {
             @Override
             public void handle(ActionEvent event) {
                 node.setTitle(input.getText());
-                node.setDelay(Integer.valueOf(frequence.getText()));
+                node.setDelay(Integer.valueOf(delay.getText()));
+                node.setStarttime(Integer.valueOf(starttime.getText()));
                 aDrawPane.getChildren().remove(group);
             }
         });
@@ -621,13 +626,21 @@ public class NodeController {
             }
         });
 
-        Label label = new Label("Choose title");
+        Label label = new Label("Input flow Name");
         group.getChildren().add(label);
-        
         group.getChildren().add(input);
-        Label label1 = new Label("Input Delay");
+        
+        Label label2 = new Label("Input Start time (ms)");
+        group.getChildren().add(label2);
+        group.getChildren().add(starttime);
+        
+        Label label1 = new Label("Input Deadline (ms)");
         group.getChildren().add(label1);
-        group.getChildren().add(frequence);
+        group.getChildren().add(delay);
+        
+        
+        
+        
         HBox buttons = new HBox();
         buttons.getChildren().add(okButton);
         buttons.getChildren().add(cancelButton);

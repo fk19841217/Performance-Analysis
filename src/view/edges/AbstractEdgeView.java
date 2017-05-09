@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 import model.edges.AbstractEdge;
 import util.Constants;
 import view.nodes.AbstractNodeView;
+import view.nodes.LinkedDeploymentNodeView;
+import view.nodes.UsecaseNodeView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -43,6 +45,11 @@ public abstract class AbstractEdgeView extends Group implements EdgeView, Proper
         this.refEdge = edge;
         this.startNode = startNode;
         this.endNode = endNode;
+        this.refEdge.setAbstractEdgeView(this);
+        if(this.startNode instanceof UsecaseNodeView && this.endNode instanceof LinkedDeploymentNodeView ){
+    		this.endNode.getRefNode().setFrequence(this.startNode.getRefNode().getFrequence());
+    		System.out.println(this.endNode.getRefNode().getFrequence());
+    	}
         this.setVisible(true);
         this.getChildren().add(startLine);
         this.getChildren().add(middleLine);
@@ -58,6 +65,9 @@ public abstract class AbstractEdgeView extends Group implements EdgeView, Proper
             startNode.getRefNode().addPropertyChangeListener(this);
         }
         endNode.getRefNode().addPropertyChangeListener(this);
+        
+        
+    	
     }
 
     protected void draw() {

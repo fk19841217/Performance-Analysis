@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import model.nodes.Node;
 import util.Constants;
+import view.edges.AbstractEdgeView;
 
 /**
  * Abstract Edge to hide some basic Edge-functionality.
@@ -20,6 +21,10 @@ public abstract class AbstractEdge implements Edge, Serializable {
 	private double netdelay;
 	private String title;
 	private boolean startedge;
+	private AbstractEdgeView abstractedgeview;
+	private int network;
+	 private double lowfail;
+	    private double upfail;
 
     //Listened to by the view, is always fired.
     protected transient PropertyChangeSupport changes = new PropertyChangeSupport(this);
@@ -44,6 +49,14 @@ public abstract class AbstractEdge implements Edge, Serializable {
         direction = Direction.NO_DIRECTION;
 
         id = ++objectCount;
+    }
+    
+    public void setAbstractEdgeView(AbstractEdgeView pabstractedgeview){
+    	this.abstractedgeview=pabstractedgeview;
+    }
+    
+    public AbstractEdgeView getAbstractEdgeView(){
+    	return abstractedgeview;
     }
 
     public void setstartedge(boolean b){
@@ -232,4 +245,55 @@ public void remoteNetdelay(double pnetdelay){
 public double getNetdelay(){
    return netdelay;
 }
+
+public void setNetwork(int pnetwork){
+    network = pnetwork;
+   changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+   remoteChanges.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+}
+
+public void remoteSetNetwork(int pnetwork){
+network = pnetwork;
+changes.firePropertyChange(Constants.changeMessageNetwork, null, "Network: "+String.valueOf(network)+" bytes");
+}
+
+public int getNetwork(){
+   return network;
+}
+
+
+
+public void setLowfail(double plowfail){
+  	 lowfail = plowfail;
+     changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+     remoteChanges.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+  }
+
+  public void remotesetLowfail(double plowfail){
+	   	 lowfail = plowfail;
+	      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+  }
+
+  public double getLowfail(){
+     return lowfail;
+  }
+  
+  public void setUpfail(double pupfail){
+	   	 upfail = pupfail;
+	      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+	      remoteChanges.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+	   }
+
+	   public void remotesetUpfail(double pupfail){
+		   	 upfail = pupfail;
+		      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+	   }
+
+	   public double getUpfail(){
+	      return upfail;
+	   }
+
+
+
+
 }

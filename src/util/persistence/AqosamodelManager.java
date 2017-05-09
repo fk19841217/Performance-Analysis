@@ -66,7 +66,7 @@ public class AqosamodelManager {
         Document doc = docBuilder.newDocument();
 
         Element rootElement = doc.createElement("aqosa.ir:AQOSAModel");
-        rootElement.setAttribute("xmi.version", "2.0");
+        rootElement.setAttribute("xmi:version", "2.0");
         rootElement.setAttribute("xmlns:xmi", "http://www.omg.org/XMI");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         rootElement.setAttribute("xmlns:aqosa.ir", "http://se.liacs.nl/aqosa/ir");
@@ -109,20 +109,22 @@ public class AqosamodelManager {
         	xmiassembly.appendChild(xmicomponent);
         }
         
+        ArrayList<String> flowsets = tc.getFlowsets();
+        Map<String,AbstractNode> flowsetsMap =tc.getFlowsetsMap();
         
         Map<String,ArrayList<AbstractEdgeView>> amessageMap =tc.getMessageMap();
-        ArrayList<String> asequencetablist = tc.getSequencetablist();
+       // ArrayList<String> asequencetablist = tc.getSequencetablist();
         
         Map<String,Tab> astabMap =tc.getStabMap();
         //ArrayList<SequenceActivationBox> boxlist= cMap.get(clist.get(i)).getChildNodes();
         
         
-        for(int i=0;i<asequencetablist.size();i++){
+        for(int i=0;i<flowsets.size();i++){
         	
         	Element xmiflow = doc.createElement("flow");
-        	xmiflow.setAttribute("name",asequencetablist.get(i));
+        	xmiflow.setAttribute("name",flowsets.get(i));
         	
-        	ArrayList<AbstractEdgeView> edgelist = amessageMap.get(asequencetablist.get(i));
+        	ArrayList<AbstractEdgeView> edgelist = amessageMap.get(flowsets.get(i));
         	
         	Element xmicomputeaction = doc.createElement("action");
         	xmicomputeaction.setAttribute("xsi:type", "aqosa.ir:ComputeAction");
@@ -155,6 +157,147 @@ public class AqosamodelManager {
         
         
         rootElement.appendChild(xmiassembly);
+        
+        Element xmiscenarios = doc.createElement("scenarios");
+        
+        Element xmiflowset= doc.createElement("flowset");
+        xmiflowset.setAttribute("name", "Average");
+        xmiflowset.setAttribute("completionTime", "10000");
+        xmiflowset.setAttribute("missedPercentage", "0.05");
+        xmiscenarios.appendChild(xmiflowset);
+        
+        
+        ArrayList<AbstractEdgeView> externallist=tc.getExternalportedgelist();
+        
+        for(int i=0;i<flowsets.size();i++){
+        	Element xmiflowinstance = doc.createElement("flowinstance");
+        	xmiflowinstance.setAttribute("instance", "//@assembly/@flow."+i);
+        	xmiflowinstance.setAttribute("start", String.valueOf(flowsetsMap.get(flowsets.get(i)).getStarttime()));
+        	xmiflowinstance.setAttribute("trigger", String.valueOf(1000/(flowsetsMap.get(flowsets.get(i)).getFrequence())));
+        	xmiflowinstance.setAttribute("deadline", String.valueOf(flowsetsMap.get(flowsets.get(i)).getDelay()));
+        	xmiflowset.appendChild(xmiflowinstance);
+        }
+       
+        rootElement.appendChild(xmiscenarios);
+        
+        Element xmirepository = doc.createElement("repository");
+        
+        double varincepercentage = 1.0/Double.valueOf(clist.size());
+        
+        for(int i=0;i<clist.size();i++){
+        	Element xmicomponentinstance = doc.createElement("componentinstance");
+        	 xmicomponentinstance.setAttribute("id",cMap.get(clist.get(i)).getTitle()+"_Instance");
+        	 xmicomponentinstance.setAttribute("compatible","//@assembly/@component."+i);
+        	 xmicomponentinstance.setAttribute("variancePercentage",String.valueOf(varincepercentage));
+        	 
+        	 ArrayList<SequenceActivationBox> boxlist = cMap.get(clist.get(i)).getChildNodes();
+        	 
+        	 for(int j=0;j<boxlist.size();j++){
+        		 Element xmiserviceinstance= doc.createElement("service");
+        		 xmiserviceinstance.setAttribute("instance", "//@assembly/@component."+i+"/@service."+j);
+        		 xmiserviceinstance.setAttribute("cycles",String.valueOf(boxlist.get(j).getCycles()));
+        		
+        		 if(boxlist.get(j).getNetwork()>0)
+        		 {
+        		 xmiserviceinstance.setAttribute("networkUsage", String.valueOf(boxlist.get(j).getNetwork()));
+        		 Element xmiprovide= doc.createElement("provide");
+        		 xmiprovide.setAttribute("connects", "//@assembly/@component."+i+"/@outport."+j);
+        		 xmiserviceinstance.appendChild(xmiprovide);
+        		 }
+        		 
+        		 Element xmidenpend=doc.createElement("depend");
+        		 
+        		 Element xmirequire= doc.createElement("require");
+        		 if(boxlist.get(j).getExternalportedge()!=null)
+        			 xmirequire.setAttribute("external", "//@repository/@externalport."+ externallist.indexOf(boxlist.get(j).getExternalportedge().getAbstractEdgeView()));	 
+        		 else
+        			 xmirequire.setAttribute("internal", "//@assembly/@component."+i+"/@inport."+j);
+        		 
+        		 xmidenpend.appendChild(xmirequire);
+        		 
+        		 xmiserviceinstance.appendChild(xmidenpend);
+        		 
+        		 xmicomponentinstance.appendChild(xmiserviceinstance);
+        	 }
+        	 xmirepository.appendChild(xmicomponentinstance);
+        }
+        
+//    	private ArrayList<AbstractNode> deploymentboxlist =new ArrayList<>();
+        
+   	 //   private ArrayList<AbstractEdge> networkedgelit =new ArrayList<>();
+        
+        ArrayList<AbstractNode> processorlist=tc.getDeploymentboxlist();
+        ArrayList<AbstractEdge> buslist=tc.getNetworkedgelit();
+        
+        for(int i=0;i<processorlist.size();i++){
+        	Element xmiprocessor_h=doc.createElement("processor");
+        	xmiprocessor_h.setAttribute("id", processorlist.get(i).getTitle()+"-h");
+        	xmiprocessor_h.setAttribute("clock", String.valueOf(processorlist.get(i).getClock()));
+        	xmiprocessor_h.setAttribute("cost", String.valueOf(processorlist.get(i).getHighstatus_cost()));
+        	xmiprocessor_h.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
+        	xmiprocessor_h.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
+        	xmiprocessor_h.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getHighstatus_lowfail()));
+        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getHighstatus_highfail()));
+        	xmirepository.appendChild(xmiprocessor_h);
+        	
+        	Element xmiprocessor_l=doc.createElement("processor");
+        	xmiprocessor_l.setAttribute("id", processorlist.get(i).getTitle()+"-l");
+        	xmiprocessor_l.setAttribute("clock", String.valueOf(processorlist.get(i).getClock()));
+        	xmiprocessor_l.setAttribute("cost", String.valueOf(processorlist.get(i).getLowstatus_cost()));
+        	xmiprocessor_l.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
+        	xmiprocessor_l.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
+        	xmiprocessor_l.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getLowstatus_lowfail()));
+        	xmiprocessor_l.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()));
+        	xmirepository.appendChild(xmiprocessor_l);
+        }
+        
+        for(int i=0;i<buslist.size();i++){
+        	Element xmibus=doc.createElement("bus");
+        	xmibus.setAttribute("id", buslist.get(i).getTitle());
+        	xmibus.setAttribute("bandwidth",String.valueOf(buslist.get(i).getBandwidth()));
+        	xmibus.setAttribute("delay",String.valueOf(buslist.get(i).getNetdelay()));
+        	xmibus.setAttribute("cost",String.valueOf(buslist.get(i).getCost()));
+        	xmirepository.appendChild(xmibus);
+        }
+       
+        
+        
+        
+        for(int i=0;i<externallist.size();i++){
+        	Element xmiexternalport=doc.createElement("externalport");
+        	xmiexternalport.setAttribute("id", externallist.get(i).getRefEdge().getTitle());
+        	xmiexternalport.setAttribute("lowerFail",String.valueOf(externallist.get(i).getRefEdge().getLowfail()));
+        	xmiexternalport.setAttribute("upperFail",String.valueOf(externallist.get(i).getRefEdge().getUpfail()));
+        	xmirepository.appendChild(xmiexternalport);
+        }
+        
+        rootElement.appendChild(xmirepository);
+        
+        Element xmiobjectives=doc.createElement("objectives");
+        
+        Element xmisetting=doc.createElement("settings");
+        xmisetting.setAttribute("noRun", "3");
+        xmisetting.setAttribute("noSampling", "50");
+        xmisetting.setAttribute("noDuplicate", "1");
+        xmisetting.setAttribute("minCost", "200");
+        xmisetting.setAttribute("maxCost", "10000");
+        
+        
+        
+        
+        String[] string = {"ResponseTime","CPUUtilization","BusUtilization","Safety","Cost"};
+        
+        for(int i=0;i<string.length;i++){
+        Element xmievaluation=doc.createElement("evaluations");
+        xmievaluation.setTextContent(string[i]);
+        xmisetting.appendChild(xmievaluation);
+        }
+        
+        xmiobjectives.appendChild(xmisetting);
+        
+        rootElement.appendChild(xmiobjectives);
+        
+        
         
         return doc;
     }

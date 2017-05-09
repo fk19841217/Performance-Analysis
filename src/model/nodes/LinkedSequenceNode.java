@@ -4,9 +4,11 @@ import util.Constants;
 
 public class LinkedSequenceNode extends AbstractNode {
 	
-	public static final String TYPE = "NODE";
+	public static final String TYPE = "LinkedSequenceNODE";
 	
 	private int delay;
+	private int starttime;
+	 private int frequence;
 	
 	 public  LinkedSequenceNode(double x, double y, double width, double height)
 	    {
@@ -18,8 +20,8 @@ public class LinkedSequenceNode extends AbstractNode {
 	 
 	 public void setDelay(int pdelay){
 	     delay = pdelay;
-        changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Delay: "+String.valueOf(delay)+" /s");
-        remoteChanges.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Delay: "+String.valueOf(delay)+" /s");
+        changes.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Deadline: "+String.valueOf(delay)+" /s");
+        remoteChanges.firePropertyChange(Constants.changeLinkedSequenceDelay, null, "Deadline: "+String.valueOf(delay)+" /s");
     }
  
  public void remoteSetDelay(int pdelay){
@@ -30,6 +32,36 @@ public class LinkedSequenceNode extends AbstractNode {
  public int getDelay(){
         return delay;
     }
+ 
+ public void setStarttime(int pstarttime){
+	 starttime = pstarttime;
+    changes.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+    remoteChanges.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+}
+
+public void remoteSetStarttime(int pstarttime){
+	 starttime = pstarttime;
+	    changes.firePropertyChange(Constants.changeLinkedSequenceStarttime, null, "Start time: "+String.valueOf(starttime));
+}
+
+public int getStarttime(){
+    return starttime;
+}
+
+public void setFrequence(int pfrequence){
+    frequence = pfrequence;
+   changes.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
+   remoteChanges.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
+}
+
+public void remoteSetFrequence(int pfrequence){
+frequence = pfrequence;
+   changes.firePropertyChange(Constants.changeUsecaseFrequence, null,  "Frequency: "+String.valueOf(frequence)+" /s");
+}
+
+public int getFrequence(){
+   return frequence;
+}
 
 	 @Override
 	    public ClassNode copy(){
