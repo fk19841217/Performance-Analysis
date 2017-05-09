@@ -718,11 +718,11 @@ public class NodeController {
               }
           });
 
-          Label label = new Label("Choose title");
+          Label label = new Label("Input Usecase Name");
           group.getChildren().add(label);
           
           group.getChildren().add(input);
-          Label label1 = new Label("Input Frequence");
+          Label label1 = new Label("Input Frequence(times/s)");
           group.getChildren().add(label1);
           group.getChildren().add(frequence);
           HBox buttons = new HBox();
@@ -811,13 +811,13 @@ public class NodeController {
             }
         });
 
-        Label label = new Label("Choose title");
+        Label label = new Label("Input Service Name");
         group.getChildren().add(label);
         group.getChildren().add(input);
-        Label label1 = new Label("Choose inputport");
+        Label label1 = new Label("Input inport Name");
         group.getChildren().add(label1);
         group.getChildren().add(inputport);
-        Label label2 = new Label("Choose outputport");
+        Label label2 = new Label("Input outport Name");
         group.getChildren().add(label2);
         group.getChildren().add(outputport);
         Label label3 = new Label("Input Cycles");

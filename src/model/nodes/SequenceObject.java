@@ -2,7 +2,9 @@ package model.nodes;
 
 import javafx.geometry.Point2D;
 import util.Constants;
+import view.nodes.SequenceActivationBoxView;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 /**
@@ -65,6 +67,8 @@ public class SequenceObject extends AbstractNode {
             childNode.setIsChild(true);
             this.activationBoxes.add(childNode);
             childNode.setSequenceObject(this);
+          //  childNode.setX(this.getX()+this.getWidth()/2-childNode.getWidth()/2);
+            
         }
     }
     

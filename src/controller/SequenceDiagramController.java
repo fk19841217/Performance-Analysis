@@ -356,31 +356,31 @@ public class SequenceDiagramController extends AbstractDiagramController {
         });
     }
 
-    public void initActivationBoxHandleActions(SequenceActivationBoxView newView){
-        Rectangle rectangleHandle = newView.getRectangleHandle();
-        rectangleHandle.setOnMousePressed(event -> {
-            if(tool == ToolEnum.SELECT){
-                mode = Mode.DRAGGING;
-                previousMoveY = event.getSceneY();
-            }
-        });
-
-        rectangleHandle.setOnMouseDragged(event -> {
-            double offsetY = (event.getSceneY() - previousMoveY)*(1/drawPane.getScaleY());
-            previousMoveX = event.getSceneX();
-            previousMoveY = event.getSceneY();
-            if(mode == Mode.DRAGGING){
-                SequenceActivationBox node = (SequenceActivationBox) newView.getRefNode();
-                node.setHeight(node.getHeight() + offsetY);
-            }
-        });
-
-        rectangleHandle.setOnMouseReleased(event -> {
-            mode = Mode.NO_MODE;
-            previousMoveX = 0;
-            previousMoveY = 0;
-        });
-    }
+//    public void initActivationBoxHandleActions(SequenceActivationBoxView newView){
+//        Rectangle rectangleHandle = newView.getRectangleHandle();
+//        rectangleHandle.setOnMousePressed(event -> {
+//            if(tool == ToolEnum.SELECT){
+//                mode = Mode.DRAGGING;
+//                previousMoveY = event.getSceneY();
+//            }
+//        });
+//
+//        rectangleHandle.setOnMouseDragged(event -> {
+//            double offsetY = (event.getSceneY() - previousMoveY)*(1/drawPane.getScaleY());
+//            previousMoveX = event.getSceneX();
+//            previousMoveY = event.getSceneY();
+//            if(mode == Mode.DRAGGING){
+//                SequenceActivationBox node = (SequenceActivationBox) newView.getRefNode();
+//                node.setHeight(node.getHeight() + offsetY);
+//            }
+//        });
+//
+//        rectangleHandle.setOnMouseReleased(event -> {
+//            mode = Mode.NO_MODE;
+//            previousMoveX = 0;
+//            previousMoveY = 0;
+//        });
+//    }
 
     public void initLifelineHandleActions(SequenceObjectView nodeView){
         Rectangle rectangleHandle = nodeView.getLifelineHandle();

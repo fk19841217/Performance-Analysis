@@ -199,7 +199,7 @@ public class AqosamodelManager {
         		
         		 if(boxlist.get(j).getNetwork()>0)
         		 {
-        		 xmiserviceinstance.setAttribute("networkUsage", String.valueOf(boxlist.get(j).getNetwork()));
+        		 xmiserviceinstance.setAttribute("networkUsage", String.valueOf(1000*boxlist.get(j).getNetwork()));
         		 Element xmiprovide= doc.createElement("provide");
         		 xmiprovide.setAttribute("connects", "//@assembly/@component."+i+"/@outport."+j);
         		 xmiserviceinstance.appendChild(xmiprovide);

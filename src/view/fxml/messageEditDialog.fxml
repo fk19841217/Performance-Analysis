@@ -11,16 +11,16 @@
         <Label style="-fx-font: 16px Tahoma; -fx-stroke-width: 3;" text="Edit Edge" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label text="Type" GridPane.columnIndex="0" GridPane.rowIndex="4" />
         <Label text="Directionality" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label prefWidth="144.0" text="Comunacation Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <ChoiceBox fx:id="typeBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <ChoiceBox fx:id="directionBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <TextField fx:id="titleTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label prefWidth="67.0" text="NetworkUsage" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label prefWidth="126.0" text="Network Usage(byte)" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <TextField fx:id="networkTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       </children>
       <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="154.0" minWidth="10.0" prefWidth="154.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="166.0" />
       </columnConstraints>
       <rowConstraints>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

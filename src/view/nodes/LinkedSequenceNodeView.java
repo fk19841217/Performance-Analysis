@@ -47,7 +47,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		starttime=new Label();
 		icon = new Image("/icons/linkedsequence.png");
 		
-        
+		
         title1 = new Text(node.getTitle());
         title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         //TODO Ugly solution, hardcoded value.

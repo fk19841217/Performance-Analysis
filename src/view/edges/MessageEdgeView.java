@@ -26,7 +26,8 @@ public class MessageEdgeView extends AbstractEdgeView {
     private Group arrowHead;
     private Text title = new Text();
     private Text net = new Text();
-
+    private Text low = new Text();
+    private Text up = new Text();
 
     //TODO these constructors are a mess.
     public MessageEdgeView(MessageEdge edge,  Double pStartX, Double pStartY, AbstractNodeView startNode, AbstractNodeView endNode) {
@@ -59,7 +60,9 @@ public class MessageEdgeView extends AbstractEdgeView {
         drawCircleHandle();
         draw();
         this.getChildren().add(title);
-        this.getChildren().add(net);
+        this.getChildren().add(low);
+        this.getChildren().add(up);
+        
     }
 
 
@@ -81,14 +84,28 @@ public class MessageEdgeView extends AbstractEdgeView {
 
     private void drawTitle(String titleStr){
         title.setText(titleStr);
-        title.setX((startLine.getStartX()  + endNode.getX())/2);
+        title.setX(startLine.getStartX()  + 20);
         title.setY(startLine.getStartY() - 5);
         title.toFront();
     }
     
+    private void drawLow(String lowStr){
+        low.setText(lowStr);
+        low.setX(startLine.getStartX()  + 20);
+        low.setY(startLine.getStartY() + 15);
+        low.toFront();
+    }
+    
+    private void drawUp(String upStr){
+        up.setText(upStr);
+        up.setX(startLine.getStartX()  + 20);
+        up.setY(startLine.getStartY() + 30);
+        up.toFront();
+    }
+    
     private void drawNet(String netStr){
         net.setText(netStr);
-        net.setX((startLine.getStartX()  + endNode.getX())/2);
+        net.setX(startLine.getStartX()  + 20);
         net.setY(startLine.getStartY() + 15);
         net.toFront();
     }
@@ -103,8 +120,11 @@ public class MessageEdgeView extends AbstractEdgeView {
             setPositionNoStartNode();
         }
         //setPositionNoStartNode();
+        
         drawTitle(title.getText());
         drawNet(net.getText());
+        drawLow(low.getText());
+        drawUp(up.getText());
     }
 
     private void setPosition2(){
@@ -199,6 +219,9 @@ public class MessageEdgeView extends AbstractEdgeView {
             l.setStroke(color);
         }
         title.setFill(color);
+        net.setFill(color);
+        low.setFill(color);
+        up.setFill(color);
         if(circleHandle != null){
             circleHandle.setFill(color);
         }
@@ -247,6 +270,8 @@ public class MessageEdgeView extends AbstractEdgeView {
             setPositionNoStartNode();
             drawTitle(title.getText());
             drawNet(net.getText());
+            drawLow(low.getText());
+            drawUp(up.getText());
             draw();
         } else if (propertyName.equals(Constants.changeMessageStartY)){
             startY = (Double)evt.getNewValue();
@@ -262,6 +287,10 @@ public class MessageEdgeView extends AbstractEdgeView {
             drawTitle((String)evt.getNewValue());
         } else if (propertyName.equals(Constants.changeMessageNetwork)){
             drawNet((String)evt.getNewValue());
+        }else if (propertyName.equals(Constants.changeMessageLowfail)){
+            drawLow((String)evt.getNewValue());
+        }else if (propertyName.equals(Constants.changeMessageUpfail)){
+            drawUp((String)evt.getNewValue());
         } else if (propertyName.equals(Constants.changeMessageType)){
             if(evt.getNewValue() == MessageEdge.MessageType.RESPONSE){
                 startLine.getStrokeDashArray().addAll(15d, 10d);

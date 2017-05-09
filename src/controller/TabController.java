@@ -92,20 +92,10 @@ public class TabController {
     public void initialize() {
     }
     
-//	private ArrayList<AbstractNode> deploymentboxlist =new ArrayList<>();
-    
-	 //   private ArrayList<AbstractEdge> networkedgelit =new ArrayList<>();
-    
-    public ArrayList<AbstractEdge> getNetworkedgelit(){
-    	return  networkedgelit; 
-    	
-    } 
-    
-    public ArrayList<AbstractNode> getDeploymentboxlist(){
-    	return   deploymentboxlist; 
-    	
-    } 
-    
+    //public TabController(Pane pDrawPane, AbstractDiagramController pDiagramController){
+     //   diagramController = pDiagramController;
+     //   aDrawPane = pDrawPane;
+    //}
     
     public ArrayList<AbstractEdgeView> getExternalportedgelist(){
     	return  externalportedgelist; 
@@ -479,6 +469,9 @@ public class TabController {
     	
     	else if(pc instanceof PerformanceController){
     		
+    		flowsets.clear();
+    		flowsetsMap.clear();
+    		
     		ArrayList<AbstractEdgeView> adgelist = pc.getAllEdgeViews();
     		
     		for(int j=0;j<adgelist.size();j++){
@@ -498,7 +491,8 @@ public class TabController {
     	}
     	
     	else if (pc instanceof DeploymentController){
-    		
+    		deploymentboxlist.clear();
+    		networkedgelit.clear();
     	
     		
     		for(int i=0;i<pc.getAllNodeViews().size();i++)

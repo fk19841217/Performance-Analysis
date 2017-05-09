@@ -685,7 +685,7 @@ public abstract class AbstractDiagramController {
             newView = new LinkedSequenceNodeView((LinkedSequenceNode) node);
         } else if (node instanceof SequenceActivationBox) {
             newView = new SequenceActivationBoxView((SequenceActivationBox) node);
-            ((SequenceDiagramController)this).initActivationBoxHandleActions((SequenceActivationBoxView)newView);
+            
          }
      
         else{

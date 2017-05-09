@@ -4,6 +4,7 @@ package view.nodes;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.nodes.SequenceActivationBox;
 import model.nodes.SequenceObject;
 import util.Constants;
@@ -23,12 +25,19 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 
 
     private Label title;
-    private Rectangle rectangle;
+    private Label inport;
+    private Label outport;
+    private Label cycles;;
+    //private Label title;
+	// private Text title = new Text();
+	 //private Text title = new Text();
+	
+	private Rectangle rectangle;
     private StackPane container;
     private Line shortHandleLine;
     private Line longHandleLine;
     //	    private Line lifeline;
-    private Rectangle rectangleHandle;
+    //private Rectangle rectangleHandle;
     protected SequenceObject diagram;
 
     private final int STROKE_WIDTH = 1;
@@ -37,14 +46,16 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
     public SequenceActivationBoxView(SequenceActivationBox node) {
         super(node);
 
-        this.diagram = diagram;
+        //this.diagram = diagram;
         container = new StackPane();
         rectangle = new Rectangle();
         title = new Label();
+        cycles = new Label();
+         inport = new Label();
+        outport = new Label();
 
         initTitle();
         createRectangles();
-        
         changeHeight(node.getHeight());
         changeWidth(node.getWidth());
         initLooks();
@@ -52,13 +63,14 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
        
        
 //	        createLifeline();
-        createRectangleHandle();
+      
 
-        container.getChildren().addAll(rectangle, title);
+        container.getChildren().addAll(rectangle, title,cycles,inport,outport);
         
-        this.getChildren().add(container);
-        this.setTranslateX(node.getTranslateX());
-        this.setTranslateY(node.getTranslateY());
+        this.getChildren().addAll(container);
+        
+        position();
+        	
         
         createHandles();
     }
@@ -72,23 +84,65 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //	        lifeline.getStrokeDashArray().addAll(20d, 10d);
 //	        this.getChildren().add(lifeline);
 //	    }
+    
+    private void position(){
+    	SequenceActivationBox node = (SequenceActivationBox) getRefNode();
+    	 if(!node.isChild()){
+    	        this.setTranslateX(node.getTranslateX());
+    	        this.setTranslateY(node.getTranslateY());}
+    	        else{
+    	        	this.setTranslateX(node.getSequenceObject().getTranslateX()+node.getSequenceObject().getWidth()/2-this.getWidth()/2);
+    	            this.setTranslateY(node.getTranslateY());	
+    	        }
+    }
+   
 
     private void createRectangles(){
         SequenceActivationBox node = (SequenceActivationBox) getRefNode();
-        changeHeight(node.getHeight());
-        changeWidth(node.getWidth());
+        rectangle.setHeight((node.getHeight()));
+        rectangle.setWidth((node.getWidth()));
         rectangle.setX(node.getX());
         rectangle.setY(node.getY());
     }
 
     private void changeHeight(double height){
         setHeight(height);
+        container.setPrefHeight(height);
         rectangle.setHeight(height);
+        
+        title.setAlignment(Pos.CENTER);
+        cycles.setAlignment(Pos.CENTER);
+        inport.setAlignment(Pos.CENTER);
+        outport.setAlignment(Pos.CENTER);
+       // title.setAlignment(Pos.BOTTOM_CENTER);
+      // title.setLayoutX(this.getRefNode().getX()); 
+      // title.setLayoutY(this.getRefNode().getY()+20);
+        
+        
+        StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
+        StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
+        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
     }
     
    private void changeWidth(double width){
         setWidth(width);
+        container.setPrefWidth(width);
         rectangle.setWidth(width);
+        
+        title.setAlignment(Pos.CENTER);
+        cycles.setAlignment(Pos.CENTER);
+        inport.setAlignment(Pos.CENTER);
+        outport.setAlignment(Pos.CENTER);
+       // title.setAlignment(Pos.BOTTOM_CENTER);
+      // title.setLayoutX(this.getRefNode().getX()); 
+      // title.setLayoutY(this.getRefNode().getY()+20);
+        
+        
+        StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
+        StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
+        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
    }
 
 //	    private void changeWidth(double width){
@@ -117,15 +171,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         this.getChildren().addAll(shortHandleLine, longHandleLine);
     }
 
-    private void createRectangleHandle(){
-        rectangleHandle = new Rectangle();
-        rectangleHandle.setWidth(30);
-        rectangleHandle.setHeight(100);
-//	        rectangleHandle.xProperty().bind(diagram.().divide(2));
-//	        rectangleHandle.yProperty().bind(lifeline.endYProperty().subtract(rectangleHandle.heightProperty().divide(2)));
-        this.getChildren().add(rectangleHandle);
-        rectangleHandle.setVisible(false);
-    }
+ 
 
     private void initTitle(){
         SequenceActivationBox node = (SequenceActivationBox) getRefNode();
@@ -135,14 +181,47 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         if(node.getTitle() != null) {
             title.setText(node.getTitle());
         }
+        
+        cycles = new Label();
+        cycles.setFont(Font.font("Verdana", 12));
+        if(node.getCycles() >0) {
+            cycles.setText(String.valueOf(node.getCycles()));
+        }
+        
+        inport = new Label();
+        inport.setFont(Font.font("Verdana", 12));
+        if(node.getInputport()  != null) {
+        	inport.setText(node.getInputport());
+        }
+        
+        outport = new Label();
+        outport.setFont(Font.font("Verdana", 12));
+        if(node.getOutputport() != null) {
+            title.setText(node.getOutputport());
+        }
+        
         title.setAlignment(Pos.CENTER);
+        cycles.setAlignment(Pos.CENTER);
+        inport.setAlignment(Pos.CENTER);
+        outport.setAlignment(Pos.CENTER);
+       // title.setAlignment(Pos.BOTTOM_CENTER);
+      // title.setLayoutX(this.getRefNode().getX()); 
+      // title.setLayoutY(this.getRefNode().getY()+20);
+        
+        
+        StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
+        StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
+        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
     }
 
     private void initLooks(){
+    	StackPane.setAlignment(rectangle, javafx.geometry.Pos.CENTER);
+        StackPane.setAlignment(rectangle, Pos.CENTER);
         rectangle.setStrokeWidth(STROKE_WIDTH);
         rectangle.setFill(Color.LIGHTSKYBLUE);
         rectangle.setStroke(Color.BLACK);
-        StackPane.setAlignment(title, Pos.CENTER);
+        
     }
 
    
@@ -174,10 +253,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         return container.getBoundsInParent();
     }
 
-    public Rectangle getRectangleHandle(){
-        return rectangleHandle;
-    }
-
+ 
 	    public boolean isOnActivity(Point2D point){
 	        Double lifelineXPosition =  this.getX()+this.getWidth()/2;  
 	        if(point.getX() > (lifelineXPosition - 15) && point.getX() < (lifelineXPosition + 15)){
@@ -191,18 +267,18 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 	    }
 
 
-    protected void setPosition() {
-        //If end node is to the right of startNode:
-        if (diagram.getTranslateX() <= rectangle.getTranslateX()){
-            if (rectangle.getTranslateX()<= (diagram.getTranslateX() + diagram.getWidth()) ) { //Straight line if height difference is small
-
-                rectangle.setX(diagram.getTranslateX() + diagram.getWidth()/2);
-                rectangle.setY(diagram.getTranslateY()/ 4);
-            }
-        }
-        //  else
-
-    }
+//    protected void setPosition() {
+//        //If end node is to the right of startNode:
+//        if (diagram.getTranslateX() <= rectangle.getTranslateX()){
+//            if (rectangle.getTranslateX()<= (diagram.getTranslateX() + diagram.getWidth()) ) { //Straight line if height difference is small
+//
+//                rectangle.setX(diagram.getTranslateX() + diagram.getWidth()/2);
+//                rectangle.setY(diagram.getTranslateY()/ 4);
+//            }
+//        }
+//        //  else
+//
+//    }
 
 //
 //	            } else {
@@ -353,6 +429,13 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //	        } else if(evt.getPropertyName().equals(Constants.changeLifelineLength)){
 //	            lifeline.endYProperty().bind(rectangle.heightProperty().add(((SequenceObject)getRefNode()).getLifelineLength()));
 //	        }
-        }
+        }else if (evt.getPropertyName().equals(Constants.changeSequenceCycles)) {
+            cycles.setText((String) evt.getNewValue());
+        } else if (evt.getPropertyName().equals(Constants.changeSequenceInputport)) {
+            inport.setText((String) evt.getNewValue());
+        }  else if (evt.getPropertyName().equals(Constants.changeSequenceOutputport)) {
+            outport.setText((String) evt.getNewValue());
+        } 
+        
     }
 }
