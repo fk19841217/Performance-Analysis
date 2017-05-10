@@ -115,7 +115,6 @@ public class SequenceDiagramController extends AbstractDiagramController {
             } else if (tool == ToolEnum.ADD_BOX && mode == Mode.CREATING && mouseCreationActivated) { //Finish creation of activationBox.
                 createNodeController.onMouseReleasedActivationBox();
                 if (!createNodeController.currentlyCreating()) {
-                    System.out.println("I'm here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     mode = Mode.NO_MODE;
                 }
 

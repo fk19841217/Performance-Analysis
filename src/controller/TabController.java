@@ -20,6 +20,7 @@ import model.edges.MessageEdge;
 import model.nodes.AbstractNode;
 import model.nodes.LinkedDeploymentNode;
 import model.nodes.LinkedSequenceNode;
+import model.nodes.NodeNode;
 import model.nodes.SequenceActivationBox;
 import model.nodes.SequenceObject;
 import util.persistence.AqosamodelManager;
@@ -87,6 +88,7 @@ public class TabController {
     public static final String PERFORMANCE_VIEW_PATH = "view/fxml/performance.fxml";
     public static final String DEPLOYMENT_VIEW_PATH = "view/fxml/deployment.fxml";
 
+   
     
     @FXML
     public void initialize() {
@@ -133,6 +135,16 @@ public class TabController {
     public ArrayList<String> getSequencetablist(){
         return sequencetablist;
     }
+    
+    public ArrayList<AbstractNode> getDeploymentboxlist(){
+    	return deploymentboxlist;
+    }
+    
+    public ArrayList<AbstractEdge> getNetworkedgelit(){
+    	return networkedgelit;
+    }
+    
+    
     
     
     public ArrayList<String> getComponentnamelist(){
