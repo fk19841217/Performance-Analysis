@@ -42,6 +42,7 @@
           <MenuItem text="Paste" />
            <MenuItem onAction="#handleMenuActionsaving" text="Saving" />
           <MenuItem onAction="#handleMenuActionNewSequenceDiagram1" text="Loading" />
+          <MenuItem onAction="#handleMenuActionAnalysis" text="Analysis" />
         </items>
       </Menu>
       <Menu text="View">

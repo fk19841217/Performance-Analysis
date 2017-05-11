@@ -15,6 +15,8 @@ import model.*;
 import model.edges.MessageEdge;
 import model.nodes.SequenceObject;
 import org.controlsfx.control.Notifications;
+
+import controller.AbstractDiagramController.ToolEnum;
 import util.commands.CompoundCommand;
 import util.commands.MoveGraphElementCommand;
 import util.commands.MoveMessageCommand;
@@ -26,6 +28,7 @@ import view.nodes.PackageNodeView;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
+
 
 /**
  * Created by chalmers on 2016-08-31.
@@ -49,13 +52,10 @@ public class PerformanceController extends AbstractDiagramController {
                     copyPasteController.copyPasteCoords = new double[]{event.getX(), event.getY()};
                     aContextMenu.show(drawPane, event.getScreenX(), event.getScreenY());
                 }
-                else if (tool == ToolEnum.SELECT) { //Start selecting elements.
+                else if (tool == ToolEnum.SELECT || tool == ToolEnum.EDGE) { //Start selecting elements.
                     selectController.onMousePressed(event);
                 }
-                else if (tool == ToolEnum.EDGE) {
-                    mode = Mode.CREATING;
-                    edgeController.onMousePressedOnCanvas(event);
-                }
+              
                 else if ((tool == ToolEnum.CREATE_LINKEDSEQUENCE ||  tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE || tool == ToolEnum.CREATE_LINKEDDEPLOYMENT ) && mouseCreationActivated) { //Start creation of package or class.
                     mode = Mode.CREATING;
                     createNodeController.onMousePressed(event);
@@ -151,7 +151,7 @@ public class PerformanceController extends AbstractDiagramController {
         //There are specific events for touch when creating and drawing to utilize multitouch.
         // TODO edge creation multi-user support.
         drawPane.setOnTouchPressed(event -> {
-            if ((tool == ToolEnum.CREATE_LINKEDSEQUENCE || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE) && !mouseCreationActivated) {
+            if ((tool == ToolEnum.CREATE_LINKEDDEPLOYMENT||tool == ToolEnum.CREATE_LINKEDSEQUENCE || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE) && !mouseCreationActivated) {
                 mode = Mode.CREATING;
                 createNodeController.onTouchPressed(event);
             } else if (tool == ToolEnum.DRAW && !mouseCreationActivated) {
@@ -161,7 +161,7 @@ public class PerformanceController extends AbstractDiagramController {
         });
 
         drawPane.setOnTouchMoved(event -> {
-            if ((tool == ToolEnum.CREATE_LINKEDSEQUENCE || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE ) && mode == Mode.CREATING && !mouseCreationActivated) {
+            if ((tool == ToolEnum.CREATE_LINKEDSEQUENCE || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE ||tool == ToolEnum.CREATE_LINKEDDEPLOYMENT) && mode == Mode.CREATING && !mouseCreationActivated) {
                 createNodeController.onTouchDragged(event);
             } else if (tool == ToolEnum.DRAW && mode == Mode.DRAWING && !mouseCreationActivated) {
                 sketchController.onTouchMoved(event);
@@ -213,7 +213,7 @@ public class PerformanceController extends AbstractDiagramController {
             	 nodeController.middleClick(nodeView);
                  tool = ToolEnum.SELECT;
                  setButtonClicked(selectBtn);
-            }else if (tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_LINKEDSEQUENCE|| tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE) { //Select node
+            }else if (tool == ToolEnum.SELECT || tool == ToolEnum.CREATE_LINKEDSEQUENCE|| tool == ToolEnum.CREATE_ACTOR || tool == ToolEnum.CREATE_USECASE||tool == ToolEnum.CREATE_LINKEDDEPLOYMENT ) { //Select node
                 setTool(ToolEnum.SELECT);
                 setButtonClicked(selectBtn);
                 if (!(nodeView instanceof PackageNodeView)) {

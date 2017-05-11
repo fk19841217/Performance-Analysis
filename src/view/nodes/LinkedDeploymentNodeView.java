@@ -1,5 +1,8 @@
 package view.nodes;
 
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,6 +21,7 @@ import util.Constants;
 import java.beans.PropertyChangeEvent;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeView {
@@ -25,8 +29,12 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
     private StackPane stackPane;
 	
 	private  Rectangle rectangle;
-	 private Text title;
-	 private Text title1;
+	 
+	// private Text title1;
+	 private Label title;
+	// private Label delay;
+	 //private Label starttime;
+	 private ImageView icon ;
 	 
 	public LinkedDeploymentNodeView(LinkedDeploymentNode node) {
 		super(node);
@@ -35,41 +43,49 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
 		
 		stackPane = new StackPane();
 		rectangle = new Rectangle();
+		title=new Label();
 		
-		title = new Text(node.getTitle());
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        //TODO Ugly solution, hardcoded value.
-        title.setWrappingWidth(node.getWidth() - 7);
+	
+		
+		
+		
+		
+//        title1 = new Text(node.getTitle());
+//        title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+//        //TODO Ugly solution, hardcoded value.
+//        title1.setWrappingWidth(node.getWidth() - 7);
+//        title1.setText("Sequence Diagram");
         
-        title1 = new Text(node.getTitle());
-        title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        //TODO Ugly solution, hardcoded value.
-        title1.setWrappingWidth(node.getWidth() - 7);
-        title1.setText("Deployment");
-		
+        
+        
+        initTitle();
 		createRectangle();
+		createimage();
 		changeHeight(node.getHeight());
         changeWidth(node.getWidth());
 		initLooks();
 		
-		 StackPane.setAlignment(title, Pos.CENTER);
-	       // title.resize(circle.getRadius(), circle.getRadius());
-	        if(node.getTitle() != null) {
-	            title.setText(node.getTitle());
-	        }
-	        
-	        StackPane.setAlignment(title1, Pos.TOP_CENTER);
-		       // title.resize(circle.getRadius(), circle.getRadius());
-		        if(node.getTitle() != null) {
-		            title1.setText(node.getTitle());
-		        }
+//	    StackPane.setAlignment(title1, Pos.TOP_CENTER);
+//		       // title.resize(circle.getRadius(), circle.getRadius());
+//		     if(node.getTitle() != null) {
+//		         title1.setText(node.getTitle());
+//		      }
+
+       stackPane.getChildren().addAll(rectangle,icon,title);
         
-    stackPane.getChildren().addAll(rectangle,title,title1);
         
         this.getChildren().add(stackPane);
         this.setTranslateX(node.getTranslateX());
         this.setTranslateY(node.getTranslateY());
 	}
+	
+	
+	private void createimage(){
+		LinkedDeploymentNode node = (LinkedDeploymentNode) getRefNode();
+		icon = new ImageView("/icons/deployment.png");
+		icon.setFitWidth(node.getWidth()-2);
+		icon.setFitHeight(node.getHeight()-2);
+	} 
 	
 	private void createRectangle(){
 		LinkedDeploymentNode node = (LinkedDeploymentNode) getRefNode();
@@ -87,6 +103,23 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
     	
     }
 	
+	 private void initTitle(){
+		 LinkedDeploymentNode node = (LinkedDeploymentNode) getRefNode();
+
+	        title = new Label();
+	        title.setFont(Font.font("Verdana", 12));
+	        if(node.getTitle() != null) {
+	            title.setText(node.getTitle());
+	        }
+	        title.setAlignment(Pos.CENTER);
+	        
+	       
+	        
+	       StackPane.setMargin(title, new Insets( 0.0, 0.0,rectangle.getHeight()/4, 0.0));
+	        
+	        
+	    }
+	
 	
 	 private void initLooks(){
 		 StackPane.setAlignment(rectangle, javafx.geometry.Pos.CENTER);
@@ -96,6 +129,9 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
 	      
 	        rectangle.setStroke(javafx.scene.paint.Color.BLACK);
 	        rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
+	        
+	        StackPane.setAlignment(title, Pos.CENTER);
+	        
 	       
 	       
 	    }
@@ -103,19 +139,30 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
 	        setHeight(height);
 	       
 	        stackPane.setPrefHeight(height);
+	        rectangle.setHeight(height);
 	        
+			icon.setFitHeight(height-5);
+            
+	       
+	      
+	        
+	       StackPane.setMargin(title, new Insets( 0.0, 0.0,rectangle.getHeight()/4, 0.0));
+	        
+	    //   StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	    }
 
 	    private void changeWidth(double width){
 	        setWidth(width);
-	       
-	        
+	        icon.setFitWidth(width-5);
+			
+	       // StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	        stackPane.setPrefWidth(width);
+	        rectangle.setWidth(width);
 	       
 	    }
 	    
 	    private void setLayout() {
-	    	 UsecaseNode node = (UsecaseNode) getRefNode();
+	    	LinkedDeploymentNode node = (LinkedDeploymentNode) getRefNode();
 	    	 stackPane.setLayoutX(node.getX());
 	    	
 		        stackPane.setLayoutY(node.getY());
@@ -167,7 +214,6 @@ public class LinkedDeploymentNodeView extends AbstractNodeView implements NodeVi
 	            changeHeight((double) evt.getNewValue());
 	        } else if (evt.getPropertyName().equals(Constants.changeNodeTitle)) {
 	            title.setText((String) evt.getNewValue());
-
 	        }
 	    }
 

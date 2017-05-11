@@ -1,7 +1,16 @@
 package util;
 
+import model.nodes.ActorNode;
 import model.nodes.ClassNode;
+import model.nodes.DeploymentNode;
+import model.nodes.LinkedDeploymentNode;
+import model.nodes.LinkedSequenceNode;
 import model.nodes.Node;
+import model.nodes.NodeNode;
+import model.nodes.PackageNode;
+import model.nodes.SequenceActivationBox;
+import model.nodes.SequenceObject;
+import model.nodes.UsecaseNode;
 import util.commands.*;
 
 import java.io.*;
@@ -116,10 +125,34 @@ public class UMLDiagramLogger {
 
     private void logAddNode(AddDeleteNodeCommand command, Dot dot){
         //<DT>  ADD <OBT> <OBID> <OBN> <TRGID> <DOT>
+    	
         StringBuilder post = new StringBuilder();
         post.append(System.currentTimeMillis() + "\t"); //DT
         post.append("ADD\t"); //ADD
+        
+        if(command.getNode() instanceof ClassNode)
         post.append("CLASS\t"); //OBT
+        else if(command.getNode() instanceof ActorNode)
+        post.append("ACTOR\t"); 
+        else if(command.getNode() instanceof DeploymentNode)
+        post.append("DEPLOYMENT\t"); 
+        else if(command.getNode() instanceof LinkedDeploymentNode)
+            post.append("LinkedDEPLOYMENT\t"); 
+        else if(command.getNode() instanceof LinkedSequenceNode)
+            post.append("LinkedSequence\t"); 
+        else if(command.getNode() instanceof NodeNode)
+            post.append("NodeNode\t"); 
+        else if(command.getNode() instanceof PackageNode)
+            post.append("PackageNode\t"); 
+        else if(command.getNode() instanceof SequenceActivationBox)
+            post.append("SequenceActivationBox\t"); 
+        else if(command.getNode() instanceof SequenceObject)
+            post.append("SequenceObject\t");	
+        else if(command.getNode() instanceof UsecaseNode)
+            post.append("UsecaseNode\t");
+        else
+        	 post.append("PictureNode\t");
+        	
         post.append(command.getNode().getId() + "\t"); //OBID
         post.append(command.getNode().getTitle() + "\t"); //OBN
         post.append("null\t"); //TRGID
@@ -137,7 +170,30 @@ public class UMLDiagramLogger {
         StringBuilder post = new StringBuilder();
         post.append(System.currentTimeMillis() + "\t"); //DT
         post.append("DELETE\t"); //DELETE
-        post.append("CLASS\t"); //OBT
+
+        if(command.getNode() instanceof ClassNode)
+            post.append("CLASS\t"); //OBT
+            else if(command.getNode() instanceof ActorNode)
+            post.append("ACTOR\t"); 
+            else if(command.getNode() instanceof DeploymentNode)
+            post.append("DEPLOYMENT\t"); 
+            else if(command.getNode() instanceof LinkedDeploymentNode)
+                post.append("LinkedDEPLOYMENT\t"); 
+            else if(command.getNode() instanceof LinkedSequenceNode)
+                post.append("LinkedSequence\t"); 
+            else if(command.getNode() instanceof NodeNode)
+                post.append("NodeNode\t"); 
+            else if(command.getNode() instanceof PackageNode)
+                post.append("PackageNode\t"); 
+            else if(command.getNode() instanceof SequenceActivationBox)
+                post.append("SequenceActivationBox\t"); 
+            else if(command.getNode() instanceof SequenceObject)
+                post.append("SequenceObject\t");	
+            else if(command.getNode() instanceof UsecaseNode)
+                post.append("UsecaseNode\t");
+            else
+            	 post.append("PictureNode\t");
+        
         post.append(command.getNode().getId() + "\t"); //OBID
         post.append(dot + "\t"); //DOT
         post.append("\n");
@@ -211,7 +267,31 @@ public class UMLDiagramLogger {
         StringBuilder post = new StringBuilder();
         post.append(System.currentTimeMillis() + "\t"); //DT
         post.append("MOVE\t"); //MOVE
-        post.append("CLASS\t"); //OBT
+        
+        if(command.getGraphElement() instanceof ClassNode)
+            post.append("CLASS\t"); //OBT
+            else if(command.getGraphElement() instanceof ActorNode)
+            post.append("ACTOR\t"); 
+            else if(command.getGraphElement() instanceof DeploymentNode)
+            post.append("DEPLOYMENT\t"); 
+            else if(command.getGraphElement() instanceof LinkedDeploymentNode)
+                post.append("LinkedDEPLOYMENT\t"); 
+            else if(command.getGraphElement() instanceof LinkedSequenceNode)
+                post.append("LinkedSequence\t"); 
+            else if(command.getGraphElement() instanceof NodeNode)
+                post.append("NodeNode\t"); 
+            else if(command.getGraphElement() instanceof PackageNode)
+                post.append("PackageNode\t"); 
+            else if(command.getGraphElement() instanceof SequenceActivationBox)
+                post.append("SequenceActivationBox\t"); 
+            else if(command.getGraphElement() instanceof SequenceObject)
+                post.append("SequenceObject\t");	
+            else if(command.getGraphElement() instanceof UsecaseNode)
+                post.append("UsecaseNode\t");
+            else
+            	 post.append("PictureNode\t");
+
+        
         post.append(command.getGraphElement().getId() + "\t"); //OBID
         post.append(((Node)command.getGraphElement()).getTitle() + "\t"); //OBN
         post.append(command.getStartX() + "," + command.getStartY() + "\t"); //COOR1

@@ -49,6 +49,8 @@ public class EdgeController {
         dragLine.setStrokeWidth(2);
         this.diagramController = diagramController;
     }
+    
+    
 
     public void onMousePressedOnNode(MouseEvent event) {
         dragStartX = event.getX() + ((AbstractNodeView) event.getSource()).getTranslateX();
@@ -279,6 +281,7 @@ public class EdgeController {
 
                         edge.setStartMultiplicity(controller.getStartMultiplicity());
                         edge.setEndMultiplicity(controller.getEndMultiplicity());
+                        
                         if (directionBox.getValue() != null) {
                             diagramController.getUndoManager().add(new DirectionChangeEdgeCommand(edge, edge.getDirection(),
                                     AbstractEdge.Direction.valueOf(directionBox.getValue().toString())));

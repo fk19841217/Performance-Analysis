@@ -163,6 +163,10 @@ public abstract class AbstractDiagramController {
             mouseEvent.consume();
         });
     }
+    
+    public ArrayList<AbstractEdgeView> getSelectedEdges() {
+    	        return selectedEdges;
+    	     }
 
     abstract void initNodeActions(AbstractNodeView nodeView);
 

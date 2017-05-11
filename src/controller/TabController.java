@@ -2,6 +2,9 @@ package controller;
 
 import controller.dialog.GithubLoginDialogController;
 import controller.dialog.GithubRepoDialogController;
+import edu.leiden.aqosa.launcher.MatingApproach;
+import edu.leiden.aqosa.launcher.SingleRun;
+import edu.leiden.aqosa.logger.EvaluationLogger.DetailLevel;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -40,10 +43,21 @@ import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -300,7 +314,7 @@ public class TabController {
     	
     	 FileChooser fileChooser = new FileChooser();
          fileChooser.setTitle("Save Diagram");
-         fileChooser.setInitialFileName("myAqosa.xml");
+         fileChooser.setInitialFileName("myAqosa.aqosa");
          
          File file = fileChooser.showSaveDialog(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).getStage());
          String graphName = file.getName().subSequence(0, file.getName().indexOf('.')).toString();
@@ -387,6 +401,13 @@ public class TabController {
             mc.closeClients();
             mc.closeLog();
         }
+    }
+    
+    
+    
+    public void handleMenuActionAnalysis() throws Exception{
+    	aqosa();
+    	
     }
     
     public void handleMenuActionsaving(){
@@ -644,4 +665,53 @@ public class TabController {
         return controller;
 
     }
+    
+   
+
+    
+    
+    
+    	
+    	public void aqosa() throws Exception {
+    		
+    		Document abc= AqosamodelManager.createAqosa(this);
+
+    		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    		Source xmlSource = new DOMSource(abc);
+    		Result outputTarget = new StreamResult(outputStream);
+    		TransformerFactory.newInstance().newTransformer().transform(xmlSource, outputTarget);
+    		InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+    		
+    		
+    		//final InputStream modelFile1 = new FileInputStream("/icons/myAqosa.aqosa");
+    		final int generations = 10;
+    		final int alpha = 100;
+    		final int mu = 20;
+    		final int lambda = 20;
+    		final int archiveSize = 20;
+    		
+    		SingleRun run = new SingleRun(is);
+    		run.setEA(generations, alpha, mu, lambda);
+    		run.setArchiveSize(archiveSize);
+    		run.setMatingAppraoch(MatingApproach.CROSSOVER_MUTATE);
+    		//run.setIterationLog(true);
+    		run.setLoggerLevel(DetailLevel.FULL);
+    		
+    		
+    		
+    		run.setArchiveLogger("/icons/mytest.tsv");
+    		run.setOptimumLogger("/icons/myopt.tsv");
+    		//run.setViewer();
+    		run.call();
+    		
+    		for (String result : run.getResults()) {
+    			System.out.println(result);
+    		}
+    		
+    		
+    	}
+    	
+    	
+    		
+    
 }

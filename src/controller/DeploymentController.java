@@ -297,7 +297,7 @@ public class DeploymentController extends AbstractDiagramController {
          createBtn.setGraphic(new ImageView(image));
          createBtn.setText("");
 
-    	 image = new Image("/icons/class.png");
+    	 image = new Image("/icons/nodenode.png");
          deploymentBtn.setGraphic(new ImageView(image));
          deploymentBtn.setText("");
 

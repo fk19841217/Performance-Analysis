@@ -2,6 +2,7 @@ package view.nodes;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -29,11 +30,11 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	
 	private  Rectangle rectangle;
 	 
-	 private Text title1;
+	// private Text title1;
 	 private Label title;
 	 private Label delay;
 	 private Label starttime;
-	 private Image icon ;
+	 private ImageView icon ;
 	 
 	public LinkedSequenceNodeView(LinkedSequenceNode node) {
 		super(node);
@@ -45,36 +46,47 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		title=new Label();
 		delay=new Label();
 		starttime=new Label();
-		icon = new Image("/icons/linkedsequence.png");
+	
 		
 		
-        title1 = new Text(node.getTitle());
-        title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        //TODO Ugly solution, hardcoded value.
-        title1.setWrappingWidth(node.getWidth() - 7);
-        title1.setText("Sequence Diagram");
+		
+		
+//        title1 = new Text(node.getTitle());
+//        title1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+//        //TODO Ugly solution, hardcoded value.
+//        title1.setWrappingWidth(node.getWidth() - 7);
+//        title1.setText("Sequence Diagram");
         
         
         
         initTitle();
 		createRectangle();
+		createimage();
 		changeHeight(node.getHeight());
         changeWidth(node.getWidth());
 		initLooks();
 		
-	    StackPane.setAlignment(title1, Pos.TOP_CENTER);
-		       // title.resize(circle.getRadius(), circle.getRadius());
-		     if(node.getTitle() != null) {
-		         title1.setText(node.getTitle());
-		      }
+//	    StackPane.setAlignment(title1, Pos.TOP_CENTER);
+//		       // title.resize(circle.getRadius(), circle.getRadius());
+//		     if(node.getTitle() != null) {
+//		         title1.setText(node.getTitle());
+//		      }
 
-       stackPane.getChildren().addAll(rectangle,title,title1,delay,starttime);
-      
+       stackPane.getChildren().addAll(rectangle,icon,title,delay,starttime);
+        
         
         this.getChildren().add(stackPane);
         this.setTranslateX(node.getTranslateX());
         this.setTranslateY(node.getTranslateY());
 	}
+	
+	
+	private void createimage(){
+		LinkedSequenceNode node = (LinkedSequenceNode) getRefNode();
+		icon = new ImageView("/icons/sequenceDiagram.png");
+		icon.setFitWidth(node.getWidth()-2);
+		icon.setFitHeight(node.getHeight()-2);
+	} 
 	
 	private void createRectangle(){
 		LinkedSequenceNode node = (LinkedSequenceNode) getRefNode();
@@ -145,7 +157,8 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	       
 	        stackPane.setPrefHeight(height);
 	        rectangle.setHeight(height);
-			
+	        
+			icon.setFitHeight(height-5);
             
 	        StackPane.setMargin(delay, new Insets(rectangle.getHeight()/4 , 0.0, 0.0, 0.0));
 	        
@@ -153,13 +166,14 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 	        
 	       StackPane.setMargin(title, new Insets( 0.0, 0.0,rectangle.getHeight()/4, 0.0));
 	        
-	       StackPane.setAlignment(title1, Pos.TOP_CENTER);
+	    //   StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	    }
 
 	    private void changeWidth(double width){
 	        setWidth(width);
-	       
-	        StackPane.setAlignment(title1, Pos.TOP_CENTER);
+	        icon.setFitWidth(width-5);
+			
+	       // StackPane.setAlignment(title1, Pos.TOP_CENTER);
 	        stackPane.setPrefWidth(width);
 	        rectangle.setWidth(width);
 	       
