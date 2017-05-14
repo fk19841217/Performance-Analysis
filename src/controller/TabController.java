@@ -9,12 +9,18 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -52,12 +58,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +78,8 @@ import java.util.Map;
  * The class controlling the top menu and the tabs.
  */
 public class TabController {
-	 private AbstractDiagramController diagramController;
-	    private Pane aDrawPane;
+	 //private AbstractDiagramController diagramController;
+	  //  private Pane aDrawPane;
 
 	
 
@@ -691,7 +702,7 @@ public class TabController {
         		InputStream is = new ByteArrayInputStream(outputStream.toByteArray());	
     			
     			
-    	//	final InputStream is = new FileInputStream("C:/Users/âý/workspace/Performance-Analysis/src/icons/myAqosa.aqosa");
+    		//final InputStream is = new FileInputStream("C:/Users/âý/workspace/Performance-Analysis/src/icons/myAqosa.aqosa");
     		final int generations = 10;
     		final int alpha = 100;
     		final int mu = 20;
@@ -710,9 +721,81 @@ public class TabController {
     		//run.setViewer();
     		run.call();
     		
+    		int counter=0;
+    		
+
+            VBox group = new VBox();
+            TextField bus = new TextField();
+            TextField cpu = new TextField();
+            TextField cost = new TextField();
+            TextField responsetime = new TextField();
+            TextField safety = new TextField();
+            
+           TextField[] textlist={bus,cpu,cost,responsetime,safety};
+           
+            Label label1 = new Label("BusUtilization");
+            Label label2 = new Label("CPUUtilization");
+            Label label3 = new Label("Cost");
+            Label label4 = new Label("ResponseTime");
+            Label label5 = new Label("Safety");
+            
+           String[] str=new String[5];
+    		
     		for (String result : run.getResults()) {
     			System.out.println(result);
+    			counter++;
+    			//input.setText(String.valueOf(run.getResults().size()-counter));
+    			if(counter==run.getResults().size()){
+    				
+    			        FileReader fr=new FileReader("C:/Users/âý/workspace/Performance-Analysis/src/icons/myopt.tsv");
+    			        BufferedReader br=new BufferedReader(fr);
+    			        
+    			        int n=5;
+    			        while(n!=0){
+    			            String s=br.readLine();
+    			            System.out.println(s);
+    			            str[5-n]=s;
+    			            n--;
+    			        }
+    			        br.close();
+    			        
+    			        for(int i=0;i<str.length;i++){
+    			        	String [] strArray = str[i].split("\t");
+    			        	str[i]=strArray[1];
+    			        }
+    			        
+    			        for(int i=0;i<str.length;i++){
+    			        	 System.out.println(str[i]);
+    			        	 textlist[i].setText(str[i]);
+    			        }
+    			        
+    			        group.getChildren().add(label1);
+    		            group.getChildren().add(bus);
+    		            group.getChildren().add(label2);
+    		            group.getChildren().add(cpu);
+    		            group.getChildren().add(label3);
+    		            group.getChildren().add(cost);
+    		            group.getChildren().add(label4);
+    		            group.getChildren().add(responsetime);
+    		            group.getChildren().add(label5);
+    		            group.getChildren().add(safety);
+    		            group.setLayoutX(50);
+    		            group.setLayoutY(50);
+    		            group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));
+    		            group.setStyle("-fx-border-color: black");
+    		            group.setPadding(new Insets(15, 12, 15, 12));
+    		            
+    		            Stage secondWindow=new Stage();  
+    		            Scene scene=new Scene(group);
+    		            
+    		            secondWindow.setTitle("Result");  
+    		            secondWindow.setScene(scene);  
+    		            secondWindow.show();  
+    			}
+    				
     		}
+    		
+    		
     		}
     		catch(Exception ex){
     			ex.printStackTrace();

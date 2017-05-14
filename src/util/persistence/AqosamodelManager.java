@@ -158,12 +158,22 @@ public class AqosamodelManager {
         
         rootElement.appendChild(xmiassembly);
         
+
+
+       int a=clist.size()/5+1;
+       
+        
+        double percetage =a*0.01;
+        
+        
+        
+        
         Element xmiscenarios = doc.createElement("scenarios");
         
         Element xmiflowset= doc.createElement("flowset");
         xmiflowset.setAttribute("name", "Average");
         xmiflowset.setAttribute("completionTime", "10000");
-        xmiflowset.setAttribute("missedPercentage", "0.05");
+        xmiflowset.setAttribute("missedPercentage", String.valueOf(percetage));
         xmiscenarios.appendChild(xmiflowset);
         
         
@@ -182,13 +192,13 @@ public class AqosamodelManager {
         
         Element xmirepository = doc.createElement("repository");
         
-        double varincepercentage = 1.0/Double.valueOf(clist.size());
+        
         
         for(int i=0;i<clist.size();i++){
         	Element xmicomponentinstance = doc.createElement("componentinstance");
         	 xmicomponentinstance.setAttribute("id",cMap.get(clist.get(i)).getTitle()+"_Instance");
         	 xmicomponentinstance.setAttribute("compatible","//@assembly/@component."+i);
-        	 xmicomponentinstance.setAttribute("variancePercentage",String.valueOf(varincepercentage));
+        	 xmicomponentinstance.setAttribute("variancePercentage",String.valueOf(String.valueOf(percetage)));
         	 
         	 ArrayList<SequenceActivationBox> boxlist = cMap.get(clist.get(i)).getChildNodes();
         	 
@@ -237,7 +247,7 @@ public class AqosamodelManager {
         	xmiprocessor_h.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
         	xmiprocessor_h.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
         	xmiprocessor_h.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getLowstatus_lowfail()+0.005));
-        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()+0.0005));
+        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()+0.005));
         	xmirepository.appendChild(xmiprocessor_h);
         	
         	Element xmiprocessor_l=doc.createElement("processor");

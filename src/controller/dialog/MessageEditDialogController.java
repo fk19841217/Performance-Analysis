@@ -80,10 +80,11 @@ public class MessageEditDialogController {
         typeBox.getSelectionModel().select(edge.getMessageType());
         directionBox.getItems().setAll(AbstractEdge.Direction.START_TO_END, AbstractEdge.Direction.END_TO_START);
         directionBox.getSelectionModel().select(edge.getDirection());
+       if(edge.getstartedge()){
         exlowerfailport.getItems().setAll("0.01","0.02","0.03");
         exlowerfailport.getSelectionModel().select(String.valueOf(edge.getLowfail()));
         exuperfailport.getItems().setAll("0.03","0.04","0.05");
-        exuperfailport.getSelectionModel().select(String.valueOf(edge.getUpfail()));
+        exuperfailport.getSelectionModel().select(String.valueOf(edge.getUpfail()));}
     }
 
     /**

@@ -1133,6 +1133,10 @@ public abstract class AbstractDiagramController {
         return tabname;
     }
     
+    public Pane getdrawPane(){
+    	return this.drawPane;
+    }
+    
    
 }
 
