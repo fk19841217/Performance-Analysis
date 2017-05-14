@@ -485,12 +485,11 @@ public class EdgeController {
     	            ChoiceBox typeBox = controller.getTypeBox();
     	            TextField titleTextField = controller.getTitleTextField();
     	            titleTextField.setText(edge.getTitle());
-    	            TextField lowfailTextField = controller.getLowfailTextField(); 
-    	            if(edge.getLowfail()>0)
-    	            	lowfailTextField.setText(String.valueOf(edge.getLowfail()));
-    	            TextField upfailTextField = controller.getUpfailTextField(); 
-    	            if(edge.getUpfail()>0)
-    	            	upfailTextField.setText(String.valueOf(edge.getUpfail()));
+    	            
+    	            ChoiceBox  lowfailTextField = controller.getexlowerfailport();  
+    	            
+    	            ChoiceBox upfailTextField = controller.getexuperfailport();
+    	           
     	                 
     	            
     	            controller.getOkButton().setOnAction(new EventHandler<ActionEvent>() {
@@ -505,11 +504,11 @@ public class EdgeController {
     	                    if(titleTextField.getText() != null){
     	                        edge.setTitle(titleTextField.getText());
     	                    }
-    	                    if(lowfailTextField.getText() != null){
-    	                        edge.setLowfail(Double.valueOf(lowfailTextField.getText())); 
+    	                    if(lowfailTextField.getValue() != null){
+    	                        edge.setLowfail(Double.valueOf(lowfailTextField.getValue().toString())); 
     	                    }
-    	                    if(upfailTextField.getText() != null){
-    	                        edge.setUpfail(Double.valueOf(upfailTextField.getText())); 
+    	                    if(upfailTextField.getValue() != null){
+    	                        edge.setUpfail(Double.valueOf(upfailTextField.getValue().toString())); 
     	                    }
     	                    
     	                    aDrawPane.getChildren().remove(dialog);

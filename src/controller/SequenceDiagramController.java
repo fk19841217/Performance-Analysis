@@ -20,7 +20,6 @@ import view.nodes.AbstractNodeView;
 import view.nodes.SequenceObjectView;
 import view.nodes.PackageNodeView;
 import view.nodes.SequenceActivationBoxView;
-import controller.AbstractDiagramController.ToolEnum;
 
 import java.awt.geom.Point2D;
 
@@ -44,10 +43,13 @@ public class SequenceDiagramController extends AbstractDiagramController {
                     copyPasteController.copyPasteCoords = new double[]{event.getX(), event.getY()};
                     aContextMenu.show(drawPane, event.getScreenX(), event.getScreenY());
                 }
-                else if (tool == ToolEnum.SELECT || tool == ToolEnum.EDGE) { //Start selecting elements.
+                else if (tool == ToolEnum.SELECT) { //Start selecting elements.
                     selectController.onMousePressed(event);
                 }
-              
+                else if (tool == ToolEnum.EDGE) {
+                    mode = Mode.CREATING;
+                    edgeController.onMousePressedOnCanvas(event);
+                }
                 else if ((tool == ToolEnum.CREATE_CLASS || tool == ToolEnum.CREATE_PACKAGE || tool == ToolEnum.ADD_BOX) && mouseCreationActivated) { //Start creation of package or class.
                     mode = Mode.CREATING;
                     createNodeController.onMousePressed(event);
@@ -193,7 +195,7 @@ public class SequenceDiagramController extends AbstractDiagramController {
             } else if (event.getButton() == MouseButton.SECONDARY) { //Open context menu on left click.
                 copyPasteController.copyPasteCoords = new double[]{nodeView.getX() + event.getX(), nodeView.getY() + event.getY()};
                 aContextMenu.show(nodeView, event.getScreenX(), event.getScreenY());
-            } else if (tool == ToolEnum.SELECT||tool== ToolEnum.CREATE_CLASS|| tool == ToolEnum.ADD_BOX) { //Select node
+            } else if (tool == ToolEnum.SELECT || tool == ToolEnum.ADD_BOX) { //Select node
                 setTool(ToolEnum.SELECT);
                 setButtonClicked(selectBtn);
                 if (!(nodeView instanceof SequenceObjectView)) {// changed for activationBox (goes in front)!

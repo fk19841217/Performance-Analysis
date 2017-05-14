@@ -9,8 +9,8 @@ public class SequenceActivationBox extends AbstractNode{
  //   public final double DEFAULT_WIDTH = 100;
 
     protected SequenceObject diagram;
-    private String inputport;
-    private String outputport;
+  //  private String inputport;
+  //  private String outputport;
     private int cycles;
     private SequenceObject se;
     private int network;
@@ -70,6 +70,8 @@ public int getCycles(){
        return cycles;
    }
 
+
+/*
 public void setInputport(String pinputport){
 	inputport = pinputport;
    changes.firePropertyChange(Constants.changeSequenceInputport, null, "inputport: " + inputport);
@@ -99,7 +101,7 @@ public void remoteOutputport(String poutputport){
 public String getOutputport(){
    return outputport;
 }
-
+*/
 
 
 

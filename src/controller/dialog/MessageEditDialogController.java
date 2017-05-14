@@ -22,9 +22,9 @@ public class MessageEditDialogController {
     @FXML
     private TextField networkTextField;
     @FXML
-    private TextField lowfailTextField;
+    private ChoiceBox exlowerfailport;
     @FXML
-    private TextField upfailTextField;
+    private ChoiceBox exuperfailport;
     
     private AbstractEdge edge;
     private boolean okClicked = false;
@@ -50,9 +50,18 @@ public class MessageEditDialogController {
         return directionBox;
     }
 
+    public ChoiceBox getexlowerfailport() {
+        return exlowerfailport;
+    }
+    
+    public ChoiceBox getexuperfailport() {
+        return exuperfailport;
+    }
+    
     public ChoiceBox getTypeBox() {
         return typeBox;
     }
+    
 
     public TextField getTitleTextField(){
         return titleTextField;
@@ -62,13 +71,7 @@ public class MessageEditDialogController {
         return networkTextField;
     }
     
-    public TextField getLowfailTextField(){
-        return lowfailTextField;
-    }
-    
-    public TextField getUpfailTextField(){
-        return upfailTextField;
-    }
+   
 
     public void setEdge(MessageEdge edge) {
         this.edge = edge;
@@ -77,6 +80,10 @@ public class MessageEditDialogController {
         typeBox.getSelectionModel().select(edge.getMessageType());
         directionBox.getItems().setAll(AbstractEdge.Direction.START_TO_END, AbstractEdge.Direction.END_TO_START);
         directionBox.getSelectionModel().select(edge.getDirection());
+        exlowerfailport.getItems().setAll("0.01","0.02","0.03");
+        exlowerfailport.getSelectionModel().select(String.valueOf(edge.getLowfail()));
+        exuperfailport.getItems().setAll("0.03","0.04","0.05");
+        exuperfailport.getSelectionModel().select(String.valueOf(edge.getUpfail()));
     }
 
     /**

@@ -25,8 +25,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 
 
     private Label title;
-    private Label inport;
-    private Label outport;
+   // private Label inport;
+   // private Label outport;
     private Label cycles;;
     //private Label title;
 	// private Text title = new Text();
@@ -51,8 +51,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         rectangle = new Rectangle();
         title = new Label();
         cycles = new Label();
-         inport = new Label();
-        outport = new Label();
+        // inport = new Label();
+        // outport = new Label();
 
         initTitle();
         createRectangles();
@@ -65,7 +65,7 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //	        createLifeline();
       
 
-        container.getChildren().addAll(rectangle, title,cycles,inport,outport);
+        container.getChildren().addAll(rectangle, title,cycles);
         
         this.getChildren().addAll(container);
         
@@ -112,8 +112,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         
         title.setAlignment(Pos.CENTER);
         cycles.setAlignment(Pos.CENTER);
-        inport.setAlignment(Pos.CENTER);
-        outport.setAlignment(Pos.CENTER);
+      //  inport.setAlignment(Pos.CENTER);
+       // outport.setAlignment(Pos.CENTER);
        // title.setAlignment(Pos.BOTTOM_CENTER);
       // title.setLayoutX(this.getRefNode().getX()); 
       // title.setLayoutY(this.getRefNode().getY()+20);
@@ -121,8 +121,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         
         StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
         StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
-        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
-        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
+        //StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        //StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
     }
     
    private void changeWidth(double width){
@@ -132,8 +132,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         
         title.setAlignment(Pos.CENTER);
         cycles.setAlignment(Pos.CENTER);
-        inport.setAlignment(Pos.CENTER);
-        outport.setAlignment(Pos.CENTER);
+       // inport.setAlignment(Pos.CENTER);
+       // outport.setAlignment(Pos.CENTER);
        // title.setAlignment(Pos.BOTTOM_CENTER);
       // title.setLayoutX(this.getRefNode().getX()); 
       // title.setLayoutY(this.getRefNode().getY()+20);
@@ -141,8 +141,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         
         StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
         StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
-        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
-        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
+        //StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        //StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
    }
 
 //	    private void changeWidth(double width){
@@ -188,22 +188,22 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
             cycles.setText(String.valueOf(node.getCycles()));
         }
         
-        inport = new Label();
-        inport.setFont(Font.font("Verdana", 12));
-        if(node.getInputport()  != null) {
-        	inport.setText(node.getInputport());
-        }
-        
-        outport = new Label();
-        outport.setFont(Font.font("Verdana", 12));
-        if(node.getOutputport() != null) {
-            title.setText(node.getOutputport());
-        }
+//        inport = new Label();
+//        inport.setFont(Font.font("Verdana", 12));
+//        if(node.getInputport()  != null) {
+//        	inport.setText(node.getInputport());
+//        }
+//        
+//        outport = new Label();
+//        outport.setFont(Font.font("Verdana", 12));
+//        if(node.getOutputport() != null) {
+//            title.setText(node.getOutputport());
+//        }
         
         title.setAlignment(Pos.CENTER);
         cycles.setAlignment(Pos.CENTER);
-        inport.setAlignment(Pos.CENTER);
-        outport.setAlignment(Pos.CENTER);
+      //  inport.setAlignment(Pos.CENTER);
+      //  outport.setAlignment(Pos.CENTER);
        // title.setAlignment(Pos.BOTTOM_CENTER);
       // title.setLayoutX(this.getRefNode().getX()); 
       // title.setLayoutY(this.getRefNode().getY()+20);
@@ -211,8 +211,8 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
         
         StackPane.setMargin(title, new Insets(0.0 , 0.0, rectangle.getHeight()/3, 0.0));
         StackPane.setMargin(cycles, new Insets(rectangle.getHeight()/3 , 0.0, 0.0, 0.0));
-        StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
-        StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
+        //StackPane.setMargin(inport, new Insets(0.0, 0.0,rectangle.getHeight()/6, 0.0));
+        //StackPane.setMargin(outport, new Insets( rectangle.getHeight()/6, 0.0,0.0, 0.0));
     }
 
     private void initLooks(){
@@ -431,11 +431,12 @@ public class SequenceActivationBoxView extends AbstractNodeView implements NodeV
 //	        }
         }else if (evt.getPropertyName().equals(Constants.changeSequenceCycles)) {
             cycles.setText((String) evt.getNewValue());
-        } else if (evt.getPropertyName().equals(Constants.changeSequenceInputport)) {
-            inport.setText((String) evt.getNewValue());
-        }  else if (evt.getPropertyName().equals(Constants.changeSequenceOutputport)) {
-            outport.setText((String) evt.getNewValue());
         } 
+//        else if (evt.getPropertyName().equals(Constants.changeSequenceInputport)) {
+//            inport.setText((String) evt.getNewValue());
+//        }  else if (evt.getPropertyName().equals(Constants.changeSequenceOutputport)) {
+//            outport.setText((String) evt.getNewValue());
+//        } 
         
     }
 }

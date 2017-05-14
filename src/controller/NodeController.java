@@ -2,6 +2,7 @@ package controller;
 
 import controller.dialog.NodeEditDialogController;
 import controller.dialog.UsecaseEditDialogController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -778,10 +779,11 @@ public class NodeController {
         VBox group = new VBox();
         TextField input = new TextField();
         input.setText(node.getTitle());
-        TextField inputport = new TextField();
-        inputport.setText(node.getInputport());
-        TextField outputport = new TextField();
-        outputport.setText(node.getOutputport());
+      
+//        TextField inputport = new TextField();
+//        inputport.setText(node.getInputport());
+//        TextField outputport = new TextField();
+//        outputport.setText(node.getOutputport());
         
         TextField cycles = new TextField();
        
@@ -794,9 +796,9 @@ public class NodeController {
             @Override
             public void handle(ActionEvent event) {
                 node.setTitle(input.getText());
-                node.setInputport(inputport.getText());
+              //  node.setInputport(inputport.getText());
               
-                node.setOutputport(outputport.getText());
+                //node.setOutputport(outputport.getText());
                 
                 node.setCycles(Integer.valueOf(cycles.getText()));
                 aDrawPane.getChildren().remove(group);
@@ -814,12 +816,16 @@ public class NodeController {
         Label label = new Label("Input Service Name");
         group.getChildren().add(label);
         group.getChildren().add(input);
-        Label label1 = new Label("Input inport Name");
-        group.getChildren().add(label1);
-        group.getChildren().add(inputport);
-        Label label2 = new Label("Input outport Name");
-        group.getChildren().add(label2);
-        group.getChildren().add(outputport);
+        
+        
+//        Label label1 = new Label("Input inport Name");
+//        group.getChildren().add(label1);
+//        group.getChildren().add(inputport);
+//        Label label2 = new Label("Input outport Name");
+//        group.getChildren().add(label2);
+//        group.getChildren().add(outputport);
+        
+        
         Label label3 = new Label("Input Cycles");
         group.getChildren().add(label3);
         group.getChildren().add(cycles);
@@ -877,44 +883,36 @@ public class NodeController {
           TextField input = new TextField();
           input.setText(node.getTitle());
           
-          TextField clock = new TextField();
-          if(node.getClock()>0)
-          clock.setText(String.valueOf(node.getClock()));
+          ChoiceBox clock = new ChoiceBox();
+        // int[] clockcocebox = {50,60,70,80};
+          clock.getItems().setAll("50","100","150","200","250","300");
+          clock.getSelectionModel().select(String.valueOf(node.getClock())); 
           
-          TextField lowstatus_cost = new TextField();
-          if(node.getLowstatus_cost()>0)
-         lowstatus_cost.setText(String.valueOf(node.getLowstatus_cost()));
+          ChoiceBox lowstatus_cost = new ChoiceBox();
+          lowstatus_cost.getItems().setAll("50","100","150","200","250","300");
+          lowstatus_cost.getSelectionModel().select(String.valueOf(node.getLowstatus_cost())); 
+          //TextField  = new TextField();
+        
+          ChoiceBox internalBusBandwidth = new ChoiceBox();
+          internalBusBandwidth.getItems().setAll("1024","2048","4096","8193");
+          internalBusBandwidth.getSelectionModel().select(String.valueOf(node.getInternalBusBandwidth()));
+         
+         
+          ChoiceBox internalBusdelay = new ChoiceBox();
+          internalBusdelay.getItems().setAll("0.05","0.1","0.15","0.2");
+          internalBusdelay.getSelectionModel().select(String.valueOf(node.getInternalBusdelay()));
           
-          TextField highstatus_cost = new TextField();
-          if(node.getHighstatus_cost()>0)
-         highstatus_cost.setText(String.valueOf(node.getHighstatus_cost()));
+          ChoiceBox lowstatus_lowfail = new ChoiceBox();
+          lowstatus_lowfail.getItems().setAll("0.01","0.015");
+          lowstatus_lowfail.getSelectionModel().select(String.valueOf(node.getLowstatus_lowfail()));
+          
+          ChoiceBox lowstatus_highfail = new ChoiceBox();
+          lowstatus_highfail.getItems().setAll("0.015","0.02");
+          lowstatus_highfail.getSelectionModel().select(String.valueOf(node.getLowstatus_highfail()));
           
           
-          TextField internalBusBandwidth = new TextField();
-          if(node.getInternalBusBandwidth()>0)
-         internalBusBandwidth.setText(String.valueOf(node.getInternalBusBandwidth()));
           
-          TextField internalBusdelay = new TextField();
-          if(node.getInternalBusdelay()>0)
-        	  internalBusdelay.setText(String.valueOf(node.getInternalBusdelay()));
-          
-          TextField lowstatus_lowfail = new TextField();
-          if(node.getLowstatus_lowfail()>0)
-        	  lowstatus_lowfail.setText(String.valueOf(node.getLowstatus_lowfail()));
-          
-          TextField lowstatus_highfail = new TextField();
-          if(node.getLowstatus_highfail()>0)
-        	  lowstatus_highfail.setText(String.valueOf(node.getLowstatus_highfail()));
-          
-          TextField highstatus_lowfail = new TextField();
-          if(node.getHighstatus_lowfail()>0)
-        	  highstatus_lowfail.setText(String.valueOf(node.getHighstatus_lowfail()));
-          
-          TextField highstatus_highfail = new TextField();
-          if(node.getHighstatus_highfail()>0)
-        	  highstatus_highfail.setText(String.valueOf(node.getHighstatus_highfail()));
-           
-          
+         
           
           
           Button okButton = new Button("Ok");
@@ -922,15 +920,15 @@ public class NodeController {
               @Override
               public void handle(ActionEvent event) {
                   node.setTitle(input.getText());
-                  node.setClock(Integer.valueOf(clock.getText()));
-                  node.setLowstatus_cost(Integer.valueOf(lowstatus_cost.getText()));
-                  node.setHighstatus_cost(Integer.valueOf(highstatus_cost.getText()));
-                  node.setInternalBusBandwidth(Integer.valueOf(internalBusBandwidth.getText()));
-                  node.setInternalBusdelay(Double.valueOf(internalBusdelay.getText()));
-                  node.setLowstatus_lowfail(Double.valueOf(lowstatus_lowfail.getText()));
-                  node.setLowstatus_highfail(Double.valueOf(lowstatus_highfail.getText()));
-                  node.setHighstatus_lowfail(Double.valueOf(highstatus_lowfail.getText()));
-                  node.setHighstatus_highfail(Double.valueOf(highstatus_highfail.getText()));
+                  node.setClock(Integer.valueOf(clock.getValue().toString()));
+                  node.setLowstatus_cost(Integer.valueOf(lowstatus_cost.getValue().toString()));
+                //  node.setHighstatus_cost(Integer.valueOf(highstatus_cost.getText()));
+                  node.setInternalBusBandwidth(Integer.valueOf(internalBusBandwidth.getValue().toString()));
+                  node.setInternalBusdelay(Double.valueOf(internalBusdelay.getValue().toString()));
+                  node.setLowstatus_lowfail(Double.valueOf(lowstatus_lowfail.getValue().toString()));
+                  node.setLowstatus_highfail(Double.valueOf(lowstatus_highfail.getValue().toString()));
+                //  node.setHighstatus_lowfail(Double.valueOf(highstatus_lowfail.getText()));
+                 // node.setHighstatus_highfail(Double.valueOf(highstatus_highfail.getText()));
                   
                   aDrawPane.getChildren().remove(group);
               }
@@ -953,9 +951,9 @@ public class NodeController {
           Label label2 = new Label("Input lowstatus_cost");
           group.getChildren().add(label2);
           group.getChildren().add(lowstatus_cost);
-          Label label3 = new Label("Input highstatus_cost");
-          group.getChildren().add(label3);
-          group.getChildren().add(highstatus_cost);
+         
+         
+          
           Label label4 = new Label("Input internalBusBandwidth");
           group.getChildren().add(label4);
           group.getChildren().add(internalBusBandwidth);
@@ -968,12 +966,8 @@ public class NodeController {
           Label label7 = new Label("Input lowstatus_highfail");
           group.getChildren().add(label7);
           group.getChildren().add(lowstatus_highfail);
-          Label label8 = new Label("Input highstatus_lowfail");
-          group.getChildren().add(label8);
-          group.getChildren().add(highstatus_lowfail);
-          Label label9 = new Label("Input highstatus_highfail");
-          group.getChildren().add(label9);
-          group.getChildren().add(highstatus_highfail);
+        
+          
           
           HBox buttons = new HBox();
           buttons.getChildren().add(okButton);

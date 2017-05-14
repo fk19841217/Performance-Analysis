@@ -96,13 +96,13 @@ public class AqosamodelManager {
         	
         	for(int j=0;j<boxlist.size();j++){
         		Element xmiinport=doc.createElement("inport");
-        		xmiinport.setAttribute("name", boxlist.get(j).getInputport());
+        		xmiinport.setAttribute("name", boxlist.get(j).getTitle()+"_inport");
         		xmicomponent.appendChild(xmiinport);
         	}
         	
         	for(int j=0;j<boxlist.size();j++){
         		Element xmioutport=doc.createElement("outport");
-        		xmioutport.setAttribute("name", boxlist.get(j).getOutputport());
+        		xmioutport.setAttribute("name", boxlist.get(j).getTitle()+"_outport");
         		xmicomponent.appendChild(xmioutport);
         	}
         	
@@ -233,11 +233,11 @@ public class AqosamodelManager {
         	Element xmiprocessor_h=doc.createElement("processor");
         	xmiprocessor_h.setAttribute("id", processorlist.get(i).getTitle()+"-h");
         	xmiprocessor_h.setAttribute("clock", String.valueOf(processorlist.get(i).getClock()));
-        	xmiprocessor_h.setAttribute("cost", String.valueOf(processorlist.get(i).getHighstatus_cost()));
+        	xmiprocessor_h.setAttribute("cost", String.valueOf(processorlist.get(i).getLowstatus_cost()*1.4));
         	xmiprocessor_h.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
         	xmiprocessor_h.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
-        	xmiprocessor_h.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getHighstatus_lowfail()));
-        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getHighstatus_highfail()));
+        	xmiprocessor_h.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getLowstatus_lowfail()+0.005));
+        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()+0.0005));
         	xmirepository.appendChild(xmiprocessor_h);
         	
         	Element xmiprocessor_l=doc.createElement("processor");

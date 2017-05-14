@@ -14,13 +14,12 @@ public class DeploymentNode extends AbstractNode
     private ArrayList<AbstractNode> childNodes = new ArrayList<>();
     private int clock;
 	private int lowstatus_cost;
-	private int highstatus_cost;
+	//private int highstatus_cost;
 	private int internalBusBandwidth;
 	private double internalBusdelay;
 	private double lowstatus_lowfail;
-	private double lowstatus_highfail;
-	private double highstatus_lowfail;
-	private double highstatus_highfail;
+	//private double lowstatus_highfail;
+	
 
     public DeploymentNode(double x, double y, double width, double height)
     {
@@ -93,20 +92,20 @@ public class DeploymentNode extends AbstractNode
         return lowstatus_cost;
        }
     
-    public void setHighstatus_cost(int phighstatus_cost){
-   	 highstatus_cost = phighstatus_cost;
-       changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
-       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
-   }
-
-     public void remoteSetHighstatus_cost(int phighstatus_cost){
-   	  highstatus_cost = phighstatus_cost;
-         changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
-       }
-
-    public int getHighstatus_cost(){
-        return highstatus_cost;
-       }
+//    public void setHighstatus_cost(int phighstatus_cost){
+//   	 highstatus_cost = phighstatus_cost;
+//       changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+//       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+//   }
+//
+//     public void remoteSetHighstatus_cost(int phighstatus_cost){
+//   	  highstatus_cost = phighstatus_cost;
+//         changes.firePropertyChange(Constants.changeLinkedDepoloymentHighstatusCost, null, "HighstatusCost: "+String.valueOf(highstatus_cost)+" $");
+//       }
+//
+//    public int getHighstatus_cost(){
+//        return highstatus_cost;
+//       }
     
     
     public void setInternalBusBandwidth(int pinternalBusBandwidth){
@@ -154,51 +153,9 @@ public class DeploymentNode extends AbstractNode
         return lowstatus_lowfail;
        }
     
-    public void setLowstatus_highfail(double plowstatus_highfail){
-   	 lowstatus_highfail = plowstatus_highfail;
-       changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-   }
 
-     public void remoteSetLowstatus_highfail(double plowstatus_highfail){
-    	 lowstatus_highfail = plowstatus_highfail;
-        changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-       }
-
-    public double getLowstatus_highfail(){
-        return lowstatus_highfail;
-       }
     
-    public void setHighstatus_lowfail(double phighstatus_lowfail){
-   	 highstatus_lowfail = phighstatus_lowfail;
-       changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
-       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
-   }
-
-     public void remoteSetHighstatus_lowfail(double phighstatus_lowfail){
-    	 highstatus_lowfail = phighstatus_lowfail;
-        changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_lowfail, null, "Highstatus_lowfail: "+String.valueOf(highstatus_lowfail));
-       }
-
-    public double getHighstatus_lowfail(){
-        return highstatus_lowfail;
-       }
-    
-    public void setHighstatus_highfail(double phighstatus_highfail){
-   	 highstatus_highfail = phighstatus_highfail;
-       changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
-       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
-   }
-
-     public void remoteSetHighstatus_highfail(double phighstatus_highfail){
-    	 highstatus_highfail = phighstatus_highfail;
-        changes.firePropertyChange(Constants.changeLinkedDepoloymenthighstatus_highfail, null, "Highstatus_highfail: "+String.valueOf(highstatus_highfail));
-       }
-
-    public double getHighstatus_highfail(){
-        return highstatus_highfail;
-       }
-
+   
     @Override
     public void setHeight(double height) {
         this.height = height < CLASS_MIN_HEIGHT ? CLASS_MIN_HEIGHT : height;

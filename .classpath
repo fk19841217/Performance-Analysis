@@ -26,6 +26,7 @@
 	<classpathentry kind="lib" path="lib/voice/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
 	<classpathentry kind="lib" path="lib/weka.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/恺/Desktop/aqosa.jar"/>
+	<classpathentry kind="lib" path="/aqosa/Scripts/aqosa-core.jar"/>
+	<classpathentry kind="lib" path="/aqosa/Scripts/aqosa-experiment.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aqosa.ir:AQOSAModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aqosa.ir="http://se.liacs.nl/aqosa/ir">
+  <assembly>
+    <component name="ReadWheelSpeedSensors">
+      <service name="ReadWheelSpeedSensors"/>
+      <inport name="ReadWheelSpeedSensors-in"/>
+      <outport name="ReadWheelSpeedSensors-out"/>
+    </component>
+    <component name="ControlWheelSpeed">
+      <service name="CalculateWheelRotation"/>
+      <inport name="ControlWheelSpeed-in"/>
+      <outport name="ControlWheelSpeed-out"/>
+    </component>
+    <component name="EngineVehicleInterface">
+      <service name="ObtainEngineSpeed"/>
+      <service name="ObtainVehicleSpeed"/>
+      <service name="ObtainCoolantTemp"/>
+      <inport name="EngineVehicleInterface-in_Engine"/>
+      <inport name="EngineVehicleInterface-in_Vehicle"/>
+      <inport name="EngineVehicleInterface-in_Coolant"/>
+      <outport name="EngineVehicleInterface-out_Engine"/>
+      <outport name="EngineVehicleInterface-out_Vehicle"/>
+      <outport name="EngineVehicleInterface-out_Coolant"/>
+    </component>
+    <component name="ProvidePowerModeInfo">
+      <service name="PowerModeInfo"/>
+      <outport name="PowerModeInfo-out"/>
+    </component>
+    <component name="ControlEngineSpeedGauge">
+      <service name="DisplayEngineSpeed"/>
+      <inport name="ControlEngineSpeedGauge-in"/>
+      <outport name="ControlEngineSpeedGauge-out"/>
+    </component>
+    <component name="ControlVehicleSpeedGauge">
+      <service name="DisplayVehicleSpeed"/>
+      <inport name="ControlVehicleSpeedGauge-in"/>
+      <outport name="ControlVehicleSpeedGauge-out"/>
+    </component>
+    <component name="Gauge_Engine">
+      <service name="CalculateNeedlePosition"/>
+      <inport name="Gauge_Engine-in"/>
+    </component>
+    <component name="TransmissionVehicleInterface">
+      <service name="ReadLeverPstn"/>
+      <outport name="TransmissionVehicleInterface-out"/>
+    </component>
+    <component name="ControlGearSelectedIndication">
+      <service name="GearDisplayValue"/>
+      <inport name="ControlGearSelectedIndication-in"/>
+      <outport name="ControlGearSelectedIndication-out"/>
+    </component>
+    <component name="Display_Engine">
+      <service name="IndicateGearPstn"/>
+      <service name="DisplayOAT"/>
+      <service name="DisplayOdometer"/>
+      <service name="IndicateLowWasher"/>
+      <inport name="Display_Engine-in_Gear"/>
+      <inport name="Display_Engine-in_OAT"/>
+      <inport name="Display_Engine-in_Odometer"/>
+      <inport name="Display_Engine-in_Washer"/>
+    </component>
+    <component name="ReadOATSensor">
+      <service name="ObtaionOAT"/>
+      <outport name="ReadOATSensor-out"/>
+    </component>
+    <component name="ControlOutsideAirTemp">
+      <service name="CalculateOAT"/>
+      <inport name="ControlOutsideAirTemp-in"/>
+      <outport name="ControlOutsideAirTemp-out"/>
+    </component>
+    <component name="ControlCoolantTempGauge">
+      <service name="DisplayCoolantTemp"/>
+      <inport name="ControlCoolantTempGauge-in"/>
+      <outport name="ControlCoolantTempGauge-out"/>
+    </component>
+    <component name="ReadDriverDoorAjarSwitch">
+      <service name="ReadDriverDoorAjarSwitch"/>
+      <outport name="ReadDriverDoorAjarSwitch-out"/>
+    </component>
+    <component name="ControlOdometer">
+      <service name="OdometerValue"/>
+      <inport name="ControlOdometer-in"/>
+      <outport name="ControlOdometer-out"/>
+    </component>
+    <component name="ReadTripStemButton">
+      <service name="ReadTripStemButton"/>
+      <outport name="ReadTripStemButton-out"/>
+    </component>
+    <component name="ReadLowWasherLevel">
+      <service name="ReadLowWasherLevel"/>
+      <outport name="ReadLowWasherLevel-out"/>
+    </component>
+    <component name="ControlWasherLevelIndication">
+      <service name="ControlWasherLevelIndication"/>
+      <inport name="ControlWasherLevelIndication-in"/>
+      <outport name="ControlWasherLevelIndication-out"/>
+    </component>
+    <flow name="Ignition_to_EngineSpeed">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.3/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.3/@outport.0" destination="//@assembly/@component.2/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.2/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.2/@outport.0" destination="//@assembly/@component.4/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.4/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.4/@outport.0" destination="//@assembly/@component.6/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.6/@service.0"/>
+    </flow>
+    <flow name="Ignition_to_VehicleSpeed">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.3/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.3/@outport.0" destination="//@assembly/@component.0/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.0/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.0/@outport.0" destination="//@assembly/@component.1/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.1/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.1/@outport.0" destination="//@assembly/@component.2/@inport.1"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.2/@service.1"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.2/@outport.1" destination="//@assembly/@component.5/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.5/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.5/@outport.0" destination="//@assembly/@component.6/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.6/@service.0"/>
+    </flow>
+    <flow name="GearIndication">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.7/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.7/@outport.0" destination="//@assembly/@component.8/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.8/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.8/@outport.0" destination="//@assembly/@component.9/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.9/@service.0"/>
+    </flow>
+    <flow name="VehicleSpeedIndication">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.0/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.0/@outport.0" destination="//@assembly/@component.1/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.1/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.1/@outport.0" destination="//@assembly/@component.2/@inport.1"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.2/@service.1"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.2/@outport.1" destination="//@assembly/@component.5/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.5/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.5/@outport.0" destination="//@assembly/@component.6/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.6/@service.0"/>
+    </flow>
+    <flow name="EngineSpeedIndication">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.2/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.2/@outport.0" destination="//@assembly/@component.4/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.4/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.4/@outport.0" destination="//@assembly/@component.6/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.6/@service.0"/>
+    </flow>
+    <flow name="OATCalculation">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.10/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.10/@outport.0" destination="//@assembly/@component.11/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.11/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.11/@outport.0" destination="//@assembly/@component.9/@inport.1"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.9/@service.1"/>
+    </flow>
+    <flow name="EngineCoolantTemp">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.2/@service.2"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.2/@outport.2" destination="//@assembly/@component.12/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.12/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.12/@outport.0" destination="//@assembly/@component.6/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.6/@service.0"/>
+    </flow>
+    <flow name="DriverDoor_to_Odometer">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.13/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.13/@outport.0" destination="//@assembly/@component.14/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.14/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.14/@outport.0" destination="//@assembly/@component.9/@inport.2"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.9/@service.2"/>
+    </flow>
+    <flow name="StemButton_to_Odometer">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.15/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.15/@outport.0" destination="//@assembly/@component.14/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.14/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.14/@outport.0" destination="//@assembly/@component.9/@inport.2"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.9/@service.2"/>
+    </flow>
+    <flow name="LowWasherIndication">
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.16/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.16/@outport.0" destination="//@assembly/@component.17/@inport.0"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.17/@service.0"/>
+      <action xsi:type="aqosa.ir:CommunicateAction" source="//@assembly/@component.17/@outport.0" destination="//@assembly/@component.9/@inport.3"/>
+      <action xsi:type="aqosa.ir:ComputeAction" service="//@assembly/@component.9/@service.3"/>
+    </flow>
+  </assembly>
+  <scenarios>
+    <flowset name="Average" completionTime="10000.0" missedPercentage="0.05">
+      <flowinstance instance="//@assembly/@flow.0" start="300.0" trigger="5000.0" deadline="75.0"/>
+      <flowinstance instance="//@assembly/@flow.1" start="400.0" trigger="5000.0" deadline="75.0"/>
+      <flowinstance instance="//@assembly/@flow.2" start="500.0" trigger="5000.0" deadline="50.0"/>
+      <flowinstance instance="//@assembly/@flow.3" start="1000.0" trigger="100.0" deadline="50.0"/>
+      <flowinstance instance="//@assembly/@flow.4" start="1030.0" trigger="100.0" deadline="35.0"/>
+      <flowinstance instance="//@assembly/@flow.5" start="100.0" trigger="1000.0" deadline="50.0"/>
+      <flowinstance instance="//@assembly/@flow.6" start="1070.0" trigger="100.0" deadline="30.0"/>
+      <flowinstance instance="//@assembly/@flow.7" start="2000.0" trigger="5000.0" deadline="250.0"/>
+      <flowinstance instance="//@assembly/@flow.8" start="2500.0" trigger="5000.0" deadline="250.0"/>
+      <flowinstance instance="//@assembly/@flow.9" start="3000.0" trigger="5000.0" deadline="125.0"/>
+    </flowset>
+  </scenarios>
+  <repository>
+    <componentinstance id="ReadWheelSpeedSensors_Instance" compatible="//@assembly/@component.0" variancePercentage="0.05">
+      <service instance="//@assembly/@component.0/@service.0" cycles="600" networkUsage="4000.0">
+        <provide connects="//@assembly/@component.0/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.4"/>
+          <require internal="//@assembly/@component.0/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlWheelSpeed_Instance" compatible="//@assembly/@component.1" variancePercentage="0.05">
+      <service instance="//@assembly/@component.1/@service.0" cycles="500" networkUsage="4000.0">
+        <provide connects="//@assembly/@component.1/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.1/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="EngineVehicleInterface_Instance" compatible="//@assembly/@component.2" variancePercentage="0.05">
+      <service instance="//@assembly/@component.2/@service.0" cycles="500" networkUsage="2000.0">
+        <provide connects="//@assembly/@component.2/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.3"/>
+          <require internal="//@assembly/@component.2/@inport.0"/>
+        </depend>
+      </service>
+      <service instance="//@assembly/@component.2/@service.1" cycles="500" networkUsage="2000.0">
+        <provide connects="//@assembly/@component.2/@outport.1"/>
+        <depend>
+          <require internal="//@assembly/@component.2/@inport.1"/>
+        </depend>
+      </service>
+      <service instance="//@assembly/@component.2/@service.2" cycles="500" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.2/@outport.2"/>
+        <depend>
+          <require internal="//@assembly/@component.2/@inport.2"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ProvidePowerModeInfo_Instance" compatible="//@assembly/@component.3" variancePercentage="0.05">
+      <service instance="//@assembly/@component.3/@service.0" cycles="400" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.3/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.2"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlEngineSpeedGauge_Instance" compatible="//@assembly/@component.4" variancePercentage="0.05">
+      <service instance="//@assembly/@component.4/@service.0" cycles="2850" networkUsage="2000.0">
+        <provide connects="//@assembly/@component.4/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.4/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlVehicleSpeedGauge_Instance" compatible="//@assembly/@component.5" variancePercentage="0.05">
+      <service instance="//@assembly/@component.5/@service.0" cycles="2950" networkUsage="2000.0">
+        <provide connects="//@assembly/@component.5/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.5/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="Gauge_Engine_Instance" compatible="//@assembly/@component.6" variancePercentage="0.05">
+      <service instance="//@assembly/@component.6/@service.0" cycles="500">
+        <depend>
+          <require internal="//@assembly/@component.6/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="TransmissionVehicleInterface_Instance" compatible="//@assembly/@component.7" variancePercentage="0.05">
+      <service instance="//@assembly/@component.7/@service.0" cycles="100" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.7/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.5"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlGearSelectedIndication_Instance" compatible="//@assembly/@component.8" variancePercentage="0.05">
+      <service instance="//@assembly/@component.8/@service.0" cycles="2500" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.8/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.8/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="Display_Engine_Instance" cost="55.0" compatible="//@assembly/@component.9" variancePercentage="0.05">
+      <service instance="//@assembly/@component.9/@service.0" cycles="500" networkUsage="1000.0">
+        <depend>
+          <require internal="//@assembly/@component.9/@inport.0"/>
+        </depend>
+      </service>
+      <service instance="//@assembly/@component.9/@service.1" cycles="500" networkUsage="1000.0">
+        <depend>
+          <require internal="//@assembly/@component.9/@inport.1"/>
+        </depend>
+      </service>
+      <service instance="//@assembly/@component.9/@service.2" cycles="500" networkUsage="1000.0">
+        <depend>
+          <require internal="//@assembly/@component.9/@inport.2"/>
+        </depend>
+      </service>
+      <service instance="//@assembly/@component.9/@service.3" cycles="500" networkUsage="1000.0">
+        <depend>
+          <require internal="//@assembly/@component.9/@inport.3"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ReadOATSensor_Instance" compatible="//@assembly/@component.10" variancePercentage="0.05">
+      <service instance="//@assembly/@component.10/@service.0" cycles="1000" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.10/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.6"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlOutsideAirTemp_Instance" compatible="//@assembly/@component.11" variancePercentage="0.05">
+      <service instance="//@assembly/@component.11/@service.0" cycles="2744" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.11/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.11/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlCoolantTempGauge_Instance" compatible="//@assembly/@component.12" variancePercentage="0.05">
+      <service instance="//@assembly/@component.12/@service.0" cycles="1500" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.12/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.12/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ReadDriverDoorAjarSwitch_Instance" cost="1.0" compatible="//@assembly/@component.13" variancePercentage="0.05">
+      <service instance="//@assembly/@component.13/@service.0" cycles="100" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.13/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlOdometer_Instance" compatible="//@assembly/@component.14" variancePercentage="0.05">
+      <service instance="//@assembly/@component.14/@service.0" cycles="2440" networkUsage="4000.0">
+        <provide connects="//@assembly/@component.14/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.14/@inport.0"/>
+          <require external="//@repository/@externalport.7"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ReadTripStemButton_Instance" compatible="//@assembly/@component.15" variancePercentage="0.05">
+      <service instance="//@assembly/@component.15/@service.0" cycles="100" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.15/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.1"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ReadLowWasherLevel_Instance" compatible="//@assembly/@component.16" variancePercentage="0.05">
+      <service instance="//@assembly/@component.16/@service.0" cycles="100" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.16/@outport.0"/>
+        <depend>
+          <require external="//@repository/@externalport.8"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <componentinstance id="ControlWasherLevelIndication_Instance" compatible="//@assembly/@component.17" variancePercentage="0.05">
+      <service instance="//@assembly/@component.17/@service.0" cycles="300" networkUsage="1000.0">
+        <provide connects="//@assembly/@component.17/@outport.0"/>
+        <depend>
+          <require internal="//@assembly/@component.17/@inport.0"/>
+        </depend>
+      </service>
+    </componentinstance>
+    <processor id="cpu066-h" clock="66.0" cost="100.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu066-l" clock="66.0" cost="140.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu100-h" clock="100.0" cost="125.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu100-l" clock="100.0" cost="175.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu133-h" clock="133.0" cost="150.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu133-l" clock="133.0" cost="210.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu166-h" clock="166.0" cost="175.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu166-l" clock="166.0" cost="245.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu200-h" clock="200.0" cost="200.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu200-l" clock="200.0" cost="280.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu233-h" clock="233.0" cost="225.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu233-l" clock="233.0" cost="315.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.01" upperFail="0.025"/>
+    <processor id="cpu266-h" clock="266.0" cost="250.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.02" upperFail="0.035"/>
+    <processor id="cpu266-l" clock="266.0" cost="350.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu300-h" clock="300.0" cost="275.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.02" upperFail="0.035"/>
+    <processor id="cpu300-l" clock="300.0" cost="385.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu333-h" clock="333.0" cost="300.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.02" upperFail="0.035"/>
+    <processor id="cpu333-l" clock="333.0" cost="420.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu366-h" clock="366.0" cost="325.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.02" upperFail="0.035"/>
+    <processor id="cpu366-l" clock="366.0" cost="455.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <processor id="cpu400-h" clock="400.0" cost="350.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.02" upperFail="0.035"/>
+    <processor id="cpu400-l" clock="400.0" cost="490.0" internalBusBandwidth="1024.0" internalBusDelay="0.1" lowerFail="0.015" upperFail="0.03"/>
+    <bus id="CAN-HS" bandwidth="500.0" delay="0.002" cost="100.0"/>
+    <bus id="CAN-MS" bandwidth="125.0" delay="0.008" cost="50.0"/>
+    <bus id="CAN-LS" bandwidth="33.3" delay="0.016" cost="25.0"/>
+    <bus id="LIN" bandwidth="10.0" delay="0.05" cost="10.0"/>
+    <externalport id="ajar-switch" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="stem-button" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="ignition-switch" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="crankshaft-sensor" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="wheel-sensor" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="gear-sensor" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="oat-sensor" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="odometer-storage" lowerFail="0.01" upperFail="0.05"/>
+    <externalport id="lowwasher-switch" lowerFail="0.01" upperFail="0.05"/>
+  </repository>
+  <objectives>
+    <settings noRun="3" noSampling="50" noDuplicate="1" minCost="200.0" maxCost="10000.0">
+      <evaluations>ResponseTime</evaluations>
+      <evaluations>CPUUtilization</evaluations>
+      <evaluations>BusUtilization</evaluations>
+      <evaluations>Safety</evaluations>
+      <evaluations>Cost</evaluations>
+    </settings>
+  </objectives>
+</aqosa.ir:AQOSAModel>

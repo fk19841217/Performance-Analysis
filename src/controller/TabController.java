@@ -493,9 +493,13 @@ public class TabController {
     		 messageMap.put(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname(),newmessagelist);
     		 
     	 }
+    	
+    	
     	     	
     	 System.out.println(externalportedgelist.size());
     	 
+    	 
+    	// flowsetsMap.get(tabMap.get(tabPane.getSelectionModel().getSelectedItem()).gettabname());
     	 
     	}
     	
@@ -674,16 +678,20 @@ public class TabController {
     	
     	public void aqosa() throws Exception {
     		
-    		Document abc= AqosamodelManager.createAqosa(this);
+    		
+    		
+    		try{
+    			
+    			Document abc= AqosamodelManager.createAqosa(this);
 
-    		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    		Source xmlSource = new DOMSource(abc);
-    		Result outputTarget = new StreamResult(outputStream);
-    		TransformerFactory.newInstance().newTransformer().transform(xmlSource, outputTarget);
-    		InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
-    		
-    		
-    		//final InputStream modelFile1 = new FileInputStream("/icons/myAqosa.aqosa");
+        		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        		Source xmlSource = new DOMSource(abc);
+        		Result outputTarget = new StreamResult(outputStream);
+        		TransformerFactory.newInstance().newTransformer().transform(xmlSource, outputTarget);
+        		InputStream is = new ByteArrayInputStream(outputStream.toByteArray());	
+    			
+    			
+    	//	final InputStream is = new FileInputStream("C:/Users/âý/workspace/Performance-Analysis/src/icons/myAqosa.aqosa");
     		final int generations = 10;
     		final int alpha = 100;
     		final int mu = 20;
@@ -697,17 +705,18 @@ public class TabController {
     		//run.setIterationLog(true);
     		run.setLoggerLevel(DetailLevel.FULL);
     		
-    		
-    		
-    		run.setArchiveLogger("/icons/mytest.tsv");
-    		run.setOptimumLogger("/icons/myopt.tsv");
+    		run.setArchiveLogger("C:/Users/âý/workspace/Performance-Analysis/src/icons/mytest.tsv");
+    		run.setOptimumLogger("C:/Users/âý/workspace/Performance-Analysis/src/icons/myopt.tsv");
     		//run.setViewer();
     		run.call();
     		
     		for (String result : run.getResults()) {
     			System.out.println(result);
     		}
-    		
+    		}
+    		catch(Exception ex){
+    			ex.printStackTrace();
+    		}
     		
     	}
     	

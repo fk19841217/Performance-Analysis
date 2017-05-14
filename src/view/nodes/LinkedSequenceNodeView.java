@@ -48,6 +48,7 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
 		starttime=new Label();
 	
 		
+		icon = new ImageView("/icons/sequenceDiagram.png");
 		
 		
 		
@@ -80,10 +81,20 @@ public class LinkedSequenceNodeView extends AbstractNodeView implements NodeView
         this.setTranslateY(node.getTranslateY());
 	}
 	
+	private void setico(ImageView i){
+		this.icon=i;
+		
+	}
+	
+	private ImageView getico(){
+		return icon;
+		
+	}
+	
 	
 	private void createimage(){
+		setico(this.getico());
 		LinkedSequenceNode node = (LinkedSequenceNode) getRefNode();
-		icon = new ImageView("/icons/sequenceDiagram.png");
 		icon.setFitWidth(node.getWidth()-2);
 		icon.setFitHeight(node.getHeight()-2);
 	} 

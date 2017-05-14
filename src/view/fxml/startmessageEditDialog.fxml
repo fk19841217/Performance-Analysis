@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -16,9 +17,25 @@
         <ChoiceBox fx:id="directionBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <TextField fx:id="titleTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label prefWidth="165.0" text="External port lower fail rate" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="lowfailTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Label prefWidth="165.0" text="External port uper fail rate" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="upfailTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <ChoiceBox id="exlowfailport" fx:id="exlowerfailport" GridPane.columnIndex="1" GridPane.rowIndex="2">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="项 1" />
+              <String fx:value="项 2" />
+              <String fx:value="项 3" />
+            </FXCollections>
+          </items>
+        </ChoiceBox>
+        <ChoiceBox fx:id="exuperfailport" GridPane.columnIndex="1" GridPane.rowIndex="3">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="项 1" />
+              <String fx:value="项 2" />
+              <String fx:value="项 3" />
+            </FXCollections>
+          </items>
+        </ChoiceBox>
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="171.0" />
