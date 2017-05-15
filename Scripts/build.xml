@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Feb 27, 2013 2:20:56 PM                                                        
+
+     AQOSA-jarBuilder    
+     description
+                   
+     Ramin                                                                
+     ====================================================================== -->
+<project name="AQOSA-jarBuilder" default="make-core">
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<property name="cloudbees.dir" value="../../onlineoptimizer/aqosaoptimizer/webapp/WEB-INF/lib/"/>
+	<property name="appengine.dir" value="/home/ramin/workspaces/OnlineOptimizer/GAE_App/war/WEB-INF/lib/"/>
+	
+	<target name="copy-CloudBees">
+		<copy file="aqosa-core.jar" todir="${cloudbees.dir}"/>
+	</target>
+	
+	<target name="copy-AppEngine">
+		<copy file="aqosa-core.jar" todir="${appengine.dir}"/>
+	</target>
+	
+	<target name="make-core" depends="clean-core">
+		<jar destfile="aqosa-core.jar" compress="on" keepcompression="on">
+			<fileset file="log4j.xml" />
+			<fileset dir="../AQOSA-Akka/bin" />
+			<fileset dir="../AQOSA-Evaluator/bin" />
+			<fileset dir="../AQOSA-Failure/bin" />
+			<fileset dir="../AQOSA-Hadoop/bin" />
+			<fileset dir="../AQOSA-IR/bin" />
+			<fileset dir="../AQOSA-Launcher/bin" />
+			<fileset dir="../AQOSA-Model/bin" />
+			<fileset dir="../AQOSA-Optimizer/bin" />
+			<fileset dir="../AQOSA-QN/bin" />
+			<fileset dir="../AQOSA-Solution/bin" />
+		</jar>
+	</target>
+	
+	<target name="make-experiment" depends="clean-experiment">
+		<jar destfile="aqosa-experiment.jar" manifest="MANIFEST.MF" compress="on" keepcompression="on">
+			<fileset file="log4j.xml" />
+			<fileset dir="../AQOSA-Akka/bin" />
+			<fileset dir="../AQOSA-Evaluator/bin" />
+			<fileset dir="../AQOSA-Failure/bin" />
+			<fileset dir="../AQOSA-Hadoop/bin" />
+			<fileset dir="../AQOSA-IR/bin" />
+			<fileset dir="../AQOSA-Launcher/bin" />
+			<fileset dir="../AQOSA-Model/bin" />
+			<fileset dir="../AQOSA-Optimizer/bin" />
+			<fileset dir="../AQOSA-QN/bin" />
+			<fileset dir="../AQOSA-Solution/bin" />
+			<fileset dir="../Experiments/bin" />
+		</jar>
+	</target>
+	
+	<target name="make-compile" depends="clean-core, clean-build, compile">
+		<jar destfile="aqosa-core.jar" compress="on" keepcompression="on" basedir="build" includes="**/*.class">
+			<fileset file="log4j.xml" />
+		</jar>
+	</target>
+	
+	<target name="aqosa-projects">
+		<dirset id="dirset.projects" dir="../">
+			<patternset id="aqosa.pattern">
+				<include name="**AQOSA**" />
+				<exclude name="**.edit*" />
+			</patternset>
+		</dirset>
+		
+		<pathconvert property="my.dirs" refid="dirset.projects" />
+		
+		<pathconvert pathsep=" " property="dirs.projects" refid="dirset.projects">
+			<mapper type="flatten"/>
+		</pathconvert>
+		
+		<echo message="[*** the AQOSA dir list is ${dirs.projects} ***]"/>
+	</target>
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="compile">
+		<path id="lib.path.ref">
+			<fileset dir="lib" includes="*.jar" />
+		</path>
+		<javac includeantruntime="false" destdir="build">
+			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}"/>
+			<src path="../AQOSA-Akka/src" />
+			<src path="../AQOSA-Evaluator/src" />
+			<src path="../AQOSA-Failure/src" />
+			<src path="../AQOSA-Hadoop/src" />
+			<src path="../AQOSA-IR/src" />
+			<src path="../AQOSA-Launcher/src" />
+			<src path="../AQOSA-Model/src" />
+			<src path="../AQOSA-Optimizer/src" />
+			<src path="../AQOSA-QN/src" />
+			<src path="../AQOSA-Solution/src" />
+		</javac>
+	</target>
+	
+	<target name="clean-core">
+		<delete file="aqosa-core.jar" />
+	</target>
+	
+	<target name="clean-experiment">
+		<delete file="aqosa-experiment.jar" />
+	</target>
+	
+	<target name="clean-build">
+		<delete>
+			<fileset dir="build" includes="**" />
+			<dirset dir="build" includes="**" />
+		</delete>
+	</target>
+	
+</project>
