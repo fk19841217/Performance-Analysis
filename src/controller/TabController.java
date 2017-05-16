@@ -505,7 +505,7 @@ public class TabController {
     		 
     	 }
     	
-    	
+    	pc.setAllEdgeViews(newmessagelist);
     	     	
     	 System.out.println(externalportedgelist.size());
     	 

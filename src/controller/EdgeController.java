@@ -164,18 +164,14 @@ public class EdgeController {
    }
          
          if(endNodeView != null){
-             if(startNodeView != null){
+        	 
+             if(startNodeView != null ){
                  //MessageEdge medge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
                  ConnectEdge aedge = new ConnectEdge(diagramController.getNodeMap().get(startNodeView), diagramController.getNodeMap().get(endNodeView));
                
-                // if (diagramController.getNodeMap().get(startNodeView).getType()=="LIFELINE")
-                 //((PerformanceController)diagramController).createEdgeView(medge, startNodeView, endNodeView);
-               // else  
+               //  if(diagramController.getNodeMap().get(startNodeView).getType()=="DEPLOYMENT" && diagramController.getNodeMap().get(endNodeView).getType()=="DEPLOYMENT")
                 ((DeploymentController)diagramController).createEdgeView(aedge, startNodeView, endNodeView);
-             } /*else {
-                 MessageEdge edge = new MessageEdge(dragStartX, dragStartY, diagramController.getNodeMap().get(endNodeView));
-                 ((PerformanceController)diagramController).createEdgeView(edge, null, endNodeView);
-             }*/
+             } 
          }
          finishCreateEdge();
      }

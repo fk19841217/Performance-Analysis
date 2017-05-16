@@ -5,7 +5,7 @@ import util.Constants;
 public class UsecaseNode extends AbstractNode {
 	
 	public static final String TYPE = "Usecase";
-	 private int frequence;
+	 private double frequence;
 	
 	 public  UsecaseNode(double x, double y, double width, double height)
 	    {
@@ -20,7 +20,7 @@ public class UsecaseNode extends AbstractNode {
 	 public UsecaseNode(){
 	    }
 	 
-	 public void setFrequence(int pfrequence){
+	 public void setFrequence(double pfrequence){
 		     frequence = pfrequence;
 	        changes.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
 	        remoteChanges.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
@@ -31,7 +31,7 @@ public class UsecaseNode extends AbstractNode {
 	        changes.firePropertyChange(Constants.changeUsecaseFrequence, null,  "Frequency: "+String.valueOf(frequence)+" /s");
 	    }
 	 
-	 public int getFrequence(){
+	 public double getFrequence(){
 	        return frequence;
 	    }
 	 

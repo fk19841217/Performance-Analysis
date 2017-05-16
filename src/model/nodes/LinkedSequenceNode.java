@@ -8,7 +8,7 @@ public class LinkedSequenceNode extends AbstractNode {
 	
 	private int delay;
 	private int starttime;
-	 private int frequence;
+	 private double frequence;
 	
 	 public  LinkedSequenceNode(double x, double y, double width, double height)
 	    {
@@ -48,7 +48,7 @@ public int getStarttime(){
     return starttime;
 }
 
-public void setFrequence(int pfrequence){
+public void setFrequence(double pfrequence){
     frequence = pfrequence;
    changes.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
    remoteChanges.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
@@ -59,7 +59,7 @@ frequence = pfrequence;
    changes.firePropertyChange(Constants.changeUsecaseFrequence, null,  "Frequency: "+String.valueOf(frequence)+" /s");
 }
 
-public int getFrequence(){
+public double getFrequence(){
    return frequence;
 }
 
