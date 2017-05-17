@@ -38,7 +38,7 @@ public abstract class AbstractNode implements Node, Serializable
     protected double x, y, width, height, translateX, translateY, scaleX, scaleY;
     protected boolean aIsChild;
     private SequenceObject se;
-    private double frequence;
+    private int frequence;
     private int delay;
 	private int starttime;
 	private int network;
@@ -76,7 +76,7 @@ public abstract class AbstractNode implements Node, Serializable
     	return externalportedge;
     }
 
-	 public void setFrequence(double pfrequence){
+	 public void setFrequence(int pfrequence){
 	     frequence = pfrequence;
         changes.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
         remoteChanges.firePropertyChange(Constants.changeUsecaseFrequence, null, "Frequency: "+String.valueOf(frequence)+" /s");
@@ -87,7 +87,7 @@ public abstract class AbstractNode implements Node, Serializable
         changes.firePropertyChange(Constants.changeUsecaseFrequence, null,  "Frequency: "+String.valueOf(frequence)+" /s");
     }
  
- public double getFrequence(){
+ public int getFrequence(){
         return frequence;
     }
  

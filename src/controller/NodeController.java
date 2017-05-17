@@ -706,7 +706,7 @@ public class NodeController {
               @Override
               public void handle(ActionEvent event) {
                   node.setTitle(input.getText());
-                  node.setFrequence(Double.valueOf(frequence.getText()));
+                  node.setFrequence(Integer.valueOf(frequence.getText()));
                   aDrawPane.getChildren().remove(group);
               }
           });

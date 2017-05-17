@@ -505,7 +505,7 @@ public class TabController {
     		 
     	 }
     	
-    	pc.setAllEdgeViews(newmessagelist);
+    	
     	     	
     	 System.out.println(externalportedgelist.size());
     	 
@@ -702,7 +702,7 @@ public class TabController {
         		InputStream is = new ByteArrayInputStream(outputStream.toByteArray());	
     			
     			
-    		//final InputStream is = new FileInputStream("C:/Users/‚˝/workspace/Performance-Analysis/src/icons/myAqosa.aqosa");
+    		//final InputStream is = new FileInputStream("C:/Users/ÔøΩÔøΩ/workspace/Performance-Analysis/src/icons/myAqosa.aqosa");
     		final int generations = 10;
     		final int alpha = 100;
     		final int mu = 20;
@@ -716,8 +716,8 @@ public class TabController {
     		//run.setIterationLog(true);
     		run.setLoggerLevel(DetailLevel.FULL);
     		
-    		run.setArchiveLogger("C:/Users/‚˝/workspace/Performance-Analysis/src/icons/mytest.tsv");
-    		run.setOptimumLogger("C:/Users/‚˝/workspace/Performance-Analysis/src/icons/myopt.tsv");
+    		run.setArchiveLogger("C:/Users/ÊÅ∫/workspace/Performance-Analysis/src/icons/mytest.tsv");
+    		run.setOptimumLogger("C:/Users/ÊÅ∫/workspace/Performance-Analysis/src/icons/myopt.tsv");
     		//run.setViewer();
     		run.call();
     		
@@ -747,7 +747,7 @@ public class TabController {
     			//input.setText(String.valueOf(run.getResults().size()-counter));
     			if(counter==run.getResults().size()){
     				
-    			        FileReader fr=new FileReader("C:/Users/‚˝/workspace/Performance-Analysis/src/icons/myopt.tsv");
+    			        FileReader fr=new FileReader("C:/Users/ÊÅ∫/workspace/Performance-Analysis/src/icons/myopt.tsv");
     			        BufferedReader br=new BufferedReader(fr);
     			        
     			        int n=5;

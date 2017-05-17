@@ -1071,9 +1071,6 @@ public abstract class AbstractDiagramController {
         return allEdgeViews;
     }
 
-    void setAllEdgeViews(ArrayList<AbstractEdgeView> aallEdgeViews) {
-         this.allEdgeViews=aallEdgeViews;
-    }
     UndoManager getUndoManager() {
         return undoManager;
     }
@@ -1142,4 +1139,3 @@ public abstract class AbstractDiagramController {
     
    
 }
-
