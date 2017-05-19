@@ -246,6 +246,7 @@ public class NodeController {
             
             putNodeInPackage(n);
             putNodeInDeployment(n);
+            putNodeInSequence(n);
         }
         return deltaTranslateVector;
     }
