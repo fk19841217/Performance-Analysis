@@ -17,14 +17,14 @@ public abstract class AbstractEdge implements Edge, Serializable {
     private int id = 0;
     private static final long serialVersionUID = 1L;
     private int bandwidth;
-	private int cost;
+	//private int cost;
 	private double netdelay;
 	private String title;
 	private boolean startedge;
 	private AbstractEdgeView abstractedgeview;
 	private int network;
-	 private double lowfail;
-	    private double upfail;
+	// private double lowfail;
+	  //  private double upfail;
 
     //Listened to by the view, is always fired.
     protected transient PropertyChangeSupport changes = new PropertyChangeSupport(this);
@@ -216,20 +216,20 @@ public abstract class AbstractEdge implements Edge, Serializable {
         return bandwidth;
     }
  
- public void setCost(int pcost){
-	 cost = pcost;
-    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-    remoteChanges.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-}
-
-public void remoteSetCost(int pcost){
-	cost = pcost;
-    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-}
-
-public int getCost(){
-    return cost;
-}
+// public void setCost(int pcost){
+//	 cost = pcost;
+//    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//    remoteChanges.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//}
+//
+//public void remoteSetCost(int pcost){
+//	cost = pcost;
+//    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//}
+//
+//public int getCost(){
+//    return cost;
+//}
 
 public void setNetdelay(double pnetdelay){
 	 netdelay = pnetdelay;
@@ -263,35 +263,35 @@ public int getNetwork(){
 
 
 
-public void setLowfail(double plowfail){
-  	 lowfail = plowfail;
-     changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-     remoteChanges.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-  }
-
-  public void remotesetLowfail(double plowfail){
-	   	 lowfail = plowfail;
-	      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-  }
-
-  public double getLowfail(){
-     return lowfail;
-  }
-  
-  public void setUpfail(double pupfail){
-	   	 upfail = pupfail;
-	      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	      remoteChanges.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	   }
-
-	   public void remotesetUpfail(double pupfail){
-		   	 upfail = pupfail;
-		      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	   }
-
-	   public double getUpfail(){
-	      return upfail;
-	   }
+//public void setLowfail(double plowfail){
+//  	 lowfail = plowfail;
+//     changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//     remoteChanges.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//  }
+//
+//  public void remotesetLowfail(double plowfail){
+//	   	 lowfail = plowfail;
+//	      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//  }
+//
+//  public double getLowfail(){
+//     return lowfail;
+//  }
+//  
+//  public void setUpfail(double pupfail){
+//	   	 upfail = pupfail;
+//	      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	      remoteChanges.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	   }
+//
+//	   public void remotesetUpfail(double pupfail){
+//		   	 upfail = pupfail;
+//		      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	   }
+//
+//	   public double getUpfail(){
+//	      return upfail;
+//	   }
 
 
 

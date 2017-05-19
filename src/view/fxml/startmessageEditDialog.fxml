@@ -10,32 +10,12 @@
     <GridPane prefHeight="175.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
       <children>
         <Label style="-fx-font: 16px Tahoma; -fx-stroke-width: 3;" text="Edit Edge" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label text="Type" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <Label text="Directionality" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label text="Type" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="Directionality" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <Label prefWidth="134.0" text="External port name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <ChoiceBox fx:id="typeBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <ChoiceBox fx:id="directionBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <ChoiceBox fx:id="typeBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <ChoiceBox fx:id="directionBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="titleTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label prefWidth="165.0" text="External port lower fail rate" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Label prefWidth="165.0" text="External port uper fail rate" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <ChoiceBox id="exlowfailport" fx:id="exlowerfailport" GridPane.columnIndex="1" GridPane.rowIndex="2">
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <String fx:value="项 1" />
-              <String fx:value="项 2" />
-              <String fx:value="项 3" />
-            </FXCollections>
-          </items>
-        </ChoiceBox>
-        <ChoiceBox fx:id="exuperfailport" GridPane.columnIndex="1" GridPane.rowIndex="3">
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <String fx:value="项 1" />
-              <String fx:value="项 2" />
-              <String fx:value="项 3" />
-            </FXCollections>
-          </items>
-        </ChoiceBox>
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="171.0" />
@@ -44,8 +24,6 @@
       <rowConstraints>
         <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="21.0" prefHeight="21.0" />
       </rowConstraints>

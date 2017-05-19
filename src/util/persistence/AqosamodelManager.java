@@ -243,21 +243,21 @@ public class AqosamodelManager {
         	Element xmiprocessor_h=doc.createElement("processor");
         	xmiprocessor_h.setAttribute("id", processorlist.get(i).getTitle()+"-h");
         	xmiprocessor_h.setAttribute("clock", String.valueOf(processorlist.get(i).getClock()));
-        	xmiprocessor_h.setAttribute("cost", String.valueOf(processorlist.get(i).getLowstatus_cost()*1.4));
+        	xmiprocessor_h.setAttribute("cost", "100");
         	xmiprocessor_h.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
         	xmiprocessor_h.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
-        	xmiprocessor_h.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getLowstatus_lowfail()+0.005));
-        	xmiprocessor_h.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()+0.005));
+        	xmiprocessor_h.setAttribute("lowerFail", "0.015");
+        	xmiprocessor_h.setAttribute("upperFail", "0.03");
         	xmirepository.appendChild(xmiprocessor_h);
         	
         	Element xmiprocessor_l=doc.createElement("processor");
         	xmiprocessor_l.setAttribute("id", processorlist.get(i).getTitle()+"-l");
         	xmiprocessor_l.setAttribute("clock", String.valueOf(processorlist.get(i).getClock()));
-        	xmiprocessor_l.setAttribute("cost", String.valueOf(processorlist.get(i).getLowstatus_cost()));
+        	xmiprocessor_l.setAttribute("cost", "140");
         	xmiprocessor_l.setAttribute("internalBusBandwidth", String.valueOf(processorlist.get(i).getInternalBusBandwidth()));
         	xmiprocessor_l.setAttribute("internalBusDelay",String.valueOf(processorlist.get(i).getInternalBusdelay()));
-        	xmiprocessor_l.setAttribute("lowerFail", String.valueOf(processorlist.get(i).getLowstatus_lowfail()));
-        	xmiprocessor_l.setAttribute("upperFail", String.valueOf(processorlist.get(i).getLowstatus_highfail()));
+        	xmiprocessor_l.setAttribute("lowerFail", "0.01");
+        	xmiprocessor_l.setAttribute("upperFail", "0.025");
         	xmirepository.appendChild(xmiprocessor_l);
         }
         
@@ -266,7 +266,7 @@ public class AqosamodelManager {
         	xmibus.setAttribute("id", buslist.get(i).getTitle());
         	xmibus.setAttribute("bandwidth",String.valueOf(buslist.get(i).getBandwidth()));
         	xmibus.setAttribute("delay",String.valueOf(buslist.get(i).getNetdelay()));
-        	xmibus.setAttribute("cost",String.valueOf(buslist.get(i).getCost()));
+        	xmibus.setAttribute("cost","100");
         	xmirepository.appendChild(xmibus);
         }
        
@@ -276,8 +276,8 @@ public class AqosamodelManager {
         for(int i=0;i<externallist.size();i++){
         	Element xmiexternalport=doc.createElement("externalport");
         	xmiexternalport.setAttribute("id", externallist.get(i).getRefEdge().getTitle());
-        	xmiexternalport.setAttribute("lowerFail",String.valueOf(externallist.get(i).getRefEdge().getLowfail()));
-        	xmiexternalport.setAttribute("upperFail",String.valueOf(externallist.get(i).getRefEdge().getUpfail()));
+        	xmiexternalport.setAttribute("lowerFail","0.01");
+        	xmiexternalport.setAttribute("upperFail","0.05");
         	xmirepository.appendChild(xmiexternalport);
         }
         

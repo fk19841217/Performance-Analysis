@@ -888,9 +888,9 @@ public class NodeController {
           clock.getItems().setAll("50","100","150","200","250","300");
           clock.getSelectionModel().select(String.valueOf(node.getClock())); 
           
-          ChoiceBox lowstatus_cost = new ChoiceBox();
-          lowstatus_cost.getItems().setAll("50","100","150","200","250","300");
-          lowstatus_cost.getSelectionModel().select(String.valueOf(node.getLowstatus_cost())); 
+//          ChoiceBox lowstatus_cost = new ChoiceBox();
+//          lowstatus_cost.getItems().setAll("50","100","150","200","250","300");
+//          lowstatus_cost.getSelectionModel().select(String.valueOf(node.getLowstatus_cost())); 
           //TextField  = new TextField();
         
           ChoiceBox internalBusBandwidth = new ChoiceBox();
@@ -902,13 +902,13 @@ public class NodeController {
           internalBusdelay.getItems().setAll("0.05","0.1","0.15","0.2");
           internalBusdelay.getSelectionModel().select(String.valueOf(node.getInternalBusdelay()));
           
-          ChoiceBox lowstatus_lowfail = new ChoiceBox();
-          lowstatus_lowfail.getItems().setAll("0.01","0.015");
-          lowstatus_lowfail.getSelectionModel().select(String.valueOf(node.getLowstatus_lowfail()));
-          
-          ChoiceBox lowstatus_highfail = new ChoiceBox();
-          lowstatus_highfail.getItems().setAll("0.015","0.02");
-          lowstatus_highfail.getSelectionModel().select(String.valueOf(node.getLowstatus_highfail()));
+//          ChoiceBox lowstatus_lowfail = new ChoiceBox();
+//          lowstatus_lowfail.getItems().setAll("0.01","0.015");
+//          lowstatus_lowfail.getSelectionModel().select(String.valueOf(node.getLowstatus_lowfail()));
+//          
+//          ChoiceBox lowstatus_highfail = new ChoiceBox();
+//          lowstatus_highfail.getItems().setAll("0.015","0.02");
+//          lowstatus_highfail.getSelectionModel().select(String.valueOf(node.getLowstatus_highfail()));
           
           
           
@@ -921,12 +921,12 @@ public class NodeController {
               public void handle(ActionEvent event) {
                   node.setTitle(input.getText());
                   node.setClock(Integer.valueOf(clock.getValue().toString()));
-                  node.setLowstatus_cost(Integer.valueOf(lowstatus_cost.getValue().toString()));
+                 // node.setLowstatus_cost(Integer.valueOf(lowstatus_cost.getValue().toString()));
                 //  node.setHighstatus_cost(Integer.valueOf(highstatus_cost.getText()));
                   node.setInternalBusBandwidth(Integer.valueOf(internalBusBandwidth.getValue().toString()));
                   node.setInternalBusdelay(Double.valueOf(internalBusdelay.getValue().toString()));
-                  node.setLowstatus_lowfail(Double.valueOf(lowstatus_lowfail.getValue().toString()));
-                  node.setLowstatus_highfail(Double.valueOf(lowstatus_highfail.getValue().toString()));
+                 // node.setLowstatus_lowfail(Double.valueOf(lowstatus_lowfail.getValue().toString()));
+                //  node.setLowstatus_highfail(Double.valueOf(lowstatus_highfail.getValue().toString()));
                 //  node.setHighstatus_lowfail(Double.valueOf(highstatus_lowfail.getText()));
                  // node.setHighstatus_highfail(Double.valueOf(highstatus_highfail.getText()));
                   
@@ -948,9 +948,9 @@ public class NodeController {
           Label label1 = new Label("Input clock");
           group.getChildren().add(label1);
           group.getChildren().add(clock);
-          Label label2 = new Label("Input lowstatus_cost");
-          group.getChildren().add(label2);
-          group.getChildren().add(lowstatus_cost);
+          //Label label2 = new Label("Input lowstatus_cost");
+         // group.getChildren().add(label2);
+         // group.getChildren().add(lowstatus_cost);
          
          
           
@@ -960,12 +960,12 @@ public class NodeController {
           Label label5 = new Label("Input internalBusdelay");
           group.getChildren().add(label5);
           group.getChildren().add(internalBusdelay);
-          Label label6 = new Label("Input lowstatus_lowfail");
-          group.getChildren().add(label6);
-          group.getChildren().add(lowstatus_lowfail);
-          Label label7 = new Label("Input lowstatus_highfail");
-          group.getChildren().add(label7);
-          group.getChildren().add(lowstatus_highfail);
+//          Label label6 = new Label("Input lowstatus_lowfail");
+//          group.getChildren().add(label6);
+//          group.getChildren().add(lowstatus_lowfail);
+//          Label label7 = new Label("Input lowstatus_highfail");
+//          group.getChildren().add(label7);
+//          group.getChildren().add(lowstatus_highfail);
         
           
           

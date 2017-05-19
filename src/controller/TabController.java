@@ -773,12 +773,12 @@ public class TabController {
     		            group.getChildren().add(bus);
     		            group.getChildren().add(label2);
     		            group.getChildren().add(cpu);
-    		            group.getChildren().add(label3);
-    		            group.getChildren().add(cost);
+    		           // group.getChildren().add(label3);
+    		          //  group.getChildren().add(cost);
     		            group.getChildren().add(label4);
     		            group.getChildren().add(responsetime);
-    		            group.getChildren().add(label5);
-    		            group.getChildren().add(safety);
+    		           // group.getChildren().add(label5);
+    		           // group.getChildren().add(safety);
     		            group.setLayoutX(50);
     		            group.setLayoutY(50);
     		            group.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(1), null)));

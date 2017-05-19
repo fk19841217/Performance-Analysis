@@ -44,12 +44,12 @@ public abstract class AbstractNode implements Node, Serializable
 	private int network;
 	private AbstractEdge externalportedge;
 	private int clock;
-	private int lowstatus_cost;
+	//private int lowstatus_cost;
 	//private int highstatus_cost;
 	private int internalBusBandwidth;
 	private double internalBusdelay;
-	private double lowstatus_lowfail;
-	private double lowstatus_highfail;
+	//private double lowstatus_lowfail;
+	//private double lowstatus_highfail;
 	//private double highstatus_lowfail;
 	//private double highstatus_highfail;
 	
@@ -361,24 +361,24 @@ public int getClock(){
    return clock;
   }
 
-public void setLowstatus_cost(int plowstatus_cost){
-	 lowstatus_cost = plowstatus_cost;
-  changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-}
-
-public void remoteSetLowstatus_cost(int plowstatus_cost){
-	  lowstatus_cost = plowstatus_cost;
-    changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-  }
-
-public int getLowstatus_cost(){
-   return lowstatus_cost;
-  }
-
-
-
-
+//public void setLowstatus_cost(int plowstatus_cost){
+//	 lowstatus_cost = plowstatus_cost;
+//  changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//}
+//
+//public void remoteSetLowstatus_cost(int plowstatus_cost){
+//	  lowstatus_cost = plowstatus_cost;
+//    changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//  }
+//
+//public int getLowstatus_cost(){
+//   return lowstatus_cost;
+//  }
+//
+//
+//
+//
 public void setInternalBusBandwidth(int pinternalBusBandwidth){
 	 internalBusBandwidth = pinternalBusBandwidth;
   changes.firePropertyChange(Constants.changeLinkedDepoloymentinternalBusBandwidth, null, "InternalBusBandwidth: "+String.valueOf(internalBusBandwidth)+" m");
@@ -408,36 +408,36 @@ public void remoteSetInternalBusdelay(double pinternalBusdelay){
 public double getInternalBusdelay(){
    return internalBusdelay;
   }
-
-public void setLowstatus_lowfail(double plowstatus_lowfail){
-	 lowstatus_lowfail = plowstatus_lowfail;
-  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
-  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
-}
-
-public void remoteSetLowstatus_lowfail(double plowstatus_lowfail){
-	 lowstatus_lowfail = plowstatus_lowfail;
-   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
-  }
-
-public double getLowstatus_lowfail(){
-   return lowstatus_lowfail;
-  }
-
-public void setLowstatus_highfail(double plowstatus_highfail){
-	 lowstatus_highfail = plowstatus_highfail;
-  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-}
-
-public void remoteSetLowstatus_highfail(double plowstatus_highfail){
-	 lowstatus_highfail = plowstatus_highfail;
-   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
-  }
-
-public double getLowstatus_highfail(){
-   return lowstatus_highfail;
-  }
+//
+//public void setLowstatus_lowfail(double plowstatus_lowfail){
+//	 lowstatus_lowfail = plowstatus_lowfail;
+//  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+//  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+//}
+//
+//public void remoteSetLowstatus_lowfail(double plowstatus_lowfail){
+//	 lowstatus_lowfail = plowstatus_lowfail;
+//   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_lowfail, null, "Lowstatus_lowfail: "+String.valueOf(lowstatus_lowfail));
+//  }
+//
+//public double getLowstatus_lowfail(){
+//   return lowstatus_lowfail;
+//  }
+//
+//public void setLowstatus_highfail(double plowstatus_highfail){
+//	 lowstatus_highfail = plowstatus_highfail;
+//  changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+//  remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+//}
+//
+//public void remoteSetLowstatus_highfail(double plowstatus_highfail){
+//	 lowstatus_highfail = plowstatus_highfail;
+//   changes.firePropertyChange(Constants.changeLinkedDepoloymentlowstatus_highfail, null, "Lowstatus_highfail: "+String.valueOf(lowstatus_highfail));
+//  }
+//
+//public double getLowstatus_highfail(){
+//   return lowstatus_highfail;
+//  }
 
 
 

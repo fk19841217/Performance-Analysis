@@ -10,7 +10,7 @@ import util.Constants;
 public class ConnectEdge extends AbstractEdge {
 	
 	private int bandwidth;
-	private int cost;
+//	private int cost;
 	private double netdelay;
 	private String title;
 
@@ -49,20 +49,20 @@ public class ConnectEdge extends AbstractEdge {
         return bandwidth;
     }
  
- public void setCost(int pcost){
-	 cost = pcost;
-    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-    remoteChanges.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-}
-
-public void remoteSetCost(int pcost){
-	cost = pcost;
-    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
-}
-
-public int getCost(){
-    return cost;
-}
+// public void setCost(int pcost){
+//	 cost = pcost;
+//    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//    remoteChanges.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//}
+//
+//public void remoteSetCost(int pcost){
+//	cost = pcost;
+//    changes.firePropertyChange(Constants.changeConnectcost, null, "Cost: "+String.valueOf(cost)+" $");
+//}
+//
+//public int getCost(){
+//    return cost;
+//}
 
 public void setNetdelay(double pnetdelay){
 	 netdelay = pnetdelay;

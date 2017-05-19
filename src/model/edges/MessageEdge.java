@@ -15,8 +15,8 @@ public class MessageEdge extends AbstractEdge {
     private String title;
     private int network;
     private boolean startedge;
-    private double lowfail;
-    private double upfail;
+   // private double lowfail;
+   // private double upfail;
     
     public enum MessageType {
         REQUEST, RESPONSE;
@@ -42,35 +42,35 @@ public class MessageEdge extends AbstractEdge {
         this.setstartedge(false);
     }
     
-    public void setLowfail(double plowfail){
-   	 lowfail = plowfail;
-      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-      remoteChanges.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-   }
-
-   public void remotesetLowfail(double plowfail){
-	   	 lowfail = plowfail;
-	      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
-   }
-
-   public double getLowfail(){
-      return lowfail;
-   }
-   
-   public void setUpfail(double pupfail){
-	   	 upfail = pupfail;
-	      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	      remoteChanges.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	   }
-
-	   public void remotesetUpfail(double pupfail){
-		   	 upfail = pupfail;
-		      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
-	   }
-
-	   public double getUpfail(){
-	      return upfail;
-	   }
+//    public void setLowfail(double plowfail){
+//   	 lowfail = plowfail;
+//      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//      remoteChanges.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//   }
+//
+//   public void remotesetLowfail(double plowfail){
+//	   	 lowfail = plowfail;
+//	      changes.firePropertyChange(Constants.changeMessageLowfail, null, "external port lower fail rate: "+String.valueOf(lowfail));
+//   }
+//
+//   public double getLowfail(){
+//      return lowfail;
+//   }
+//   
+//   public void setUpfail(double pupfail){
+//	   	 upfail = pupfail;
+//	      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	      remoteChanges.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	   }
+//
+//	   public void remotesetUpfail(double pupfail){
+//		   	 upfail = pupfail;
+//		      changes.firePropertyChange(Constants.changeMessageUpfail, null, "external port Uper fail rate: "+String.valueOf(upfail));
+//	   }
+//
+//	   public double getUpfail(){
+//	      return upfail;
+//	   }
     
     
     public void setstartedge(boolean b){

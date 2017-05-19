@@ -13,7 +13,7 @@ public class DeploymentNode extends AbstractNode
     private static final String type = "DEPLOYMENT";
     private ArrayList<AbstractNode> childNodes = new ArrayList<>();
     private int clock;
-	private int lowstatus_cost;
+	//private int lowstatus_cost;
 	//private int highstatus_cost;
 	private int internalBusBandwidth;
 	private double internalBusdelay;
@@ -77,20 +77,20 @@ public class DeploymentNode extends AbstractNode
         return clock;
        }
     
-    public void setLowstatus_cost(int plowstatus_cost){
-   	 lowstatus_cost = plowstatus_cost;
-       changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-   }
-
-     public void remoteSetLowstatus_cost(int plowstatus_cost){
-   	  lowstatus_cost = plowstatus_cost;
-         changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
-       }
-
-    public int getLowstatus_cost(){
-        return lowstatus_cost;
-       }
+//    public void setLowstatus_cost(int plowstatus_cost){
+//   	 lowstatus_cost = plowstatus_cost;
+//       changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//       remoteChanges.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//   }
+//
+//     public void remoteSetLowstatus_cost(int plowstatus_cost){
+//   	  lowstatus_cost = plowstatus_cost;
+//         changes.firePropertyChange(Constants.changeLinkedDepoloymentLowstatusCost, null, "LowstatusCost: "+String.valueOf(lowstatus_cost)+" $");
+//       }
+//
+//    public int getLowstatus_cost(){
+//        return lowstatus_cost;
+//       }
     
 //    public void setHighstatus_cost(int phighstatus_cost){
 //   	 highstatus_cost = phighstatus_cost;

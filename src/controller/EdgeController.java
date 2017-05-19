@@ -339,9 +339,9 @@ public class EdgeController {
             TextField netdelay = new TextField();
             if(edge.getNetdelay()>0)
             netdelay.setText(String.valueOf(edge.getNetdelay()));
-            TextField cost = new TextField();
-            if(edge.getCost()>0)
-            cost.setText(String.valueOf(edge.getCost()));
+           // TextField cost = new TextField();
+//            if(edge.getCost()>0)
+//            cost.setText(String.valueOf(edge.getCost()));
 
 
             Button okButton = new Button("Ok");
@@ -354,7 +354,7 @@ public class EdgeController {
                     
                     edge.setNetdelay(Double.valueOf(netdelay.getText()));
                   
-                    edge.setCost(Integer.valueOf(cost.getText()));
+                   // edge.setCost(Integer.valueOf(cost.getText()));
                     
                     aDrawPane.getChildren().remove(group);
                 }
@@ -377,9 +377,9 @@ public class EdgeController {
             Label label2 = new Label("Input Network Delay");
             group.getChildren().add(label2);
             group.getChildren().add(netdelay);
-            Label label3 = new Label("Input Cost");
-            group.getChildren().add(label3);
-            group.getChildren().add(cost);
+           // Label label3 = new Label("Input Cost");
+            //group.getChildren().add(label3);
+            //group.getChildren().add(cost);
             HBox buttons = new HBox();
             buttons.getChildren().add(okButton);
             buttons.getChildren().add(cancelButton);
@@ -486,9 +486,9 @@ public class EdgeController {
     	            TextField titleTextField = controller.getTitleTextField();
     	            titleTextField.setText(edge.getTitle());
     	            
-    	            ChoiceBox  lowfailTextField = controller.getexlowerfailport();  
+    	           // ChoiceBox  lowfailTextField = controller.getexlowerfailport();  
     	            
-    	            ChoiceBox upfailTextField = controller.getexuperfailport();
+    	           // ChoiceBox upfailTextField = controller.getexuperfailport();
     	           
     	                 
     	            
@@ -504,12 +504,12 @@ public class EdgeController {
     	                    if(titleTextField.getText() != null){
     	                        edge.setTitle(titleTextField.getText());
     	                    }
-    	                    if(lowfailTextField.getValue() != null){
-    	                        edge.setLowfail(Double.valueOf(lowfailTextField.getValue().toString())); 
-    	                    }
-    	                    if(upfailTextField.getValue() != null){
-    	                        edge.setUpfail(Double.valueOf(upfailTextField.getValue().toString())); 
-    	                    }
+//    	                    if(lowfailTextField.getValue() != null){
+//    	                        edge.setLowfail(Double.valueOf(lowfailTextField.getValue().toString())); 
+//    	                    }
+//    	                    if(upfailTextField.getValue() != null){
+//    	                        edge.setUpfail(Double.valueOf(upfailTextField.getValue().toString())); 
+//    	                    }
     	                    
     	                    aDrawPane.getChildren().remove(dialog);
     	                    diagramController.removeDialog(dialog);
